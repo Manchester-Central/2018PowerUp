@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.Victor;
 
@@ -31,6 +32,7 @@ public class DriveBase {
 		leftBackVictor = new Victor(PortConstants.LEFT_BACK_TALON);
 		leftMidVictor = new Victor(PortConstants.LEFT_MID_TALON);
 		leftFrontVictor = new Victor(PortConstants.LEFT_FRONT_TALON);
+		
 		rightBackVictor = new Victor(PortConstants.RIGHT_BACK_TALON);
 		rightMidVictor = new Victor(PortConstants.RIGHT_MID_TALON);
 		rightFrontVictor = new Victor(PortConstants.RIGHT_FRONT_TALON);
@@ -44,25 +46,39 @@ public class DriveBase {
 	
 	public void setSpeed(double leftSpeed, double rightSpeed)
 	{
-		leftBackVictor.set(leftSpeed);
-		leftMidVictor.set(leftSpeed);
-		leftFrontVictor.set(leftSpeed);
-		leftTalonSRX.set(leftSpeed);
-		
-		rightBackVictor.set(rightSpeed);
-		rightMidVictor.set(rightSpeed);
-		rightFrontVictor.set(rightSpeed);
+		leftTalonSRX.set(-leftSpeed);
 		rightTalonSRX.set(rightSpeed);
+		
+		double leftTalonSpeed = leftTalonSRX.get();
+		double rightTalonSpeed = rightTalonSRX.get();
+		
+		
+		leftBackVictor.set(leftTalonSpeed);
+		leftMidVictor.set(leftTalonSpeed);
+		leftFrontVictor.set(leftTalonSpeed);
+		
+		
+		rightBackVictor.set(rightTalonSpeed);
+		rightMidVictor.set(rightTalonSpeed);
+		rightFrontVictor.set(rightTalonSpeed);
+
 		
 	}
 	
 	
-//	public void gearShift(Value setGear)
-//	{
-//		// Forward is low Gear
-//		// Reverse is high Gear
-//		gearShifter.set(setGear);
-//	}
+	public void gearShift(boolean lowGear)
+	{
+		// Forward is low Gear
+		// Reverse is high Gear
+		if (lowGear)
+		{
+		gearShifter.set(Value.kForward);
+		} 
+		else
+		{
+		gearShifter.set(Value.kReverse);
+		}
+	}
 	
 	
 	

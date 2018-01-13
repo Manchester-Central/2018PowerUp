@@ -11,8 +11,8 @@ public interface PortConstants {
 	int RIGHT_MID_TALON = 4;
 	int RIGHT_FRONT_TALON = 5;
 	
-	int LEFT_CAN_TALON = 0;
-	int RIGHT_CAN_TALON = 1;
+	int LEFT_CAN_TALON = 4;
+	int RIGHT_CAN_TALON = 3;
 	
 	
 	int GEAR_SHIFTER_A_SLOW = 5;

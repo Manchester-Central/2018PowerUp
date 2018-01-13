@@ -1,5 +1,6 @@
 package org.usfirst.frc.team131.robot;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,9 +17,9 @@ public class Robot extends IterativeRobot {
 	final String customAuto = "My Auto";
 	String autoSelected;
 	SendableChooser<String> chooser = new SendableChooser<>();
-		DriveBase drive;
-		ControllerManager cm;
-		
+	DriveBase drive;
+	ControllerManager cm;
+	Compressor compressor;
 		
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 		
 		drive = new DriveBase();
 		cm = new ControllerManager();
+		compressor = new Compressor();
 		
 		
 	}
@@ -82,6 +84,16 @@ public class Robot extends IterativeRobot {
 //			drive.gearShift();
 //		}
 		
+		if (cm.driver.buttonPressed(Controller.LEFT_TRIGGER) || cm.driver.buttonPressed(Controller.RIGHT_TRIGGER))
+		{
+			drive.gearShift(true);
+		}
+		else
+		{
+			drive.gearShift(false);
+		}
+			
+			
 		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getRightY());
 		
 	}
