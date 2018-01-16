@@ -1,0 +1,66 @@
+package org.usfirst.frc.team131.robot;
+
+import com.ctre.CANTalon;
+
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Talon;
+
+public class DriveBase {
+
+	Talon leftBackTalon;
+	Talon leftMidTalon;
+	Talon leftFrontTalon;
+	Talon rightBackTalon;
+	Talon rightMidTalon;
+	Talon rightFrontTalon;
+	
+	CANTalon rightCAN;
+	CANTalon leftCAN;
+	
+	DoubleSolenoid gearShifter;
+	
+	
+	public DriveBase ()
+	{
+		leftBackTalon = new Talon(PortConstants.LEFT_BACK_TALON);
+		leftMidTalon = new Talon(PortConstants.LEFT_MID_TALON);
+		leftFrontTalon = new Talon(PortConstants.LEFT_FRONT_TALON);
+		rightBackTalon = new Talon(PortConstants.RIGHT_BACK_TALON);
+		rightMidTalon = new Talon(PortConstants.RIGHT_MID_TALON);
+		rightFrontTalon = new Talon(PortConstants.RIGHT_FRONT_TALON);
+		
+		rightCAN = new CANTalon(PortConstants.RIGHT_CAN_TALON);
+		leftCAN = new CANTalon(PortConstants.LEFT_CAN_TALON);
+		
+		gearShifter = new DoubleSolenoid(PortConstants.GEAR_SHIFTER_A_SLOW, PortConstants.GEAR_SHIFTER_B_SLOW);
+		 
+	}
+	
+	public void setSpeed(double leftSpeed, double rightSpeed)
+	{
+		leftBackTalon.set(leftSpeed);
+		leftMidTalon.set(leftSpeed);
+		leftFrontTalon.set(leftSpeed);
+		
+		rightBackTalon.set(rightSpeed);
+		rightMidTalon.set(rightSpeed);
+		rightFrontTalon.set(rightSpeed);
+		
+	}
+	
+	
+//	public void gearShift(Value setGear)
+//	{
+//		// Forward is low Gear
+//		// Reverse is high Gear
+//		gearShifter.set(setGear);
+//	}
+	
+	
+	
+	
+	
+	
+	
+}
