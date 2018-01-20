@@ -18,7 +18,7 @@ public class AutoShell {
 	UserDefinedChanges userFunction;
 	//char[] characterBreaks;
 	
-	NetworkTable table;
+	//NetworkTable table;
 	Preferences prefs;
 	int stage = 1;
 	

@@ -2,4 +2,11 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="com.ctre.phoenix.motorcontrol.ControlMode"/>
 <fullyQualifiedTypeName name="com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX"/>
+<fullyQualifiedTypeName name="Commands.PullUpCommand"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.command.Scheduler"/>
+<fullyQualifiedTypeName name="org.usfirst.frc131.PowerUp.OI"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.GenericHID.Hand"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.XboxController"/>
+<fullyQualifiedTypeName name="StuffToLookAt.PullUpCommand"/>
+<fullyQualifiedTypeName name="StuffToLookAt.DriveForward"/>
 </qualifiedTypeNameHistroy>
