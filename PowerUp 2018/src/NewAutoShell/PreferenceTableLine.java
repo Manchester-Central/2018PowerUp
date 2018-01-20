@@ -41,5 +41,7 @@ public class PreferenceTableLine {
 	public boolean getIsParallel () {
 		return isParallel;
 	}
+	
+	
 
 }
