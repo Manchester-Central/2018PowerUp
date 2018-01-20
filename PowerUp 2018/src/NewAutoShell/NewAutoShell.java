@@ -2,9 +2,10 @@ package NewAutoShell;
 
 import java.util.Map;
 
+import StuffToLookAt.DriveForward;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class NewAutoShell {
 	
@@ -18,6 +19,7 @@ public class NewAutoShell {
 	Preferences prefs;
 	int stage = 1;
 	
+	
 	//IState currentState;
 	//ICondition currentCondition;
 	//String currentCondtionVariable;
@@ -25,6 +27,7 @@ public class NewAutoShell {
 	
 	public NewAutoShell (Map<String, ChaosCommand> commands) {
 		this.commands = commands;
+		SmartDashboard.putData("asdf",new DriveForward());
 	}
 		
 	
@@ -37,6 +40,16 @@ public class NewAutoShell {
 	public String getAutoStageString(int i) {
 		return prefs.getString("Auto Stage " + i, "none");
 	}
+	
+	public void clearAll() {
+		//if ()
+//		for (String key : prefs.getKeys()) {
+//			prefs.remove(key);
+//		}
+		
+	}
+	
+	
 	
 	public void createCommandGroup (CommandGroup commandGroup) {
 		

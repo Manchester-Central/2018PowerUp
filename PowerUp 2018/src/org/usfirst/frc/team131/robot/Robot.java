@@ -44,7 +44,8 @@ public class Robot extends IterativeRobot {
 		m_chooser.addDefault("Default Auto", kDefaultAuto);
 		m_chooser.addObject("My Auto", kCustomAuto);
 		SmartDashboard.putData("Auto choices", m_chooser);
-	}
+		SmartDashboard.putData("Clear Prefernces: ", new ClearPrefs());
+		}
 
 	/**
 	 * This autonomous (along with the chooser code above) shows how to select
@@ -59,13 +60,14 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		CommandGroup autoSequence = new CommandGroup();
-		Map<String, ChaosCommand> commands = new HashMap<String, ChaosCommand>();
-		commands.put("test", new TestChaosCommand());
-		autoShell = new NewAutoShell (commands);
-		autoShell.createCommandGroup(autoSequence);
+		//CommandGroup autoSequence = new CommandGroup();
+		//Map<String, ChaosCommand> commands = new HashMap<String, ChaosCommand>();
+		//commands.put("test", new TestChaosCommand());
+		//autoShell = new NewAutoShell (commands);
+		//autoShell.createCommandGroup(autoSequence);
 
-		Scheduler.getInstance().add(autoSequence);
+		//Scheduler.getInstance().add(autoSequence);
+
 	}
 
 	/**
@@ -73,7 +75,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousPeriodic() {
-			Scheduler.getInstance().run();
+		Scheduler.getInstance().run();
 	}
 
 	/**
@@ -81,6 +83,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+	
 	}
 
 	/**
@@ -88,9 +91,15 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		
 	}
 	
 	@Override
 	public void robotPeriodic() {
+
+	}
+	@Override
+	public void disabledPeriodic() {
+		Scheduler.getInstance().run();
 	}
 }

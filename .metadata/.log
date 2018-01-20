@@ -4123,3 +4123,128 @@ org.eclipse.recommenders.utils.Logs$LogTraceException
 	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
 	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
 	at java.lang.Thread.run(Unknown Source)
+
+!ENTRY riolog 1 0 2018-01-20 14:37:45.172
+!MESSAGE Connected to robot at 10.1.31.21
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:39:51.410
+!MESSAGE Running ant file: C:\Users\Charles\workspace\2018 PowerUp\2018 Offseason Test Robot\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:39:51.411
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:43:55.175
+!MESSAGE [org.usfirst.frc.team131.robot [in src [in PowerUp 2018]]
+  Controller.java (not open)
+  DriveBase.java
+    package org.usfirst.frc.team131.robot
+    import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX
+    import edu.wpi.first.wpilibj.DoubleSolenoid
+    import edu.wpi.first.wpilibj.Victor
+    import edu.wpi.first.wpilibj.DoubleSolenoid.Value
+    class DriveBase
+      Victor leftBackVictor
+      Victor leftMidVictor
+      Victor leftFrontVictor
+      Victor rightBackVictor
+      Victor rightMidVictor
+      Victor rightFrontVictor
+      WPI_TalonSRX rightTalonSRX
+      WPI_TalonSRX leftTalonSRX
+      DoubleSolenoid gearShifter
+      DriveBase()
+      void setSpeed(double, double)
+      void gearShift(boolean)
+  ControllerManager.java (not open)
+  PortConstants.java (not open)
+  [Working copy] Robot.java
+    package org.usfirst.frc.team131.robot
+    import java.util.HashMap
+    import java.util.Map
+    import NewAutoShell.ChaosCommand
+    import NewAutoShell.NewAutoShell
+    import NewAutoShell.TestChaosCommand
+    import StuffToLookAt.Climb
+    import edu.wpi.first.wpilibj.IterativeRobot
+    import edu.wpi.first.wpilibj.command.CommandGroup
+    import edu.wpi.first.wpilibj.command.Scheduler
+    import edu.wpi.first.wpilibj.smartdashboard.SendableChooser
+    import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard
+    class Robot
+      String kDefaultAuto
+      String kCustomAuto
+      String m_autoSelected
+      SendableChooser<String> m_chooser
+      NewAutoShell autoShell
+      void robotInit()
+      void autonomousInit()
+      void autonomousPeriodic()
+      void teleopPeriodic()
+      void testPeriodic()
+      void robotPeriodic()]
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:43:55.176
+!MESSAGE class org.eclipse.jdt.internal.core.PackageFragment
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:43:55.196
+!MESSAGE initialize
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:43:55.197
+!MESSAGE Project: P/PowerUp 2018
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:44:25.931
+!MESSAGE Class: ClearPrefs Package: org.usfirst.frc.team131.subsystem
+
+!ENTRY riolog 1 0 2018-01-20 14:44:46.392
+!MESSAGE socket disconnected during read
+
+!ENTRY riolog 1 0 2018-01-20 14:44:47.289
+!MESSAGE failed to send keep alive, reconnecting
+
+!ENTRY riolog 1 0 2018-01-20 14:53:32.638
+!MESSAGE Connected to robot at 10.1.31.21
+
+!ENTRY riolog 1 0 2018-01-20 14:53:33.283
+!MESSAGE Connected to robot at 10.1.31.21
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:53:42.903
+!MESSAGE Running ant file: C:\Users\Charles\workspace\2018 PowerUp\PowerUp 2018\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:53:42.904
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:55:12.222
+!MESSAGE Running ant file: C:\Users\Charles\workspace\2018 PowerUp\PowerUp 2018\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:55:12.223
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:58:42.755
+!MESSAGE Running ant file: C:\Users\Charles\workspace\2018 PowerUp\PowerUp 2018\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 14:58:42.756
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 15:04:30.228
+!MESSAGE Running ant file: C:\Users\Charles\workspace\2018 PowerUp\PowerUp 2018\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 15:04:30.229
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 15:05:25.579
+!MESSAGE Running ant file: C:\Users\Charles\workspace\2018 PowerUp\PowerUp 2018\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 15:05:25.580
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 15:06:08.909
+!MESSAGE Running ant file: C:\Users\Charles\workspace\2018 PowerUp\PowerUp 2018\build.xml
+
+!ENTRY WPILib_Java_Robot_Development 1 0 2018-01-20 15:06:08.910
+!MESSAGE Targets: deploy, Mode: run
+
+!ENTRY riolog 1 0 2018-01-20 15:07:10.212
+!MESSAGE socket disconnected during read
+
+!ENTRY riolog 1 0 2018-01-20 15:07:10.847
+!MESSAGE failed to send keep alive, reconnecting
