@@ -3,12 +3,9 @@ package ChaosLib;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.usfirst.frc.team131.robot.DriveBase;
-//import org.usfirst.frc.team131.robot.ICondition;
-//import org.usfirst.frc.team131.robot.IState;
-
+import SystemComponents.DriveBase;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.networktables.NetworkTable;
+//import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class AutoShell {
 	

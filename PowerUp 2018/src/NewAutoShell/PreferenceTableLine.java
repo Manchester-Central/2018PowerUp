@@ -8,8 +8,10 @@ public class PreferenceTableLine {
 	private ChaosCommand command;
 	private boolean isParallel;
 	
+	// Reads each input line and builds the command for each
 	public PreferenceTableLine (String input, Map<String, ChaosCommand> commands) {
 		
+		// Ignores lines with bad syntax
 		if(!match(input)) {
 			return;
 		}
@@ -29,6 +31,8 @@ public class PreferenceTableLine {
 		command.setArgs(commandArgs);
 	}
 	
+	
+	// Returns whether input string matches syntax
 	private boolean match(String check) {
 		return Pattern.matches("[^;]+;[^;]+[,\\.]", check);
 	}

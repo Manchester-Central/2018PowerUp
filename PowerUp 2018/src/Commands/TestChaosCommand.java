@@ -1,4 +1,6 @@
-package NewAutoShell;
+package Commands;
+
+import NewAutoShell.ChaosCommand;
 
 public class TestChaosCommand extends ChaosCommand {
 

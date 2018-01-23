@@ -2,9 +2,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import Commands.TestChaosCommand;
 import NewAutoShell.ChaosCommand;
 import NewAutoShell.PreferenceTableLine;
-import NewAutoShell.TestChaosCommand;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class Main {

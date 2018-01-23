@@ -9,4 +9,9 @@
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.XboxController"/>
 <fullyQualifiedTypeName name="StuffToLookAt.PullUpCommand"/>
 <fullyQualifiedTypeName name="StuffToLookAt.DriveForward"/>
+<fullyQualifiedTypeName name="java.util.regex.Pattern"/>
+<fullyQualifiedTypeName name="NewAutoShell.TestChaosCommand"/>
+<fullyQualifiedTypeName name="NewAutoShell.PreferenceTableLine"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.smartdashboard.SmartDashboard"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Preferences"/>
 </qualifiedTypeNameHistroy>

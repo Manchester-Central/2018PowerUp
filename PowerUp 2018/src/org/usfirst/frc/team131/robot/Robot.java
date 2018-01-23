@@ -10,10 +10,10 @@ package org.usfirst.frc.team131.robot;
 import java.util.HashMap;
 import java.util.Map;
 
+import Commands.ClearPrefs;
+import Commands.TestChaosCommand;
+import NewAutoShell.AutoBuilder;
 import NewAutoShell.ChaosCommand;
-import NewAutoShell.NewAutoShell;
-import NewAutoShell.TestChaosCommand;
-import StuffToLookAt.Climb;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
 	private String m_autoSelected;
 	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
-	NewAutoShell autoShell;
+	AutoBuilder autoBuilder;
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -41,10 +41,8 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_chooser.addDefault("Default Auto", kDefaultAuto);
-		m_chooser.addObject("My Auto", kCustomAuto);
-		SmartDashboard.putData("Auto choices", m_chooser);
 		SmartDashboard.putData("Clear Prefernces: ", new ClearPrefs());
+		
 		}
 
 	/**
@@ -60,13 +58,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//CommandGroup autoSequence = new CommandGroup();
-		//Map<String, ChaosCommand> commands = new HashMap<String, ChaosCommand>();
-		//commands.put("test", new TestChaosCommand());
-		//autoShell = new NewAutoShell (commands);
-		//autoShell.createCommandGroup(autoSequence);
+		CommandGroup autoSequence = new CommandGroup();
+		Map<String, ChaosCommand> commands = new HashMap<String, ChaosCommand>();
+		commands.put("test", new TestChaosCommand());
+		autoBuilder = new AutoBuilder (commands);
+		autoBuilder.createCommandGroup(autoSequence);
 
-		//Scheduler.getInstance().add(autoSequence);
+		Scheduler.getInstance().add(autoSequence);
 
 	}
 

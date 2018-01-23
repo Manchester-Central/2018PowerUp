@@ -1,4 +1,6 @@
-package org.usfirst.frc.team131.robot;
+package SystemComponents;
+
+import org.usfirst.frc.team131.robot.PortConstants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -12,6 +14,7 @@ public class DriveBase {
 	Victor leftBackVictor;
 	Victor leftMidVictor;
 	Victor leftFrontVictor;
+	
 	Victor rightBackVictor;
 	Victor rightMidVictor;
 	Victor rightFrontVictor;
@@ -35,7 +38,7 @@ public class DriveBase {
 		rightTalonSRX = new WPI_TalonSRX(PortConstants.RIGHT_CAN_TALON);
 		leftTalonSRX = new WPI_TalonSRX(PortConstants.LEFT_CAN_TALON);
 		
-		gearShifter = new DoubleSolenoid(PortConstants.GEAR_SHIFTER_A_SLOW, PortConstants.GEAR_SHIFTER_B_SLOW);
+		gearShifter = new DoubleSolenoid(PortConstants.GEAR_SHIFTER_A_SLOW, PortConstants.GEAR_SHIFTER_B_FAST);
 		 
 	}
 	
