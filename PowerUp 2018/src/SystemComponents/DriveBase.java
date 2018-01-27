@@ -50,17 +50,14 @@ public class DriveBase {
 		double leftTalonSpeed = leftTalonSRX.get();
 		double rightTalonSpeed = rightTalonSRX.get();
 		
-		
 		leftBackVictor.set(leftTalonSpeed);
 		leftMidVictor.set(leftTalonSpeed);
 		leftFrontVictor.set(leftTalonSpeed);
-		
 		
 		rightBackVictor.set(rightTalonSpeed);
 		rightMidVictor.set(rightTalonSpeed);
 		rightFrontVictor.set(rightTalonSpeed);
 
-		
 	}
 	
 	

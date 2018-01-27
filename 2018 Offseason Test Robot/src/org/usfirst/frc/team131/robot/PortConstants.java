@@ -22,7 +22,7 @@ public interface PortConstants {
 	
 	
 	int GEAR_SHIFTER_A_SLOW = 5;
-	int GEAR_SHIFTER_B_SLOW = 6;	
+	int GEAR_SHIFTER_B_SLOW = 6;
 	
 	
 }

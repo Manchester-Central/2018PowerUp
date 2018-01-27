@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 		cm = new ControllerManager();
 		compressor = new Compressor();
 		
+		drive.resetEncoders();
 		
 	}
 
@@ -60,17 +61,12 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during autonomous
 	 */
+	
 	@Override
 	public void autonomousPeriodic() {
-		switch (autoSelected) {
-		case customAuto:
-			// Put custom auto code here
-			break;
-		case defaultAuto:
-		default:
-			// Put default auto code here
-			break;
-		}
+		
+		drive.driveToInches(60);
+		
 	}
 
 	/**
@@ -84,15 +80,14 @@ public class Robot extends IterativeRobot {
 //			drive.gearShift();
 //		}
 		
-		if (cm.driver.buttonPressed(Controller.LEFT_TRIGGER) || cm.driver.buttonPressed(Controller.RIGHT_TRIGGER))
-		{
+		if (cm.driver.buttonPressed(Controller.LEFT_TRIGGER) || cm.driver.buttonPressed(Controller.RIGHT_TRIGGER)) {
 			drive.gearShift(true);
-		}
-		else
-		{
+		
+		} else {
+		
 			drive.gearShift(false);
-		}
-			
+	
+		}	
 			
 		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getRightY());
 		
@@ -103,6 +98,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+
 	}
+	
+	@Override
+	public void disabledPeriodic() {	
+		
+		System.out.println("Left Encoder: " + DriveBase.ticksToInches(drive.getLeftTalonEncoderValue())
+		+ " right Encoder: " + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
+		
+		//System.out.print(drive.get);
+	}
+	
 }
+
 
