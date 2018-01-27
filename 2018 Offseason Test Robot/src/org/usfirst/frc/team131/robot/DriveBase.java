@@ -3,6 +3,8 @@ package org.usfirst.frc.team131.robot;
 
 
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
@@ -46,7 +48,7 @@ public class DriveBase {
 		
 		gearShifter = new DoubleSolenoid(PortConstants.GEAR_SHIFTER_A_SLOW, PortConstants.GEAR_SHIFTER_B_SLOW);
 		
-		leftTalonSRX.setInverted(true);
+		leftTalonSRX.setInverted(false);
 		rightTalonSRX.setInverted(true); 
 	}
 	
@@ -128,6 +130,39 @@ public class DriveBase {
 		
 		}
 		
+	}
+	
+	public void setRightTalonToPosition(double target) {
+		
+		leftTalonSRX.setSensorPhase(true);
+		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		leftTalonSRX.configPeakCurrentLimit(30, 0);
+		leftTalonSRX.configPeakOutputForward(0.5, 0);
+//		leftTalonSRX.config_kF(0, 0.11, 0);
+//		leftTalonSRX.config_kP(0, 0.22, 0);
+//		leftTalonSRX.config_kI(0, 0, 0);
+//		leftTalonSRX.config_kD(0, 0, 0);
+
+		rightTalonSRX.setSensorPhase(true);
+		rightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		rightTalonSRX.configPeakCurrentLimit(30, 0);
+		rightTalonSRX.configPeakOutputForward(0.5, 0);
+//		rightTalonSRX.config_kF(0, 0.11, 0);
+//		rightTalonSRX.config_kP(0, 0.22, 0);
+//		rightTalonSRX.config_kI(0, 0, 0);
+//		rightTalonSRX.config_kD(0, 0, 0);
+		resetEncoders();
+		rightTalonSRX.set(ControlMode.Position, inchesToTicks(target));
+		
+		leftTalonSRX.set(ControlMode.Position, inchesToTicks(target));
+		
+	}
+	
+	public void encoderData() {
+		
+		System.out.println("Left Encoder: " + ticksToInches(getLeftTalonEncoderValue())
+		+ " right Encoder: " +ticksToInches(getRightTalonEncoderValue()) + "-- "
+		+ ticksToInches(rightTalonSRX.getClosedLoopError(0)));
 	}
 	
 }
