@@ -1,5 +1,5 @@
 content_assist_disabled_computers=org.eclipse.jdt.ui.textProposalCategory\u0000org.eclipse.recommenders.calls.rcp.proposalCategory.templates\u0000org.eclipse.mylyn.java.ui.javaAllProposalCategory\u0000org.eclipse.jdt.ui.javaAllProposalCategory\u0000org.eclipse.jdt.ui.javaTypeProposalCategory\u0000org.eclipse.jdt.ui.javaNoTypeProposalCategory\u0000org.eclipse.recommenders.chain.rcp.proposalCategory.chain\u0000
-content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="java.lang.Enum"><rhs name\="com.ctre.phoenix.motorcontrol.ControlMode"/><rhs name\="edu.wpi.first.wpilibj.GenericHID$Hand"/><rhs name\="com.ctre.phoenix.motorcontrol.FeedbackDevice"/></lhs><lhs name\="edu.wpi.first.wpilibj.Sendable"><rhs name\="Commands.PullUpCommand"/><rhs name\="StuffToLookAt.PullUpCommand"/><rhs name\="StuffToLookAt.DriveForward"/><rhs name\="NewAutoShell.TestChaosCommand"/></lhs><lhs name\="edu.wpi.first.wpilibj.SendableBase"><rhs name\="Commands.PullUpCommand"/><rhs name\="StuffToLookAt.PullUpCommand"/><rhs name\="StuffToLookAt.DriveForward"/><rhs name\="NewAutoShell.TestChaosCommand"/></lhs><lhs name\="edu.wpi.first.wpilibj.command.Command"><rhs name\="Commands.PullUpCommand"/><rhs name\="StuffToLookAt.PullUpCommand"/><rhs name\="StuffToLookAt.DriveForward"/><rhs name\="NewAutoShell.TestChaosCommand"/></lhs><lhs name\="edu.wpi.first.wpilibj.GenericHID"><rhs name\="edu.wpi.first.wpilibj.XboxController"/></lhs><lhs name\="edu.wpi.first.wpilibj.XboxController"><rhs name\="edu.wpi.first.wpilibj.XboxController"/></lhs><lhs name\="NewAutoShell.PreferenceTableLine"><rhs name\="NewAutoShell.PreferenceTableLine"/></lhs><lhs name\="NewAutoShell.ChaosCommand"><rhs name\="NewAutoShell.TestChaosCommand"/></lhs></history>
+content_assist_lru_history=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><history maxLHS\="100" maxRHS\="10"><lhs name\="java.lang.Enum"><rhs name\="com.ctre.phoenix.motorcontrol.ControlMode"/><rhs name\="edu.wpi.first.wpilibj.GenericHID$Hand"/><rhs name\="com.ctre.phoenix.motorcontrol.FeedbackDevice"/><rhs name\="org.usfirst.frc.team131.robot.Controller$DPadDirection"/><rhs name\="edu.wpi.first.wpilibj.DoubleSolenoid$Value"/></lhs><lhs name\="edu.wpi.first.wpilibj.Sendable"><rhs name\="Commands.PullUpCommand"/><rhs name\="StuffToLookAt.PullUpCommand"/><rhs name\="StuffToLookAt.DriveForward"/><rhs name\="NewAutoShell.TestChaosCommand"/></lhs><lhs name\="edu.wpi.first.wpilibj.SendableBase"><rhs name\="Commands.PullUpCommand"/><rhs name\="StuffToLookAt.PullUpCommand"/><rhs name\="StuffToLookAt.DriveForward"/><rhs name\="NewAutoShell.TestChaosCommand"/></lhs><lhs name\="edu.wpi.first.wpilibj.command.Command"><rhs name\="Commands.PullUpCommand"/><rhs name\="StuffToLookAt.PullUpCommand"/><rhs name\="StuffToLookAt.DriveForward"/><rhs name\="NewAutoShell.TestChaosCommand"/></lhs><lhs name\="edu.wpi.first.wpilibj.GenericHID"><rhs name\="edu.wpi.first.wpilibj.XboxController"/></lhs><lhs name\="edu.wpi.first.wpilibj.XboxController"><rhs name\="edu.wpi.first.wpilibj.XboxController"/></lhs><lhs name\="NewAutoShell.PreferenceTableLine"><rhs name\="NewAutoShell.PreferenceTableLine"/></lhs><lhs name\="NewAutoShell.ChaosCommand"><rhs name\="NewAutoShell.TestChaosCommand"/></lhs><lhs name\="org.usfirst.frc.team131.robot.Controller$DPadDirection"><rhs name\="org.usfirst.frc.team131.robot.Controller$DPadDirection"/></lhs></history>
 content_assist_number_of_computers=19
 content_assist_proposals_background=255,255,255
 content_assist_proposals_foreground=0,0,0
@@ -9,6 +9,16 @@ org.eclipse.jdt.ui.text.code_templates_migrated=true
 org.eclipse.jdt.ui.text.custom_code_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 org.eclipse.jdt.ui.text.custom_templates=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 org.eclipse.jdt.ui.text.templates_migrated=true
+spelling_ignore_ampersand_in_properties=true
+spelling_ignore_digits=true
+spelling_ignore_java_strings=true
+spelling_ignore_mixed=true
+spelling_ignore_non_letters=true
+spelling_ignore_sentence=true
+spelling_ignore_single_letters=true
+spelling_ignore_upper=true
+spelling_ignore_urls=true
 spelling_locale_initialized=true
+spelling_user_dictionary_encoding=
 useAnnotationsPrefPage=true
 useQuickDiffPrefPage=true

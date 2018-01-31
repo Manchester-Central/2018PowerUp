@@ -2,10 +2,9 @@ package NewAutoShell;
 
 import java.util.Map;
 
-
 import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class AutoBuilder {
 	

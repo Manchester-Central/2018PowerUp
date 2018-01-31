@@ -13,8 +13,12 @@
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.smartdashboard.SmartDashboard"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Preferences"/>
 <fullyQualifiedTypeName name="com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX"/>
-<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Encoder"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.DoubleSolenoid"/>
 <fullyQualifiedTypeName name="com.ctre.phoenix.motorcontrol.ControlMode"/>
 <fullyQualifiedTypeName name="com.ctre.phoenix.motorcontrol.FeedbackDevice"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.Encoder"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team131.robot.Controller"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team131.robot.Controller.DPadDirection"/>
+<fullyQualifiedTypeName name="org.usfirst.frc.team131.robot.PortConstants"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.DoubleSolenoid.Value"/>
 </qualifiedTypeNameHistroy>

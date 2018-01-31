@@ -10,7 +10,6 @@ public class ControllerManager {
 		driver = new Controller (0);
 		operator = new Controller (1);
 		
-		
 	}
 	
 }

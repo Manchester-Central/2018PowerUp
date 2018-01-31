@@ -18,7 +18,7 @@ public class Controller {
 	public static final int UP_Y_ABXY = 4;
 
 	
-	public enum DPadDirection {
+	public static enum DPadDirection {
 		LEFT, RIGHT, UP, DOWN, UP_RIGHT, DOWN_RIGHT, UP_LEFT, DOWN_LEFT, NONE
 	}
 

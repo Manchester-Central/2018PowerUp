@@ -57,19 +57,8 @@ public class DriveBase {
 		leftTalonSRX.set(leftSpeed);
 		rightTalonSRX.set(rightSpeed);
 		
+		talonSpeedToVictors();
 		
-		double leftTalonSpeed = leftTalonSRX.get();
-		double rightTalonSpeed = rightTalonSRX.get();
-		
-		
-		leftBackVictor.set(leftTalonSpeed);
-		leftMidVictor.set(leftTalonSpeed);
-		leftFrontVictor.set(leftTalonSpeed);
-		
-		
-		rightBackVictor.set(rightTalonSpeed);
-		rightMidVictor.set(rightTalonSpeed);
-		rightFrontVictor.set(rightTalonSpeed);
 		
 	}
 	
@@ -137,7 +126,7 @@ public class DriveBase {
 		leftTalonSRX.setSensorPhase(true);
 		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		leftTalonSRX.configPeakCurrentLimit(30, 0);
-		leftTalonSRX.configPeakOutputForward(0.5, 0);
+		leftTalonSRX.configPeakOutputForward(0.5 , 0);
 //		leftTalonSRX.config_kF(0, 0.11, 0);
 //		leftTalonSRX.config_kP(0, 0.22, 0);
 //		leftTalonSRX.config_kI(0, 0, 0);
@@ -146,7 +135,7 @@ public class DriveBase {
 		rightTalonSRX.setSensorPhase(true);
 		rightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		rightTalonSRX.configPeakCurrentLimit(30, 0);
-		rightTalonSRX.configPeakOutputForward(0.5, 0);
+		rightTalonSRX.configPeakOutputForward(0.455 , 0);
 //		rightTalonSRX.config_kF(0, 0.11, 0);
 //		rightTalonSRX.config_kP(0, 0.22, 0);
 //		rightTalonSRX.config_kI(0, 0, 0);
@@ -156,6 +145,23 @@ public class DriveBase {
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(target));
 		
+		talonSpeedToVictors();
+		
+	}
+	
+	private void talonSpeedToVictors( ) {
+		double leftTalonSpeed = leftTalonSRX.get();
+		double rightTalonSpeed = rightTalonSRX.get();
+		
+		
+		leftBackVictor.set(leftTalonSpeed);
+		leftMidVictor.set(leftTalonSpeed);
+		leftFrontVictor.set(leftTalonSpeed);
+		
+		
+		rightBackVictor.set(rightTalonSpeed);
+		rightMidVictor.set(rightTalonSpeed);
+		rightFrontVictor.set(rightTalonSpeed);
 	}
 	
 	public void encoderData() {

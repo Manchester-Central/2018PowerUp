@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public abstract class ChaosCommand extends Command {
 	
-	String[] args;
+	protected String[] args;
 	
 	public void setArgs (String[] args) {
 		this.args = args;
