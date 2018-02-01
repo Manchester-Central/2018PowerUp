@@ -16,7 +16,7 @@ public class Climber {
 	
 	public void retract () {
 		
-		climber.setSpeed(SPEED);
+		climber.setSpeed(-SPEED);
 		
 	}
 	
