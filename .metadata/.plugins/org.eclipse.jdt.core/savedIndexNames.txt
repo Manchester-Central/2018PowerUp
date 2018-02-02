@@ -15,7 +15,6 @@ INDEX VERSION 1.130+C:\Users\Charles\workspace\2018 PowerUp\.metadata\.plugins\o
 3706135349.index
 185975254.index
 2503632252.index
-2753540702.index
 3724021122.index
 4020602821.index
 1429456332.index
