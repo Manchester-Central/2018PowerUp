@@ -64,6 +64,5 @@ public class LinearLift {
 		} else {
 			lift.set(0.0);
 		}
-	}
-	
+	}	
 }

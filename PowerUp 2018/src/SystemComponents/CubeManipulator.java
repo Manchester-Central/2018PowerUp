@@ -28,7 +28,7 @@ public class CubeManipulator {
 	
 		cubeDetector = new DigitalInput(PortConstants.CUBE_DETECTOR_SENSOR);
 	}
-
+	
 	public void intake() {
 		motor1.set(SPEED);
 		motor2.set(-SPEED);
@@ -51,6 +51,7 @@ public class CubeManipulator {
 	
 	public boolean cubeIn() {
 		return cubeDetector.get();
+		
 	}
 	
 }
