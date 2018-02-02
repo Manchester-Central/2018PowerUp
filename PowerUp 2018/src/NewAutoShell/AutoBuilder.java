@@ -2,20 +2,29 @@ package NewAutoShell;
 
 import java.util.Map;
 
+import SystemComponents.Climber;
+import SystemComponents.CubeManipulator;
+import SystemComponents.DriveBase;
+import SystemComponents.LinearLift;
 import edu.wpi.first.wpilibj.Preferences;
-import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class AutoBuilder {
 	
-	Map<String, ChaosCommand> commands;
-	
 	Preferences prefs;
 	int stage = 1;
 	
-	public AutoBuilder (Map<String, ChaosCommand> commands) {
-		this.commands = commands;
+	DriveBase drive;
+	LinearLift lift;
+	CubeManipulator cubeManipulator;
+	Climber climber;
+	
+	public AutoBuilder (DriveBase drive, LinearLift lift, CubeManipulator cubeManipulator, Climber climber) {
 
+		this.drive = drive;
+		this.lift = lift;
+		this.cubeManipulator = cubeManipulator;
+		this.climber = climber;
 	}
 	
 	public String getAutoStageString(int i) {
@@ -35,9 +44,14 @@ public class AutoBuilder {
 			
 			String input = prefs.getString(key, "");
 			
-			PreferenceTableLine line = new PreferenceTableLine(input, commands);
+			PreferenceTableLine line = new PreferenceTableLine(input, drive, lift, cubeManipulator, climber);
 			
 			if (line.getCommand() == null) {
+				System.out.println(String.format("Key %s has a bad value: %s", key, input));
+				continue;
+			}
+			
+			if (line.getCommand().getArgsLength() != line.getCommand().getCurrentArgsSize()) {
 				System.out.println(String.format("Key %s has a bad value: %s", key, input));
 				continue;
 			}

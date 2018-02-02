@@ -5648,3 +5648,9 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY WPILib_Java_Robot_Development 1 0 2018-02-01 18:02:38.842
 !MESSAGE Updating projects
+
+!ENTRY org.eclipse.equinox.p2.metadata.repository 4 1000 2018-02-01 18:45:43.222
+!MESSAGE No repository found at https://www.eclipse.org/efxclipse/install.html.
+
+!ENTRY riolog 1 0 2018-02-01 19:57:44.690
+!MESSAGE exiting listener

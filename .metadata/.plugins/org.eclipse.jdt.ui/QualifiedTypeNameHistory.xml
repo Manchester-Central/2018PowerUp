@@ -21,4 +21,6 @@
 <fullyQualifiedTypeName name="org.usfirst.frc.team131.robot.Controller.DPadDirection"/>
 <fullyQualifiedTypeName name="org.usfirst.frc.team131.robot.PortConstants"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.DoubleSolenoid.Value"/>
+<fullyQualifiedTypeName name="NewAutoShell.ChaosCommand"/>
+<fullyQualifiedTypeName name="edu.wpi.first.wpilibj.DriverStation"/>
 </qualifiedTypeNameHistroy>

@@ -7,13 +7,12 @@
 
 package org.usfirst.frc.team131.robot;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import Commands.ClearPrefs;
-import Commands.TestChaosCommand;
 import NewAutoShell.AutoBuilder;
-import NewAutoShell.ChaosCommand;
+import SystemComponents.Climber;
+import SystemComponents.CubeManipulator;
+import SystemComponents.DriveBase;
+import SystemComponents.LinearLift;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -35,6 +34,10 @@ public class Robot extends IterativeRobot {
 	
 	AutoBuilder autoBuilder;
 
+	DriveBase drive;
+	CubeManipulator cubeManipulator;
+	Climber climber;
+	LinearLift lift;
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -59,9 +62,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		CommandGroup autoSequence = new CommandGroup();
-		Map<String, ChaosCommand> commands = new HashMap<String, ChaosCommand>();
-		commands.put("test", new TestChaosCommand());
-		autoBuilder = new AutoBuilder (commands);
+		autoBuilder = new AutoBuilder (drive, lift, cubeManipulator, climber);
 		autoBuilder.createCommandGroup(autoSequence);
 
 		Scheduler.getInstance().add(autoSequence);

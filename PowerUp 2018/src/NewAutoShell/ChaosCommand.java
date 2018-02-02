@@ -16,6 +16,10 @@ public abstract class ChaosCommand extends Command {
 		return argsLength;
 	}
 	
+	public int getCurrentArgsSize () {
+		return args.length;
+	}
+	
 	public ChaosCommand(int argsLength) {
         this.argsLength = argsLength;
     }

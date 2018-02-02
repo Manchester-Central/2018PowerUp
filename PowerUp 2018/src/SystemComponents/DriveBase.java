@@ -124,7 +124,7 @@ public class DriveBase {
 		
 	}
 	
-	public void setRightTalonToPosition(double target) {
+	public void setTalonsToPosition(double target) {
 		
 		leftTalonSRX.setSensorPhase(true);
 		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
