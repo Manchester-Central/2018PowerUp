@@ -1,12 +1,14 @@
 package Commands;
 
 import NewAutoShell.ChaosCommand;
+import NewAutoShell.GameData;
 import SystemComponents.DriveBase;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class ScaleConditionalDrive extends ChaosCommand {
 
-DriveBase drive;
+	DriveBase drive;
+	public static final String NAME = "ScaleConditionalDrive";
 	
 	public ScaleConditionalDrive(int argsLength, DriveBase drive) {
 		super(argsLength);
@@ -15,8 +17,8 @@ DriveBase drive;
 	
 	@Override
 	protected void initialize () {
-		
-		if (DriverStation.getInstance().getGameSpecificMessage().equals("scaleisredorsomething")) {
+		GameData data = new GameData ();
+		if (data.scaleIsLeft()) {
 			drive.setTalonsToPosition(Integer.getInteger(args[0]));
 		} else {
 		
@@ -28,8 +30,22 @@ DriveBase drive;
 
 	@Override
 	protected boolean isFinished() {
-		
-		return Math.abs(drive.getLeftTalonEncoderValue() - Double.valueOf(args[0])) <= 0.1 && Math.abs(drive.getRightTalonEncoderValue() - Double.valueOf(args[0])) <= 0.1;
+		boolean shouldFinish = Math.abs(drive.getRightEncoderVelocity()) <= 0.1 && Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
+				&& Math.abs(drive.getLeftTalonEncoderValue()) > 100 && Math.abs(drive.getRightTalonEncoderValue()) > 100;
+		System.out.println("shouldFinish: " + shouldFinish);
+		return shouldFinish;
+	}
+	
+
+	@Override 
+	protected void execute() {
+		//driveBase.encoderData();
+		drive.velocityData();
+	}
+	
+	@Override
+	protected void end () {
+		drive.end();
 	}
 
 }

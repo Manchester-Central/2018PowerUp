@@ -30,11 +30,11 @@ public class Main {
 	public static void match(String check) {
 		CommandGroup autoSequence = new CommandGroup();
 		Map<String, ChaosCommand> commands = new HashMap<String, ChaosCommand>();
-		commands.put("test", new TestChaosCommand());
-		PreferenceTableLine line = new PreferenceTableLine(check, commands);
-		System.out.print(line.getCommand() != null);
-		System.out.println(line.getIsParallel());
-		
+//		commands.put("test", new TestChaosCommand());
+//		PreferenceTableLine line = new PreferenceTableLine(check, commands);
+//		System.out.print(line.getCommand() != null);
+//		System.out.println(line.getIsParallel());
+//		
 	}
 	private static void endsWith(String check, String endMatch)
 	{

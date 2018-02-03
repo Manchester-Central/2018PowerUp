@@ -25,11 +25,11 @@ public class DriveBase {
 	
 	DoubleSolenoid gearShifter;
 	
-	Encoder rightEncoder;
-	
 	private static final double ENCODER_TICKS_PER_REVOLUTION = 4150.0;
 	private static final double WHEEL_CIRCUMFERENCE_INCHES = 4 * Math.PI;
 
+	private static final double ROBOT_TURN_RADIUS_INCHES = 13.0;
+	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 	
 	
 	public DriveBase () {
@@ -49,6 +49,18 @@ public class DriveBase {
 		
 		leftTalonSRX.setInverted(false);
 		rightTalonSRX.setInverted(true); 
+		
+		leftTalonSRX.setSensorPhase(true);
+		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		leftTalonSRX.configPeakCurrentLimit(30, 0);
+		leftTalonSRX.configPeakOutputForward(0.5 , 0);
+		leftTalonSRX.configPeakOutputReverse(-0.5, 0);
+
+		rightTalonSRX.setSensorPhase(true);
+		rightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
+		rightTalonSRX.configPeakCurrentLimit(30, 0);
+		rightTalonSRX.configPeakOutputForward(0.455 , 0);
+		rightTalonSRX.configPeakOutputReverse(-0.455, 0);
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -127,21 +139,27 @@ public class DriveBase {
 	
 	public void setTalonsToPosition(double target) {
 		
-		leftTalonSRX.setSensorPhase(true);
-		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		leftTalonSRX.configPeakCurrentLimit(30, 0);
-		leftTalonSRX.configPeakOutputForward(0.5 , 0);
-
-		rightTalonSRX.setSensorPhase(true);
-		rightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		rightTalonSRX.configPeakCurrentLimit(30, 0);
-		rightTalonSRX.configPeakOutputForward(0.455 , 0);
-
+		
+		
 		resetEncoders();
 		rightTalonSRX.set(ControlMode.Position, inchesToTicks(target));
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(target));
 		
+		System.out.println ("ticks: " + inchesToTicks(target));
+		
+		talonSpeedToVictors();
+		
+	}
+	
+	public void turnToAngle (double angle) {
+		
+		double inches = (angle / 360) * ROBOT_CIRCUMFERENCE;
+		
+		resetEncoders();
+		rightTalonSRX.set(ControlMode.Position, inchesToTicks(inches));
+		
+		leftTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
 		talonSpeedToVictors();
 		
 	}
@@ -167,4 +185,15 @@ public class DriveBase {
 		+ " right Encoder: " +ticksToInches(getRightTalonEncoderValue()) + "-- "
 		+ ticksToInches(rightTalonSRX.getClosedLoopError(0)));
 	}
+	
+	public void velocityData () {
+		System.out.println("left velocity: " + getRightEncoderVelocity() + " right velocity: " +getLeftEncoderVelocity());
+	}
+	
+	public void end () {
+		rightTalonSRX.stopMotor();
+		leftTalonSRX.stopMotor();
+		resetEncoders();
+	}
+			
 }

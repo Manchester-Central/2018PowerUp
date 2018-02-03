@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 class PreferenceTableLineTest {
 
-	@Test
+
 	void test() {
 		//fail("Not yet implemented");
 	
@@ -31,6 +31,7 @@ class PreferenceTableLineTest {
 //		match("turn;87");
 
 	}
+
 
 	
 	//public boolean match(String check) {

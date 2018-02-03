@@ -23,4 +23,8 @@
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.DoubleSolenoid.Value"/>
 <fullyQualifiedTypeName name="NewAutoShell.ChaosCommand"/>
 <fullyQualifiedTypeName name="edu.wpi.first.wpilibj.DriverStation"/>
+<fullyQualifiedTypeName name="Commands.TestChaosCommand"/>
+<fullyQualifiedTypeName name="Commands.SwitchConditionalDrive"/>
+<fullyQualifiedTypeName name="Commands.ScaleConditionalDrive"/>
+<fullyQualifiedTypeName name="Commands.Drive"/>
 </qualifiedTypeNameHistroy>

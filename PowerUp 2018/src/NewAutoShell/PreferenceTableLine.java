@@ -16,10 +16,10 @@ public class PreferenceTableLine {
 	private ChaosCommand command;
 	private boolean isParallel;
 	
-	private String[] commands = { "Test", "SwitchConditionalDrive", "Drive" , "ScaleConditionalDrive" };
+	private String[] commands = {TestChaosCommand.NAME , SwitchConditionalDrive.NAME , ScaleConditionalDrive.NAME , Drive.NAME };
 	
 	// Reads each input line and builds the command for each
-	public PreferenceTableLine (String input, DriveBase drive, LinearLift lift, CubeManipulator cubeManipulator, Climber climber) {
+	public PreferenceTableLine (String input, DriveBase drive/*, LinearLift lift, CubeManipulator cubeManipulator, Climber climber */) {
 		
 		// Ignores lines with bad syntax
 		if(!match(input)) {
@@ -35,6 +35,7 @@ public class PreferenceTableLine {
 				isName = true;
 			}
 		}
+		
 		if (!isName) {
 			return;
 		}
@@ -43,16 +44,16 @@ public class PreferenceTableLine {
 		isParallel = splitLine[1].endsWith(",");
 		
 		switch (commandInput) {
-		case "Test":
+		case TestChaosCommand.NAME:
 			command = new TestChaosCommand (1);
 			break;
-		case "Drive":
+		case Drive.NAME:
 			command = new Drive (drive, 1);
 			break;
-		case "SwitchConditionalDrive":
+		case SwitchConditionalDrive.NAME:
 			command = new SwitchConditionalDrive (1, drive);
 			break;
-		case "ScaleConditionalDrive":
+		case ScaleConditionalDrive.NAME:
 			command = new ScaleConditionalDrive (1, drive);
 			break;
 		default:

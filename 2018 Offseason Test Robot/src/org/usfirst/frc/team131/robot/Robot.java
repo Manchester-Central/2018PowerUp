@@ -20,6 +20,7 @@ public class Robot extends IterativeRobot {
 	DriveBase drive;
 	ControllerManager cm;
 	Compressor compressor;
+	TestVictors testVictors;
 		
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -36,6 +37,8 @@ public class Robot extends IterativeRobot {
 		compressor = new Compressor();
 		
 		drive.resetEncoders();
+		
+		testVictors = new TestVictors ();
 		
 	}
 
@@ -93,6 +96,8 @@ public class Robot extends IterativeRobot {
 		}	
 			
 		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getRightY());
+		
+		testVictors.setSpeed(cm.operator.getLeftY());
 		
 	}
 

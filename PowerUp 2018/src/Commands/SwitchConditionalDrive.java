@@ -1,12 +1,14 @@
 package Commands;
 
 import NewAutoShell.ChaosCommand;
+import NewAutoShell.GameData;
 import SystemComponents.DriveBase;
 import edu.wpi.first.wpilibj.DriverStation;
 
 public class SwitchConditionalDrive extends ChaosCommand {
 
 	DriveBase drive;
+	public static final String NAME = "SwitchConditionalDrive";
 	
 	public SwitchConditionalDrive(int argsLength, DriveBase drive) {
 		super(argsLength);
@@ -15,8 +17,8 @@ public class SwitchConditionalDrive extends ChaosCommand {
 	
 	@Override
 	protected void initialize () {
-		
-		if (DriverStation.getInstance().getGameSpecificMessage().equals("switchisredorsomething")) {
+		GameData data = new GameData ();
+		if (data.closeSwitchIsLeft()) {
 			drive.setTalonsToPosition(Integer.getInteger(args[0]));
 		} else {
 		
@@ -28,8 +30,23 @@ public class SwitchConditionalDrive extends ChaosCommand {
 
 	@Override
 	protected boolean isFinished() {
-		
-		return Math.abs(drive.getLeftTalonEncoderValue() - Double.valueOf(args[0])) <= 0.1 && Math.abs(drive.getRightTalonEncoderValue() - Double.valueOf(args[0])) <= 0.1;
+		boolean shouldFinish = Math.abs(drive.getRightEncoderVelocity()) <= 0.1 && Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
+				&& Math.abs(drive.getLeftTalonEncoderValue()) > 100 && Math.abs(drive.getRightTalonEncoderValue()) > 100;
+		System.out.println("shouldFinish: " + shouldFinish);
+		return shouldFinish;
 	}
+	
+
+	@Override 
+	protected void execute() {
+		//driveBase.encoderData();
+		drive.velocityData();
+	}
+	
+	@Override
+	protected void end () {
+		drive.end();
+	}
+
 
 }

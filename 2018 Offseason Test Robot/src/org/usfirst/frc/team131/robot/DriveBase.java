@@ -26,8 +26,6 @@ public class DriveBase {
 	
 	DoubleSolenoid gearShifter;
 	
-	Encoder rightEncoder;
-	
 	private static final double ENCODER_TICKS_PER_REVOLUTION = 4150.0;
 	private static final double WHEEL_CIRCUMFERENCE_INCHES = 4 * Math.PI;
 
@@ -54,7 +52,7 @@ public class DriveBase {
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
 		
-		leftTalonSRX.set(leftSpeed);
+		leftTalonSRX.set(-leftSpeed);
 		rightTalonSRX.set(rightSpeed);
 		
 		talonSpeedToVictors();
