@@ -1,29 +1,35 @@
 package Commands;
 
 import NewAutoShell.ChaosCommand;
+import NewAutoShell.GameData;
 import SystemComponents.DriveBase;
 
-public class Turn extends ChaosCommand {
+public class SwitchTurn extends ChaosCommand {
 
 	DriveBase drive;
 	
-	public Turn(int argsLength, DriveBase drive) {
+	public SwitchTurn(int argsLength, DriveBase drive) {
 		super(argsLength);
 		this.drive = drive;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override
 	protected void initialize () {
-		drive.turnToAngle(Double.parseDouble(args[0]));
+		GameData data = new GameData ();
+		if (data.closeSwitchIsLeft()) {
+			drive.setTalonsToPosition(Integer.getInteger(args[0]));
+		} else {
+		
+			drive.setTalonsToPosition(Integer.getInteger(args[1]));
+			
+		}
 	}
-	
+
 	@Override
 	protected boolean isFinished() {
 		return doneDriving (drive);
 	}
 	
-
 	@Override 
 	protected void execute() {
 		//driveBase.encoderData();
@@ -34,6 +40,5 @@ public class Turn extends ChaosCommand {
 	protected void end () {
 		drive.end();
 	}
-
 
 }

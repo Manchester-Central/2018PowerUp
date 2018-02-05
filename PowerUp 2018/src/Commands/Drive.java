@@ -15,11 +15,7 @@ public class Drive extends ChaosCommand {
 	
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		boolean shouldFinish = Math.abs(driveBase.getRightEncoderVelocity()) <= 0.1 && Math.abs(driveBase.getLeftEncoderVelocity()) <= 0.1
-				&& Math.abs(driveBase.getLeftTalonEncoderValue()) > 100 && Math.abs(driveBase.getRightTalonEncoderValue()) > 100;
-		System.out.println("shouldFinish: " + shouldFinish);
-		return shouldFinish;
+		return doneDriving (driveBase);
 	}
 	
 	@Override

@@ -64,5 +64,14 @@ public class LinearLift {
 		} else {
 			lift.set(0.0);
 		}
-	}	
+	}
+	
+	public boolean liftIsStopped () {
+		return lift.get() == 0 && Math.abs(Math.abs(currentPosition) - Math.abs(encoder.get())) <= DEADBAND ;
+	}
+	
+	public double liftPosition () {
+		return encoder.get();
+	}
+	
 }

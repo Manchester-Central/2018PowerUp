@@ -3,8 +3,8 @@ package NewAutoShell;
 import java.util.regex.Pattern;
 
 import Commands.Drive;
-import Commands.ScaleConditionalDrive;
-import Commands.SwitchConditionalDrive;
+import Commands.ScaleDrive;
+import Commands.SwitchDrive;
 import Commands.TestChaosCommand;
 import SystemComponents.Climber;
 import SystemComponents.CubeManipulator;
@@ -16,7 +16,7 @@ public class PreferenceTableLine {
 	private ChaosCommand command;
 	private boolean isParallel;
 	
-	private String[] commands = {TestChaosCommand.NAME , SwitchConditionalDrive.NAME , ScaleConditionalDrive.NAME , Drive.NAME };
+	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME , Drive.NAME };
 	
 	// Reads each input line and builds the command for each
 	public PreferenceTableLine (String input, DriveBase drive/*, LinearLift lift, CubeManipulator cubeManipulator, Climber climber */) {
@@ -50,11 +50,11 @@ public class PreferenceTableLine {
 		case Drive.NAME:
 			command = new Drive (drive, 1);
 			break;
-		case SwitchConditionalDrive.NAME:
-			command = new SwitchConditionalDrive (1, drive);
+		case SwitchDrive.NAME:
+			command = new SwitchDrive (1, drive);
 			break;
-		case ScaleConditionalDrive.NAME:
-			command = new ScaleConditionalDrive (1, drive);
+		case ScaleDrive.NAME:
+			command = new ScaleDrive (1, drive);
 			break;
 		default:
 			command = null;	

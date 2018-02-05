@@ -35,16 +35,14 @@ public class AutoBuilder {
 	// Takes the commands from the Preference Table Line and creates a command group to be run
 	public void createCommandGroup (CommandGroup commandGroup) {
 		
-		//if (prefs.getKeys() == null || prefs.getKeys().isEmpty()) {
-		//	System.out.println("No input given");
-		//	return;
-		//}
-		String[] keys = { "Drive;45.", "Drive;-45."};
-		int x = 0;
-		for (String key : keys/*prefs.getKeys()*/ ) {
+		if (prefs.getKeys() == null || prefs.getKeys().isEmpty()) {
+			System.out.println("No input given");
+			return;
+		}
+
+		for (String key : prefs.getKeys()) {
 			
-			String input = keys[x];//prefs.getString(key, "");
-			x++;
+			String input = prefs.getString(key, "");
 			PreferenceTableLine line = new PreferenceTableLine(input, drive /*, lift, cubeManipulator, climber */);
 			
 			if (line.getCommand() == null) {

@@ -5,12 +5,12 @@ import NewAutoShell.GameData;
 import SystemComponents.DriveBase;
 import edu.wpi.first.wpilibj.DriverStation;
 
-public class SwitchConditionalDrive extends ChaosCommand {
+public class ScaleDrive extends ChaosCommand {
 
 	DriveBase drive;
-	public static final String NAME = "SwitchConditionalDrive";
+	public static final String NAME = "ScaleConditionalDrive";
 	
-	public SwitchConditionalDrive(int argsLength, DriveBase drive) {
+	public ScaleDrive(int argsLength, DriveBase drive) {
 		super(argsLength);
 		this.drive = drive;
 	}
@@ -18,7 +18,7 @@ public class SwitchConditionalDrive extends ChaosCommand {
 	@Override
 	protected void initialize () {
 		GameData data = new GameData ();
-		if (data.closeSwitchIsLeft()) {
+		if (data.scaleIsLeft()) {
 			drive.setTalonsToPosition(Integer.getInteger(args[0]));
 		} else {
 		
@@ -30,10 +30,7 @@ public class SwitchConditionalDrive extends ChaosCommand {
 
 	@Override
 	protected boolean isFinished() {
-		boolean shouldFinish = Math.abs(drive.getRightEncoderVelocity()) <= 0.1 && Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
-				&& Math.abs(drive.getLeftTalonEncoderValue()) > 100 && Math.abs(drive.getRightTalonEncoderValue()) > 100;
-		System.out.println("shouldFinish: " + shouldFinish);
-		return shouldFinish;
+		return doneDriving (drive);
 	}
 	
 
@@ -47,6 +44,5 @@ public class SwitchConditionalDrive extends ChaosCommand {
 	protected void end () {
 		drive.end();
 	}
-
 
 }
