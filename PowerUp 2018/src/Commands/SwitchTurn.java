@@ -7,6 +7,7 @@ import SystemComponents.DriveBase;
 public class SwitchTurn extends ChaosCommand {
 
 	DriveBase drive;
+	public static final String NAME = "SwitchTurn";
 	
 	public SwitchTurn(int argsLength, DriveBase drive) {
 		super(argsLength);
@@ -15,12 +16,13 @@ public class SwitchTurn extends ChaosCommand {
 	
 	@Override
 	protected void initialize () {
+		drive.resetEncoders();
 		GameData data = new GameData ();
 		if (data.closeSwitchIsLeft()) {
-			drive.setTalonsToPosition(Integer.getInteger(args[0]));
+			drive.turnToAngle(Double.parseDouble(args[0]));
 		} else {
 		
-			drive.setTalonsToPosition(Integer.getInteger(args[1]));
+			drive.turnToAngle(Double.parseDouble(args[1]));
 			
 		}
 	}
@@ -38,6 +40,7 @@ public class SwitchTurn extends ChaosCommand {
 	
 	@Override
 	protected void end () {
+		drive.resetEncoders();
 		drive.end();
 	}
 

@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class ScaleDrive extends ChaosCommand {
 
 	DriveBase drive;
-	public static final String NAME = "ScaleConditionalDrive";
+	public static final String NAME = "ScaleDrive";
 	
 	public ScaleDrive(int argsLength, DriveBase drive) {
 		super(argsLength);
@@ -19,10 +19,10 @@ public class ScaleDrive extends ChaosCommand {
 	protected void initialize () {
 		GameData data = new GameData ();
 		if (data.scaleIsLeft()) {
-			drive.setTalonsToPosition(Integer.getInteger(args[0]));
+			drive.setTalonsToPosition(Double.valueOf(args[0]));
 		} else {
 		
-			drive.setTalonsToPosition(Integer.getInteger(args[1]));
+			drive.setTalonsToPosition(Double.valueOf(args[1]));
 			
 		}
 		

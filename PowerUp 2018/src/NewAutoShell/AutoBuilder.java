@@ -22,6 +22,7 @@ public class AutoBuilder {
 	public AutoBuilder (DriveBase drive /*, LinearLift lift, CubeManipulator cubeManipulator, Climber climber */) {
 
 		this.drive = drive;
+		prefs = Preferences.getInstance();
 //		this.lift = lift;
 //		this.cubeManipulator = cubeManipulator;
 //		this.climber = climber;

@@ -8,6 +8,7 @@ import SystemComponents.LinearLift;
 public class Lift extends ChaosCommand {
 
 	LinearLift linearLift;
+	public static final String NAME = "Lift";
 	
 	public Lift(int argsLength, LinearLift linearLift) {
 		super(argsLength);

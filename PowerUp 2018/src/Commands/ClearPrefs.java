@@ -17,7 +17,9 @@ public class ClearPrefs extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	
+    	for (String key : prefs.getKeys()) {
+			prefs.remove(key);
+		}
     }
 
     // Called repeatedly when this Command is scheduled to run

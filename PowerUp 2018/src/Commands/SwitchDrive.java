@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 public class SwitchDrive extends ChaosCommand {
 
 	DriveBase drive;
-	public static final String NAME = "SwitchConditionalDrive";
+	public static final String NAME = "SwitchDrive";
 	
 	public SwitchDrive(int argsLength, DriveBase drive) {
 		super(argsLength);
@@ -17,12 +17,13 @@ public class SwitchDrive extends ChaosCommand {
 	
 	@Override
 	protected void initialize () {
+		drive.resetEncoders();
 		GameData data = new GameData ();
 		if (data.closeSwitchIsLeft()) {
-			drive.setTalonsToPosition(Integer.getInteger(args[0]));
+			drive.setTalonsToPosition(Double.parseDouble(args[0]));
 		} else {
 		
-			drive.setTalonsToPosition(Integer.getInteger(args[1]));
+			drive.setTalonsToPosition(Double.parseDouble(args[1]));
 			
 		}
 		

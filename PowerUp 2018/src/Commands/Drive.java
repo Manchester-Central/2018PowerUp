@@ -20,7 +20,7 @@ public class Drive extends ChaosCommand {
 	
 	@Override
 	protected void initialize () {
-		
+		driveBase.resetEncoders();
 		driveBase.setTalonsToPosition(Double.valueOf(args[0]));
 		System.out.println("started");
 	

@@ -6,6 +6,7 @@ import SystemComponents.DriveBase;
 public class Turn extends ChaosCommand {
 
 	DriveBase drive;
+	public static final String NAME = "Turn";
 	
 	public Turn(int argsLength, DriveBase drive) {
 		super(argsLength);
@@ -32,6 +33,7 @@ public class Turn extends ChaosCommand {
 	
 	@Override
 	protected void end () {
+		drive.resetEncoders();
 		drive.end();
 	}
 

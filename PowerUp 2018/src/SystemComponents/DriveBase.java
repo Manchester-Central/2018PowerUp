@@ -25,6 +25,9 @@ public class DriveBase {
 	
 	DoubleSolenoid gearShifter;
 	
+	private double leftTalonTarget;
+	private double rightTalonTarget;
+	
 	private static final double ENCODER_TICKS_PER_REVOLUTION = 4150.0;
 	private static final double WHEEL_CIRCUMFERENCE_INCHES = 4 * Math.PI;
 
@@ -33,6 +36,9 @@ public class DriveBase {
 	
 	
 	public DriveBase () {
+		
+		leftTalonTarget = 0D;
+		rightTalonTarget = 0D;
 		
 		leftBackVictor = new Victor(PortConstants.LEFT_BACK_TALON);
 		leftMidVictor = new Victor(PortConstants.LEFT_MID_TALON);
@@ -145,6 +151,7 @@ public class DriveBase {
 		rightTalonSRX.set(ControlMode.Position, inchesToTicks(target));
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(target));
+		updateTargetValues (target, target);
 		
 		System.out.println ("ticks: " + inchesToTicks(target));
 		
@@ -160,8 +167,14 @@ public class DriveBase {
 		rightTalonSRX.set(ControlMode.Position, inchesToTicks(inches));
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
+		updateTargetValues (-inches, inches);
 		talonSpeedToVictors();
 		
+	}
+	
+	private void updateTargetValues (double left, double right) {
+		leftTalonTarget = inchesToTicks(left);
+		rightTalonTarget = inchesToTicks(right);
 	}
 	
 	private void talonSpeedToVictors( ) {
@@ -195,5 +208,13 @@ public class DriveBase {
 		leftTalonSRX.stopMotor();
 		resetEncoders();
 	}
-			
+	
+	public double getRightTarget () {
+		return rightTalonTarget;
+	}
+	
+	public double getLeftTarget () {
+		return leftTalonTarget;
+	}
+	
 }

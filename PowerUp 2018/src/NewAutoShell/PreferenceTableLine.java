@@ -4,19 +4,20 @@ import java.util.regex.Pattern;
 
 import Commands.Drive;
 import Commands.ScaleDrive;
+import Commands.ScaleTurn;
 import Commands.SwitchDrive;
+import Commands.SwitchTurn;
 import Commands.TestChaosCommand;
-import SystemComponents.Climber;
-import SystemComponents.CubeManipulator;
+import Commands.Turn;
 import SystemComponents.DriveBase;
-import SystemComponents.LinearLift;
 
 public class PreferenceTableLine {
 	
 	private ChaosCommand command;
 	private boolean isParallel;
 	
-	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME , Drive.NAME };
+	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME 
+			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME };
 	
 	// Reads each input line and builds the command for each
 	public PreferenceTableLine (String input, DriveBase drive/*, LinearLift lift, CubeManipulator cubeManipulator, Climber climber */) {
@@ -51,10 +52,19 @@ public class PreferenceTableLine {
 			command = new Drive (drive, 1);
 			break;
 		case SwitchDrive.NAME:
-			command = new SwitchDrive (1, drive);
+			command = new SwitchDrive (2, drive);
 			break;
 		case ScaleDrive.NAME:
-			command = new ScaleDrive (1, drive);
+			command = new ScaleDrive (2, drive);
+			break;
+		case Turn.NAME:
+			command = new Turn (1, drive);
+			break;
+		case SwitchTurn.NAME:
+			command = new SwitchTurn (2, drive);
+			break;
+		case ScaleTurn.NAME:
+			command = new ScaleTurn (2, drive);
 			break;
 		default:
 			command = null;	

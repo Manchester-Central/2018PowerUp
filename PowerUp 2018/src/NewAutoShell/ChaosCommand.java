@@ -26,8 +26,10 @@ public abstract class ChaosCommand extends Command {
     }
 	
 	protected boolean doneDriving (DriveBase drive) {
-		boolean shouldFinish = Math.abs(drive.getRightEncoderVelocity()) <= 0.1 && Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
-				&& Math.abs(drive.getLeftTalonEncoderValue()) > 100 && Math.abs(drive.getRightTalonEncoderValue()) > 100;
+		boolean shouldFinish = Math.abs(drive.getRightEncoderVelocity()) <= 0.1 
+				&& Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
+				&& Math.abs(Math.abs(drive.getLeftTalonEncoderValue()) - Math.abs(drive.getLeftTarget())) < 100 
+				&& Math.abs(Math.abs(drive.getRightTalonEncoderValue()) - Math.abs(drive.getRightTarget())) < 100;
 		System.out.println("shouldFinish: " + shouldFinish);
 		return shouldFinish;
 	}
