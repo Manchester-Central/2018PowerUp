@@ -23,18 +23,18 @@ public class Lift extends ChaosCommand {
 	@Override
 	protected void initialize () {
 		
-		//linearLift.setToPosition(Controller.DPadDirection.);
+		linearLift.setTargetPosition(Double.parseDouble(args[0]));
 		
 	}
 	
 
 	@Override 
 	protected void execute() {
-		
+		linearLift.MoveToPosition();
 	}
 	
 	@Override
 	protected void end () {
-
+		linearLift.setTargetPosition(linearLift.liftPosition());
 	}
 }

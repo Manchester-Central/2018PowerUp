@@ -22,14 +22,20 @@ public class LinearLift {
 	
 	Encoder encoder;
 	
-	int targetPosition;
-	int currentPosition;
+	double targetPosition;
+	double currentPosition;
 	
 	public LinearLift() {
 		lift = new Victor (PortConstants.LINEAR_LIFT);
 		encoder = new Encoder (PortConstants.LINEAR_LIFT_ENCODER_INPUT, PortConstants.LINEAR_LIFT_ENCODER_OUTPUT);
 		targetPosition = FLOOR_POSITION;
 		currentPosition = encoder.get();
+	}
+	
+	public void setSpeed (double speed) {
+		
+		lift.set(speed);
+		
 	}
 	
 	public void setToPosition (Controller.DPadDirection direction) {
@@ -67,7 +73,11 @@ public class LinearLift {
 	}
 	
 	public boolean liftIsStopped () {
-		return lift.get() == 0 && Math.abs(Math.abs(currentPosition) - Math.abs(encoder.get())) <= DEADBAND ;
+		return lift.get() == 0F && Math.abs(Math.abs(currentPosition) - Math.abs(encoder.get())) <= DEADBAND ;
+	}
+	
+	public void setTargetPosition (double target) {
+		targetPosition = target;
 	}
 	
 	public double liftPosition () {
