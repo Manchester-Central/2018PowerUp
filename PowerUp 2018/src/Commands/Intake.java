@@ -4,6 +4,8 @@ import NewAutoShell.ChaosCommand;
 import SystemComponents.CubeManipulator;
 
 public class Intake extends ChaosCommand {
+	
+	public static final String NAME = "Intake";
 
 	CubeManipulator cubeManipulator;
 	

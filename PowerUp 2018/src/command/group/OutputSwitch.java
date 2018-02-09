@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class OutputSwitch extends CommandGroup {
 	
+	public static final String NAME = "OutputSwitch";
+	
 	private final double SWITCH_POSITION = 1000;
 	
 	public OutputSwitch(LinearLift lift, CubeManipulator roller) {

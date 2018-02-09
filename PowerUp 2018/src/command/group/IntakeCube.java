@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class IntakeCube extends CommandGroup {
 	
+	public static final String NAME = "IntakeCube";
+	
 	private final double FLOOR_POSITION = 0;
 	private final double INTAKE_POSITION = 300;
 	

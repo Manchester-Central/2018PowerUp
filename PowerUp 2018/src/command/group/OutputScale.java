@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class OutputScale extends CommandGroup {
 	
+	public static final String NAME = "OutputScale";
+	
 	private final double SCALE_POSITION = 1500;
 	
 	public OutputScale(LinearLift lift, CubeManipulator roller) {

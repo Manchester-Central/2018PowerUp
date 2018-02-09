@@ -4,6 +4,8 @@ import NewAutoShell.ChaosCommand;
 import SystemComponents.CubeManipulator;
 
 public class Retract extends ChaosCommand {
+	
+	public static final String NAME = "Retract";
 
 	CubeManipulator cubeManipulator;
 	

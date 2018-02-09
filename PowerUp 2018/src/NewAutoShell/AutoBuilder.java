@@ -46,21 +46,30 @@ public class AutoBuilder {
 			String input = prefs.getString(key, "");
 			PreferenceTableLine line = new PreferenceTableLine(input, drive /*, lift, cubeManipulator, climber */);
 			
-			if (line.getCommand() == null) {
+			if (line.hasCommands()) {
 				System.out.println(String.format("Key %s has a bad value: %s", key, input));
 				continue;
 			}
 			
-			if (line.getCommand().getArgsLength() != line.getCommand().getCurrentArgsSize()) {
+			if (line.getCommand().getArgsLength() != line.getCommand().getCurrentArgsSize() || line.getCommandGroup() != null) {
 				System.out.println(String.format("Key %s has a bad value: %s", key, input));
 				continue;
 			}
 			
-			if (line.getIsParallel()) {
-				commandGroup.addParallel(line.getCommand());
+			if (line.getCommand() != null) {
+				if (line.getIsParallel()) {
+					commandGroup.addParallel(line.getCommand());
+				} else {
+					commandGroup.addSequential(line.getCommand());
+				}
 			} else {
-				commandGroup.addSequential(line.getCommand());
+				if (line.getIsParallel()) {
+					commandGroup.addParallel(line.getCommandGroup());
+				} else {
+					commandGroup.addSequential(line.getCommandGroup());
+				}
 			}
+			
 				
 		}
 		
