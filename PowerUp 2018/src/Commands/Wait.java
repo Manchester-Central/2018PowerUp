@@ -3,6 +3,8 @@ package Commands;
 import NewAutoShell.ChaosCommand;
 
 public class Wait extends ChaosCommand {
+	
+	public static final String NAME = "Wait";
 
 	long startTime;
 	

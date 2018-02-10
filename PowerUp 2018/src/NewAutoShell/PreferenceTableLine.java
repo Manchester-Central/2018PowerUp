@@ -14,6 +14,7 @@ import Commands.SwitchDrive;
 import Commands.SwitchTurn;
 import Commands.TestChaosCommand;
 import Commands.Turn;
+import Commands.Wait;
 import SystemComponents.CubeManipulator;
 import SystemComponents.DriveBase;
 import SystemComponents.LinearLift;
@@ -31,7 +32,7 @@ public class PreferenceTableLine {
 	
 	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME 
 			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME, Retract.NAME, Output.NAME,
-			Lift.NAME, Intake.NAME, Extend.NAME};
+			Lift.NAME, Intake.NAME, Extend.NAME, Wait.NAME};
 	
 	private String[] commandGroups = {IntakeCube.NAME, OutputSwitch.NAME, OutputScale.NAME};
 	
@@ -125,6 +126,9 @@ public class PreferenceTableLine {
 				break;
 			case ScaleTurn.NAME:
 				command = new ScaleTurn (2, drive);
+				break;
+			case Wait.NAME:
+				command = new Wait (0);
 				break;
 			default:
 				command = null;	
