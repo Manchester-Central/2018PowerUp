@@ -86,76 +86,84 @@ public class Robot extends IterativeRobot {
 	 * Does the lift controls (if auto pickup isn't in progress)
 	 */
 	private void liftControls () {
-		 if (!cm.operator.buttonPressed(Controller.RIGHT_B)) {
 			
-			if (cm.operator.getDPad() != Controller.DPadDirection.NONE) {
-				
-				lift.setToPosition(cm.operator.getDPad());
-				lift.MoveToPosition();
-				
-			} else {
-				
-				lift.setSpeed(cm.operator.getLeftY());
-				
-			}
+		if (cm.operator.getDPad() != Controller.DPadDirection.NONE) {
+			
+			lift.setToPosition(cm.operator.getDPad());
+			lift.MoveToPosition();
+			
+		} else {
+			
+			lift.setSpeed(cm.operator.getLeftY());
 			
 		}
+			
 	}
 	
 	/**
 	 * Does the cube manipulator controls (if auto pickup isn't in progress)
 	 */
 	private void cubeControls () {
-		if (!cm.operator.buttonPressed(Controller.RIGHT_B)) {
-			if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
-				cubeManipulator.extend();
-			} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
-				cubeManipulator.retract();
-			}
+		
+		if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
 			
-			if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
-				cubeManipulator.output();
-			} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
-				cubeManipulator.intake();
-			} else {
-				cubeManipulator.stopSpeed();
-			}
+			cubeManipulator.extend();
+			
+		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
+			
+			cubeManipulator.retract();
+			
 		}
+		
+		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
+			
+			cubeManipulator.output();
+			
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
+			
+			cubeManipulator.intake();
+			
+		} else {
+			
+			cubeManipulator.stopSpeed();
+			
+		}
+		
 	}
 	
 	/**
 	 * intakes and picks up cube if A is pressed
 	 */
 	private void autonomaticCubeIntake () {
-		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+		
 			
-			if (cubeManipulator.cubeIn()) {
-				
-				lift.setToIntakePosition();
-				cubeManipulator.stopSpeed();
-				
-				if (lift.liftIsStopped()) {
-					cubeManipulator.retract();
-				} else {
-					lift.MoveToPosition();
-				}
-				
+		if (cubeManipulator.cubeIn()) {
+			
+			lift.setToIntakePosition();
+			cubeManipulator.stopSpeed();
+			
+			if (lift.liftIsStopped()) {
+				cubeManipulator.retract();
 			} else {
-				
-				lift.setToFloorPosition();
-				
-				if (!cubeManipulator.isExtended()) {
-					cubeManipulator.extend();
-				}
-				
-				if (lift.liftIsStopped()) {
-					cubeManipulator.intake();
-				} else {
-					lift.MoveToPosition();
-				}
+				lift.MoveToPosition();
 			}
 			
+		} else {
+			
+			lift.setToFloorPosition();
+			
+			if (!cubeManipulator.isExtended()) {
+				cubeManipulator.extend();
+			}
+			
+			if (lift.liftIsStopped()) {
+				cubeManipulator.intake();
+			} else {
+				lift.MoveToPosition();
+			}
 		}
+			
+		
 	}
 	
 	/**
@@ -166,12 +174,17 @@ public class Robot extends IterativeRobot {
 
 		driveControls();
 		
-		autonomaticCubeIntake();
+		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			
+			autonomaticCubeIntake();
+			
+		} else {
 		
-		liftControls ();
-		
-		cubeControls ();
-		
+			liftControls ();
+			
+			cubeControls ();
+			
+		}
 	}
 
 	/**

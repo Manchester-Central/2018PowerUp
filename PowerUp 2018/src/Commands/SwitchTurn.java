@@ -6,6 +6,8 @@ import SystemComponents.DriveBase;
 
 public class SwitchTurn extends ChaosCommand {
 
+	// CounterClockwise is positive turn
+	
 	DriveBase drive;
 	public static final String NAME = "SwitchTurn";
 	

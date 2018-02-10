@@ -27,6 +27,7 @@ public class PreferenceTableLine {
 	private ChaosCommand command;
 	private CommandGroup commandGroup;
 	private boolean isParallel;
+	private boolean doesNotHaveArgs;
 	
 	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME 
 			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME, Retract.NAME, Output.NAME,
@@ -82,6 +83,9 @@ public class PreferenceTableLine {
 			}
 		} else {
 			String[] commandArgs = splitLine[1].substring(0, splitLine[1].length() - 1).split("&");
+			if (commandArgs[0].equals("")) {
+				commandArgs = null;
+			}
 			
 			isParallel = splitLine[1].endsWith(",");
 			
@@ -134,7 +138,7 @@ public class PreferenceTableLine {
 	
 	// Returns whether input string matches syntax
 	private boolean match(String check) {
-		return Pattern.matches("[^;]+;[^;]+[,\\.]", check);
+		return Pattern.matches("[^;]+;[^;]*[,\\.]", check);
 	}
 	
 	
