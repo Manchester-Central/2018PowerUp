@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Victor;
 public class LinearLift {
 	
 	private final double FLOOR_POSITION = 0.0;
+	private final double INTAKE_POSITION = 12.0;
 	private final double SWITCH_POSITION = 36.0;
 	private final double SCALE_POSITION = 84.0;
 	private final double CLIMB_POSITION = 80.0;
@@ -34,7 +35,6 @@ public class LinearLift {
 	public LinearLift() {
 		pot = new AnalogPotentiometer (new AnalogInput (PortConstants.CHOAS_POT_PORT), RANGE, OFFSET);
 		lift = new Victor (PortConstants.LINEAR_LIFT);
-		//encoder = new Encoder (PortConstants.LINEAR_LIFT_ENCODER_INPUT, PortConstants.LINEAR_LIFT_ENCODER_OUTPUT);
 		targetPosition = FLOOR_POSITION;
 	}
 	
@@ -67,10 +67,18 @@ public class LinearLift {
 		
 	}
 	
+	public void setToIntakePosition () {
+		targetPosition = INTAKE_POSITION;
+	}
+	
+	public void setToFloorPosition () {
+		targetPosition = FLOOR_POSITION;
+	}
+	
 	public void MoveToPosition () {
 		
 		if (Math.abs(Math.abs(targetPosition) - Math.abs(currentPosition)) >= DEADBAND ) {
-			lift.set(findProportionalSet());
+			lift.set(getProportionalSet());
 		} else {
 			lift.set(0.0);
 		}
@@ -78,7 +86,11 @@ public class LinearLift {
 	}
 	
 	public boolean liftIsStopped () {
-		return lift.get() == 0F && Math.abs(Math.abs(currentPosition) - Math.abs(pot.get())) <= DEADBAND ;
+		return lift.get() == 0F && isAtTargetPosition() ;
+	}
+	
+	public boolean isAtTargetPosition () {
+		return Math.abs(Math.abs(currentPosition) - Math.abs(pot.get())) <= DEADBAND ;
 	}
 	
 	public void setTargetPosition (double target) {
@@ -89,7 +101,7 @@ public class LinearLift {
 		return pot.get();
 	}
 	
-	public double findProportionalSet () {
+	private double getProportionalSet () {
 		
 		double proportionalSet = (targetPosition- currentPosition) / Math.abs(targetPosition);
 		

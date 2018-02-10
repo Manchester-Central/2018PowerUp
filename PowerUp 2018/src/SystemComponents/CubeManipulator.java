@@ -38,6 +38,10 @@ public class CubeManipulator {
 		motor1.set(-SPEED);
 		motor2.set(SPEED);
 	}
+	public void stopSpeed () {
+		motor1.set(0.0);
+		motor2.set(0.0);
+	}
 	
 	public void extend () {
 		pusher1.set(Value.kForward);
@@ -52,6 +56,10 @@ public class CubeManipulator {
 	public boolean cubeIn() {
 		return cubeDetector.get();
 		
+	}
+	
+	public boolean isExtended () {
+		return pusher1.get() == Value.kForward;
 	}
 	
 }

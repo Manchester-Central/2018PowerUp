@@ -1,8 +1,5 @@
 package NewAutoShell;
 
-import java.util.Map;
-
-import SystemComponents.Climber;
 import SystemComponents.CubeManipulator;
 import SystemComponents.DriveBase;
 import SystemComponents.LinearLift;
@@ -15,17 +12,16 @@ public class AutoBuilder {
 	int stage = 1;
 	
 	DriveBase drive;
-//	LinearLift lift;
-//	CubeManipulator cubeManipulator;
-//	Climber climber;
+	LinearLift lift;
+	CubeManipulator cubeManipulator;
 	
-	public AutoBuilder (DriveBase drive /*, LinearLift lift, CubeManipulator cubeManipulator, Climber climber */) {
+	
+	public AutoBuilder (DriveBase drive, LinearLift lift, CubeManipulator cubeManipulator) {
 
 		this.drive = drive;
 		prefs = Preferences.getInstance();
-//		this.lift = lift;
-//		this.cubeManipulator = cubeManipulator;
-//		this.climber = climber;
+		this.lift = lift;
+		this.cubeManipulator = cubeManipulator;
 	}
 	
 	//public String getAutoStageString(int i) {
@@ -44,7 +40,7 @@ public class AutoBuilder {
 		for (String key : prefs.getKeys()) {
 			
 			String input = prefs.getString(key, "");
-			PreferenceTableLine line = new PreferenceTableLine(input, drive /*, lift, cubeManipulator, climber */);
+			PreferenceTableLine line = new PreferenceTableLine(input, drive, lift, cubeManipulator);
 			
 			if (line.hasCommands()) {
 				System.out.println(String.format("Key %s has a bad value: %s", key, input));

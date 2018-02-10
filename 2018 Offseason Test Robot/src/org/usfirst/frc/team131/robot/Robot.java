@@ -1,5 +1,6 @@
 package org.usfirst.frc.team131.robot;
 
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,6 +22,7 @@ public class Robot extends IterativeRobot {
 	ControllerManager cm;
 	Compressor compressor;
 	TestVictors testVictors;
+	AnalogPotentiometer testPot;
 		
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -31,7 +33,7 @@ public class Robot extends IterativeRobot {
 		chooser.addDefault("Default Auto", defaultAuto);
 		chooser.addObject("My Auto", customAuto);
 		SmartDashboard.putData("Auto choices", chooser);
-		
+		testPot = new AnalogPotentiometer (0, 84.0, 0.0);
 		drive = new DriveBase();
 		cm = new ControllerManager();
 		compressor = new Compressor();
@@ -111,6 +113,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void disabledPeriodic() {	
+		
+		System.out.println(testPot.get());
 		
 		//System.out.println("Left Encoder: " + DriveBase.ticksToInches(drive.getLeftTalonEncoderValue())
 		//+ " right Encoder: " + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));

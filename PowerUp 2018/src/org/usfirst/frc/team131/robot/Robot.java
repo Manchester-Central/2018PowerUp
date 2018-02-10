@@ -1,7 +1,7 @@
 /*----------------------------------------------------------------------------*/
-/* Copyright (c) 2017-2018 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
+/* Copyright (c) 2017-2018 CHAOS. All Rights Reserved.                        */
+/* Open Source Software - may be modified and shared by CHAOS. The code   */
+/* must be accompanied by the CHAOS BSD license file in the root directory of */
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
@@ -9,11 +9,12 @@ package org.usfirst.frc.team131.robot;
 
 import Commands.ClearPrefs;
 import NewAutoShell.AutoBuilder;
+import SystemComponents.CubeManipulator;
 import SystemComponents.DriveBase;
+import SystemComponents.LinearLift;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -24,17 +25,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends IterativeRobot {
-	private static final String kDefaultAuto = "Default";
-	private static final String kCustomAuto = "My Auto";
-	private String m_autoSelected;
-	private SendableChooser<String> m_chooser = new SendableChooser<>();
 	
 	AutoBuilder autoBuilder;
-
+	
 	DriveBase drive;
-//	CubeManipulator cubeManipulator;
-//	Climber climber;
-//	LinearLift lift;
+	CubeManipulator cubeManipulator;
+	LinearLift lift;
+	ControllerManager cm;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -44,23 +42,18 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Clear Prefernces: ", new ClearPrefs());
 		SmartDashboard.updateValues();
 		drive = new DriveBase ();
-		}
+		cm = new ControllerManager();
+		lift = new LinearLift();
+		cubeManipulator = new CubeManipulator();
+	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select
-	 * between different autonomous modes using the dashboard. The sendable
-	 * chooser code works with the Java SmartDashboard. If you prefer the
-	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
-	 * getString line to get the auto name from the text box below the Gyro
-	 *
-	 * <p>You can add additional auto modes by adding additional comparisons to
-	 * the switch structure below with additional strings. If using the
-	 * SendableChooser make sure to add them to the chooser code above as well.
+	 * builds auto builder
 	 */
 	@Override
 	public void autonomousInit() {
 		CommandGroup autoSequence = new CommandGroup();
-		autoBuilder = new AutoBuilder (drive /*, lift, cubeManipulator, climber */);
+		autoBuilder = new AutoBuilder (drive, lift, cubeManipulator);
 		autoBuilder.createCommandGroup(autoSequence);
 
 		Scheduler.getInstance().add(autoSequence);
@@ -76,12 +69,108 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
+	 * Does the controls for the drive
+	 */
+	private void driveControls () {
+		
+		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getLeftY());
+		
+		boolean doGearShift = cm.driver.buttonPressed(Controller.LEFT_BUMPER) 
+				|| cm.driver.buttonPressed(Controller.RIGHT_BUMPER);
+		
+		drive.gearShift(doGearShift);
+		
+	}
+	
+	/**
+	 * Does the lift controls (if auto pickup isn't in progress)
+	 */
+	private void liftControls () {
+		 if (!cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			
+			if (cm.operator.getDPad() != Controller.DPadDirection.NONE) {
+				
+				lift.setToPosition(cm.operator.getDPad());
+				lift.MoveToPosition();
+				
+			} else {
+				
+				lift.setSpeed(cm.operator.getLeftY());
+				
+			}
+			
+		}
+	}
+	
+	/**
+	 * Does the cube manipulator controls (if auto pickup isn't in progress)
+	 */
+	private void cubeControls () {
+		if (!cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+				cubeManipulator.extend();
+			} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
+				cubeManipulator.retract();
+			}
+			
+			if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
+				cubeManipulator.output();
+			} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
+				cubeManipulator.intake();
+			} else {
+				cubeManipulator.stopSpeed();
+			}
+		}
+	}
+	
+	/**
+	 * intakes and picks up cube if A is pressed
+	 */
+	private void autonomaticCubeIntake () {
+		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			
+			if (cubeManipulator.cubeIn()) {
+				
+				lift.setToIntakePosition();
+				cubeManipulator.stopSpeed();
+				
+				if (lift.liftIsStopped()) {
+					cubeManipulator.retract();
+				} else {
+					lift.MoveToPosition();
+				}
+				
+			} else {
+				
+				lift.setToFloorPosition();
+				
+				if (!cubeManipulator.isExtended()) {
+					cubeManipulator.extend();
+				}
+				
+				if (lift.liftIsStopped()) {
+					cubeManipulator.intake();
+				} else {
+					lift.MoveToPosition();
+				}
+			}
+			
+		}
+	}
+	
+	/**
 	 * This function is called periodically during operator control.
 	 */
 	@Override
 	public void teleopPeriodic() {
-	
+
+		driveControls();
 		
+		autonomaticCubeIntake();
+		
+		liftControls ();
+		
+		cubeControls ();
 		
 	}
 
@@ -93,11 +182,17 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
+	/**
+	 * take a guess my guy
+	 */
 	@Override
 	public void robotPeriodic() {
 
 	}
 	
+	/**
+	 * Schedule scheduler runs for table commands
+	 */
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
