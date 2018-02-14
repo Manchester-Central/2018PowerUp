@@ -60,8 +60,7 @@ public class Robot extends IterativeRobot {
 		autoSelected = chooser.getSelected();
 		// autoSelected = SmartDashboard.getString("Auto Selector",
 		// defaultAuto);
-		System.out.println("Auto selected: " + autoSelected);
-		drive.setRightTalonToPosition(36);
+		//System.out.println("Auto selected: " + autoSelected);
 	}
 
 	/**
@@ -71,7 +70,9 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		
-		drive.encoderData();
+		//drive.encoderData();
+//		System.out.println("Left Encoder Current: " + drive.getLeftTalonCurrent() + 
+//				"\tRight Encoder Current :" + drive.getRightTalonCurrent());
 	
 		//drive.driveToInches(60);
 		
@@ -114,10 +115,13 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {	
 		
-		System.out.println(testPot.get());
+		//System.out.println(testPot.get());
 		
-		//System.out.println("Left Encoder: " + DriveBase.ticksToInches(drive.getLeftTalonEncoderValue())
-		//+ " right Encoder: " + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
+		System.out.println("Left Encoder: " + DriveBase.ticksToInches(drive.getLeftTalonEncoderValue())
+		+ " right Encoder: " + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
+//		
+		
+		
 		
 		//System.out.print(drive.get);
 	}

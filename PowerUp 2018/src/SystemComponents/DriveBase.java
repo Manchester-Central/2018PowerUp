@@ -67,6 +67,19 @@ public class DriveBase {
 		rightTalonSRX.configPeakCurrentLimit(30, 0);
 		rightTalonSRX.configPeakOutputForward(0.455 , 0);
 		rightTalonSRX.configPeakOutputReverse(-0.455, 0);
+		
+
+		leftTalonSRX.enableCurrentLimit(true);
+		rightTalonSRX.enableCurrentLimit(true);
+		
+		leftTalonSRX.configContinuousCurrentLimit(30, 0);
+		rightTalonSRX.configContinuousCurrentLimit(30, 0);
+		
+		leftTalonSRX.configPeakCurrentDuration(50, 0);
+		rightTalonSRX.configPeakCurrentDuration(50, 0);
+		
+		rightTalonSRX.configClosedloopRamp (1, 0);
+		leftTalonSRX.configClosedloopRamp (1, 0);
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {

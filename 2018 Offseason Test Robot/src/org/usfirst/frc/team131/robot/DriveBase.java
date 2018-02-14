@@ -47,7 +47,24 @@ public class DriveBase {
 		gearShifter = new DoubleSolenoid(PortConstants.GEAR_SHIFTER_A_SLOW, PortConstants.GEAR_SHIFTER_B_SLOW);
 		
 		leftTalonSRX.setInverted(false);
-		rightTalonSRX.setInverted(true); 
+		rightTalonSRX.setInverted(true);
+		
+		leftTalonSRX.enableCurrentLimit(true);
+		rightTalonSRX.enableCurrentLimit(true);
+		
+		leftTalonSRX.configContinuousCurrentLimit(30, 0);
+		rightTalonSRX.configContinuousCurrentLimit(30, 0);
+		
+		leftTalonSRX.configPeakCurrentDuration(50, 0);
+		rightTalonSRX.configPeakCurrentDuration(50, 0);
+
+		rightTalonSRX.configPeakCurrentLimit(30, 0);
+		leftTalonSRX.configPeakCurrentLimit(30, 0);
+		
+		rightTalonSRX.configClosedloopRamp (1, 0);
+		leftTalonSRX.configClosedloopRamp (1, 0);
+		
+		
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -119,27 +136,34 @@ public class DriveBase {
 		
 	}
 	
+	public double getLeftTalonCurrent() {
+		return leftTalonSRX.getOutputCurrent();
+	}
+	
+	public double getRightTalonCurrent() {
+		return rightTalonSRX.getOutputCurrent();
+	}
+	
+	
 	public void setRightTalonToPosition(double target) {
-		
 		leftTalonSRX.setSensorPhase(true);
 		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		leftTalonSRX.configPeakCurrentLimit(30, 0);
 		leftTalonSRX.configPeakOutputForward(0.5 , 0);
-//		leftTalonSRX.config_kF(0, 0.11, 0);
-//		leftTalonSRX.config_kP(0, 0.22, 0);
-//		leftTalonSRX.config_kI(0, 0, 0);
-//		leftTalonSRX.config_kD(0, 0, 0);
+		leftTalonSRX.config_kF(0, 0, 0);
+		leftTalonSRX.config_kP(0, 0.21, 0);
+		leftTalonSRX.config_kI(0, 0.000005, 0);
+		leftTalonSRX.config_kD(0, 70, 0);
 
 		rightTalonSRX.setSensorPhase(true);
 		rightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
-		rightTalonSRX.configPeakCurrentLimit(30, 0);
 		rightTalonSRX.configPeakOutputForward(0.455 , 0);
-//		rightTalonSRX.config_kF(0, 0.11, 0);
-//		rightTalonSRX.config_kP(0, 0.22, 0);
-//		rightTalonSRX.config_kI(0, 0, 0);
-//		rightTalonSRX.config_kD(0, 0, 0);
+		rightTalonSRX.config_kF(0, 0, 0);
+		rightTalonSRX.config_kP(0, 0.21, 0);
+		rightTalonSRX.config_kI(0, 0.000005, 0);
+		rightTalonSRX.config_kD(0, 70, 0);
 		resetEncoders();
 		rightTalonSRX.set(ControlMode.Position, inchesToTicks(target));
+		
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(target));
 		

@@ -30,7 +30,6 @@ public class LinearLift {
 	AnalogPotentiometer pot;
 	
 	double targetPosition;
-	double currentPosition;
 	
 	public LinearLift() {
 		pot = new AnalogPotentiometer (new AnalogInput (PortConstants.CHOAS_POT_PORT), RANGE, OFFSET);
@@ -61,7 +60,7 @@ public class LinearLift {
 			break;
 		case NONE:
 		default:
-			targetPosition = currentPosition;
+			targetPosition = pot.get();
 			break;
 		}
 		
@@ -77,7 +76,7 @@ public class LinearLift {
 	
 	public void MoveToPosition () {
 		
-		if (Math.abs(Math.abs(targetPosition) - Math.abs(currentPosition)) >= DEADBAND ) {
+		if (Math.abs(Math.abs(targetPosition) - Math.abs(pot.get())) >= DEADBAND ) {
 			lift.set(getProportionalSet());
 		} else {
 			lift.set(0.0);
@@ -90,7 +89,7 @@ public class LinearLift {
 	}
 	
 	public boolean isAtTargetPosition () {
-		return Math.abs(Math.abs(currentPosition) - Math.abs(pot.get())) <= DEADBAND ;
+		return Math.abs(Math.abs(targetPosition) - Math.abs(pot.get())) <= DEADBAND ;
 	}
 	
 	public void setTargetPosition (double target) {
@@ -103,7 +102,7 @@ public class LinearLift {
 	
 	private double getProportionalSet () {
 		
-		double proportionalSet = (targetPosition- currentPosition) / Math.abs(targetPosition);
+		double proportionalSet = (targetPosition- pot.get()) / Math.abs(targetPosition);
 		
 		if (proportionalSet > 1.0)
 			proportionalSet = 1.0;
