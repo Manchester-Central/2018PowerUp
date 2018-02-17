@@ -1,5 +1,7 @@
 package SystemComponents;
 
+import java.awt.Color;
+
 import org.usfirst.frc.team131.robot.Controller;
 import org.usfirst.frc.team131.robot.PortConstants;
 
@@ -9,12 +11,12 @@ import edu.wpi.first.wpilibj.Victor;
 
 public class LinearLift {
 	
-	private final double FLOOR_POSITION = 0.0;
-	private final double INTAKE_POSITION = 12.0;
-	private final double SWITCH_POSITION = 36.0;
-	private final double SCALE_POSITION = 84.0;
-	private final double CLIMB_POSITION = 80.0;
-	private final double TOP_POSITION = 100.0;
+	public static final double FLOOR_POSITION = 0.0;
+	public static final double INTAKE_POSITION = 8.0;
+	public static final double SWITCH_POSITION = 36.0;
+	public static final double SCALE_POSITION = 84.0;
+	public static final double CLIMB_POSITION = 80.0;
+	public static final double TOP_POSITION = 100.0;
 	
 	private final double DEADBAND = 1;
 	
@@ -37,13 +39,13 @@ public class LinearLift {
 		targetPosition = FLOOR_POSITION;
 	}
 	
-	public void setSpeed (double speed) {
+	public void setSpeed (final double speed) {
 		
 		lift.set(speed);
 		
 	}
 	
-	public void setToPosition (Controller.DPadDirection direction) {
+	public void setToPosition (final Controller.DPadDirection direction) {
 		
 		switch (direction) {
 		case DOWN:
@@ -109,7 +111,7 @@ public class LinearLift {
 		else if (proportionalSet < -1.0)
 			proportionalSet = -1.0;
 		
-		double signModifier = (proportionalSet / Math.abs(proportionalSet));
+		final double signModifier = (proportionalSet / Math.abs(proportionalSet));
 		proportionalSet = signModifier * SPEED * (1.0 - Math.abs(proportionalSet));
 		
 		return proportionalSet;

@@ -44,7 +44,7 @@ public class Robot extends IterativeRobot {
 		drive = new DriveBase ();
 		cm = new ControllerManager();
 		lift = new LinearLift();
-		cubeManipulator = new CubeManipulator();
+		cubeManipulator = new CubeManipulator(lift);
 	}
 
 	/**
@@ -150,10 +150,13 @@ public class Robot extends IterativeRobot {
 			
 		} else {
 			
-			lift.setToFloorPosition();
-			
-			if (!cubeManipulator.isExtended()) {
+			if (cubeManipulator.isExtended() ) {
+				lift.setToFloorPosition();
+			} else {
 				cubeManipulator.extend();
+				if (!cubeManipulator.isExtended()) {
+					lift.setToIntakePosition();
+				}
 			}
 			
 			if (lift.liftIsStopped()) {

@@ -87,6 +87,8 @@ public class DriveBase {
 		leftTalonSRX.set(leftSpeed);
 		rightTalonSRX.set(rightSpeed);
 		
+		
+		
 		talonSpeedToVictors();
 		
 		
@@ -190,18 +192,17 @@ public class DriveBase {
 		rightTalonTarget = inchesToTicks(right);
 	}
 	
-	private void talonSpeedToVictors( ) {
+	private void talonSpeedToVictors() {
 		double leftTalonSpeed = leftTalonSRX.get();
 		double rightTalonSpeed = rightTalonSRX.get();
 		
 		
-		leftBackVictor.set(leftTalonSpeed);
-		leftMidVictor.set(leftTalonSpeed);
+//		leftBackVictor.set(leftTalonSpeed);
+//		leftMidVictor.set(leftTalonSpeed);
 		leftFrontVictor.set(leftTalonSpeed);
 		
-		
-		rightBackVictor.set(rightTalonSpeed);
-		rightMidVictor.set(rightTalonSpeed);
+//		rightBackVictor.set(rightTalonSpeed);
+//		rightMidVictor.set(rightTalonSpeed);
 		rightFrontVictor.set(rightTalonSpeed);
 	}
 	

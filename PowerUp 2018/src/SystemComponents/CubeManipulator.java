@@ -18,10 +18,13 @@ public class CubeManipulator {
 	DigitalInput cubeDetector;
 	
 	private final double SPEED = 1.0;
+	private LinearLift lift;
 	
-	public CubeManipulator() {
+	public CubeManipulator(LinearLift lift) {
 		motor1 = new Victor(PortConstants.ROLLER_CLAW_LEFT);
 		motor2 = new Victor(PortConstants.ROLLER_CLAW_RIGHT);
+		
+		this.lift = lift;
 	
 		pusher1 = new DoubleSolenoid(PortConstants.CUBE_PUSHER_LEFT_A, PortConstants.CUBE_PUSHER_LEFT_B);
 		pusher2 = new DoubleSolenoid(PortConstants.CUBE_PUSHER_RIGHT_A, PortConstants.CUBE_PUSHER_RIGHT_B);
@@ -44,13 +47,17 @@ public class CubeManipulator {
 	}
 	
 	public void extend () {
-		pusher1.set(Value.kForward);
-		pusher2.set(Value.kForward);
+		if (lift.liftPosition() > lift.INTAKE_POSITION) {
+			pusher1.set(Value.kForward);
+			pusher2.set(Value.kForward);
+		}
 	}
 	
 	public void retract () {
-		pusher1.set(Value.kReverse);
-		pusher2.set(Value.kReverse);
+		if (lift.liftPosition() > lift.INTAKE_POSITION) {
+			pusher1.set(Value.kReverse);
+			pusher2.set(Value.kReverse);
+		}
 	}
 	
 	public boolean cubeIn() {

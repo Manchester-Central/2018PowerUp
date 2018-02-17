@@ -98,7 +98,9 @@ public class Robot extends IterativeRobot {
 	
 		}	
 			
-		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getRightY());
+		drive.setSpeed(cm.driver.getLeftY() * 0.7, cm.driver.getRightY() * 0.7);
+		
+		System.out.println(cm.driver.getRightY());
 		
 		testVictors.setSpeed(cm.operator.getLeftY());
 		
@@ -117,8 +119,8 @@ public class Robot extends IterativeRobot {
 		
 		//System.out.println(testPot.get());
 		
-		System.out.println("Left Encoder: " + DriveBase.ticksToInches(drive.getLeftTalonEncoderValue())
-		+ " right Encoder: " + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
+//		System.out.println("Left Encoder: " + DriveBase.ticksToInches(drive.getLeftTalonEncoderValue())
+//		+ " right Encoder: " + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
 //		
 		
 		
