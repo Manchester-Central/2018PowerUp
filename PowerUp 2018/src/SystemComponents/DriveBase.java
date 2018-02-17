@@ -7,9 +7,8 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.Victor;
 
 public class DriveBase {
 
@@ -158,10 +157,12 @@ public class DriveBase {
 		
 	}
 	
+	/**
+	 * Uses in-build PID controls to drive straight to a target
+	 * @param target = distance to drive
+	 */
 	public void setTalonsToPosition(double target) {
-		
-		
-		
+
 		resetEncoders();
 		rightTalonSRX.set(ControlMode.Position, inchesToTicks(target));
 		
@@ -173,7 +174,10 @@ public class DriveBase {
 		talonSpeedToVictors();
 		
 	}
-	
+	/**
+	 * 
+	 * @param angle - Angle in Degrees to turn. Positive angle = counterclockwise
+	 */
 	public void turnToAngle (double angle) {
 		
 		double inches = (angle / 360) * ROBOT_CIRCUMFERENCE;
@@ -192,6 +196,9 @@ public class DriveBase {
 		rightTalonTarget = inchesToTicks(right);
 	}
 	
+	/**
+	 * Makes the drive Victors follow the speed of the Talons
+	 */
 	private void talonSpeedToVictors() {
 		double leftTalonSpeed = leftTalonSRX.get();
 		double rightTalonSpeed = rightTalonSRX.get();
@@ -217,6 +224,9 @@ public class DriveBase {
 		System.out.println("left velocity: " + getRightEncoderVelocity() + " right velocity: " +getLeftEncoderVelocity());
 	}
 	
+	/**
+	 * Stops the drive and resets the encoders for the next drive command
+	 */
 	public void end () {
 		rightTalonSRX.stopMotor();
 		leftTalonSRX.stopMotor();

@@ -29,7 +29,10 @@ public class AutoBuilder {
 	//}
 	
 	
-	// Takes the commands from the Preference Table Line and creates a command group to be run
+	/**
+	 * Takes the commands from the Preference Table Line and creates a command group to be run
+	 * @param commandGroup
+	 */
 	public void createCommandGroup (CommandGroup commandGroup) {
 		
 		if (prefs.getKeys() == null || prefs.getKeys().isEmpty()) {

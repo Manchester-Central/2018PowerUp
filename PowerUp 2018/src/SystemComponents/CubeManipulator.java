@@ -17,7 +17,7 @@ public class CubeManipulator {
 	
 	DigitalInput cubeDetector;
 	
-	private final double SPEED = 1.0;
+	private static final double SPEED = 1.0;
 	private LinearLift lift;
 	
 	public CubeManipulator(LinearLift lift) {
@@ -47,14 +47,14 @@ public class CubeManipulator {
 	}
 	
 	public void extend () {
-		if (lift.liftPosition() > lift.INTAKE_POSITION) {
+		if (lift.liftPosition() > LinearLift.INTAKE_POSITION) {
 			pusher1.set(Value.kForward);
 			pusher2.set(Value.kForward);
 		}
 	}
 	
 	public void retract () {
-		if (lift.liftPosition() > lift.INTAKE_POSITION) {
+		if (lift.liftPosition() > LinearLift.INTAKE_POSITION) {
 			pusher1.set(Value.kReverse);
 			pusher2.set(Value.kReverse);
 		}

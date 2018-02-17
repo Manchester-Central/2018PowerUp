@@ -15,12 +15,15 @@ public interface PortConstants {
 	public static final int RIGHT_MID_TALON = 	4;
 	public static final int RIGHT_FRONT_TALON = 5;
 	
-	public static final int LINEAR_LIFT =	 	0;
+	public static final int LINEAR_LIFT_1 =	 	0;
+	public static final int LINEAR_LIFT_2 =	 	1;
+	public static final int LINEAR_LIFT_3 =	 	2;
+	public static final int LINEAR_LIFT_4 =	 	3;
 	
 	public static final int CLIMBER = 			0;
 	
-	public static final int ROLLER_CLAW_LEFT =	0;
-	public static final int ROLLER_CLAW_RIGHT =	0;
+	public static final int ROLLER_CLAW_LEFT =	4;
+	public static final int ROLLER_CLAW_RIGHT =	5;
 	
 	//Solenoids
 	public static final int GEAR_SHIFTER_A_SLOW = 5;

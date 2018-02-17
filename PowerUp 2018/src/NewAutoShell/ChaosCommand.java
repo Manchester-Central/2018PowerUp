@@ -24,7 +24,11 @@ public abstract class ChaosCommand extends Command {
 	public ChaosCommand(int argsLength) {
         this.argsLength = argsLength;
     }
-	
+	/**
+	 * 
+	 * @param driveBase drive
+	 * @return - returns whether both talons have stopped and are within the target
+	 */
 	protected boolean doneDriving (DriveBase drive) {
 		boolean shouldFinish = Math.abs(drive.getRightEncoderVelocity()) <= 0.1 
 				&& Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
@@ -34,7 +38,10 @@ public abstract class ChaosCommand extends Command {
 		return shouldFinish;
 	}
 
-    // Called just before this Command runs the first time
+    /**
+     *  Called just before this Command runs the first time
+     */
+	@Override
     protected void initialize() {
     	
     }

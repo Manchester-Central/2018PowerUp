@@ -1,6 +1,5 @@
 package Commands;
 
-import org.usfirst.frc.team131.robot.Controller;
 
 import NewAutoShell.ChaosCommand;
 import SystemComponents.LinearLift;

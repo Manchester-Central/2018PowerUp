@@ -6,6 +6,9 @@ import SystemComponents.CubeManipulator;
 public class Intake extends ChaosCommand {
 	
 	public static final String NAME = "Intake";
+	final long maxTime = 5000;
+	long startTime;
+	
 
 	CubeManipulator cubeManipulator;
 	
@@ -17,13 +20,20 @@ public class Intake extends ChaosCommand {
 
 	@Override
 	protected boolean isFinished() {
-		return cubeManipulator.cubeIn();
+		return cubeManipulator.cubeIn() || startTime + maxTime < System.currentTimeMillis();
 	}
 	
 	@Override
 	protected void execute () {
 		
 		cubeManipulator.intake();
+		
+	}
+	
+	@Override
+	protected void initialize () {
+		
+		startTime = System.currentTimeMillis();
 		
 	}
 

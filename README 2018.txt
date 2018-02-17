@@ -17,8 +17,8 @@ Syntax (In Dashboard):
 			
 Commands:
 	Simple Commands 
-		"Drive"		= Drive Straight (Positive Values drive forward)
-		"Turn" 		= Turn (Positive Values turn counterclockwise)
+		"Drive"		= Drive Straight Inches (Positive Values drive forward)
+		"Turn" 		= Turn Degrees(Positive Values turn counterclockwise)
 		"Wait" 		= Wait
 		"Lift" 		= Lift
 		"Intake"	= Intake 		

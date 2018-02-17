@@ -3,7 +3,6 @@ package Commands;
 import NewAutoShell.ChaosCommand;
 import NewAutoShell.GameData;
 import SystemComponents.DriveBase;
-import edu.wpi.first.wpilibj.DriverStation;
 
 public class ScaleDrive extends ChaosCommand {
 

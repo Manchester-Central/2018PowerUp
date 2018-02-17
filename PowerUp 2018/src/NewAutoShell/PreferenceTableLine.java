@@ -28,7 +28,6 @@ public class PreferenceTableLine {
 	private ChaosCommand command;
 	private CommandGroup commandGroup;
 	private boolean isParallel;
-	private boolean doesNotHaveArgs;
 	
 	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME 
 			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME, Retract.NAME, Output.NAME,
@@ -36,7 +35,13 @@ public class PreferenceTableLine {
 	
 	private String[] commandGroups = {IntakeCube.NAME, OutputSwitch.NAME, OutputScale.NAME};
 	
-	// Reads each input line and builds the command for each
+	/**
+	 * 
+	 * @param input 
+	 * @param drive 
+	 * @param lift 
+	 * @param cubeManipulator 
+	 */
 	public PreferenceTableLine (String input, DriveBase drive, LinearLift lift, CubeManipulator cubeManipulator) {
 		
 		// Ignores lines with bad syntax
@@ -140,7 +145,11 @@ public class PreferenceTableLine {
 	}
 	
 	
-	// Returns whether input string matches syntax
+	/**
+	 * Syntax: command;value(s)(, or .)
+	 * @param check - the line to check
+	 * @return - whether the line matches the syntax
+	 */
 	private boolean match(String check) {
 		return Pattern.matches("[^;]+;[^;]*[,\\.]", check);
 	}
