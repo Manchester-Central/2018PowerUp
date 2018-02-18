@@ -1,16 +1,16 @@
-Test: 		Test value, doesn't do anything.
-Drive:  	Drives in inches, negative goes backwards.
-Turn:		Turns in degrees, positive values to turn counterclockwise
-Wait:		Pauses for a time in milleseconds
-Lift:		Raises/lowers linear lift to position in inches
-Extend: 	Extends arm, takes no arguments.
-Intake: 	Runs intake wheels until cube is in. Stops after 5 secs if no cube. No args
-Output:		Outputs until cube is out of Robot. If no cube, does nothing. No args
-Retract:	Retracts arm, no args
-IntakeCube:	Lowers lift to floor, intakes cube, lifts the cube up and into the robot. No args
-OutputScale:	Lifts arm to switch height and outputs the cube. No args
-OutputSwitch:	Lifts arm to switch height and outputs the cube. No args
-ScaleDrive:	Drive based on Scale owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side
-ScaleTurn:	Turns based on Scale owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side
-SwitchTurn:	Turns based on Switch owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side
-SwitchDrive:	Drive based on Switch owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side
+Test: 		Test value, doesn't do anything. | void
+Drive:  	Drives in inches, negative goes backwards. | inches
+Turn:		Turns in degrees, positive values to turn counterclockwise | degrees
+Wait:		Pauses for a time in milleseconds | milleseconds
+Lift:		Raises/lowers linear lift to position in inches | inches
+Extend: 	Extends arm, takes no arguments. | void
+Intake: 	Runs intake wheels until cube is in. Stops after 5 secs if no cube. No args | void
+Output:		Outputs until cube is out of Robot. If no cube, does nothing. No args | void
+Retract:	Retracts arm, no args | void
+IntakeCube:	Lowers lift to floor, intakes cube, lifts the cube up and into the robot. No args | void
+OutputScale:	Lifts arm to switch height and outputs the cube. No args | void
+OutputSwitch:	Lifts arm to switch height and outputs the cube. No args | void
+ScaleDrive:	Drive based on Scale owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side | in "L&R"
+ScaleTurn:	Turns based on Scale owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side | deg "L&R"
+SwitchTurn:	Turns based on Switch owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side | deg "L&R"
+SwitchDrive:	Drive based on Switch owned. 1st/Left arg = you own left side, 2nd/Right arg = you own right side | in "L&R"

@@ -17,13 +17,13 @@ public class AutoInfo {
 	
 	private HashMap <String, String> configMap;
 	
+	private HashMap <String, String> commandPlaceholders;
+	
 	public AutoInfo() {
 		commandList = FXCollections.observableArrayList();
 		files = new ArrayList <String>();
 		configMap = new HashMap <String, String> ();
-		
-//		File directory = new File ("C:\\Program Files\\AutoFolder");
-//		if (directory.exists())
+		commandPlaceholders = new HashMap <String, String> ();
 		
 		try {
 			File file = new File("C:\\Program Files\\AutoFolder\\Command_Config.txt");
@@ -35,7 +35,17 @@ public class AutoInfo {
 			
 			while ((line = reader.readLine()) != null) {
 				
-				commandList.add(line.split(":")[0]);
+				String command = line.split(":")[0];
+				
+				commandList.add(command);
+				
+				if (line.split("\\|").length > 1) {
+					commandPlaceholders.put(command, line.split("\\|")[1].trim());
+					System.out.println(command);
+					System.out.println(line.split("\\|")[1].trim());
+				}
+				
+				
 			}
 			
 			
@@ -131,6 +141,10 @@ public class AutoInfo {
 		
 		return FXCollections.observableArrayList(files);
 		
+	}
+	
+	public HashMap <String, String> getCommandPlaceholders () {
+		return commandPlaceholders;
 	}
 	
 

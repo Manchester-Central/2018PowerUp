@@ -2,6 +2,7 @@ package application;
 
 import java.util.List;
 
+import Events.CommandBoxChangeEvent;
 import Events.DeleteEvent;
 import Events.ParallelClickedEvent;
 import javafx.collections.FXCollections;
@@ -48,6 +49,7 @@ public class PreferenceLine {
 		
 
 		isParallel.setOnMouseReleased(new ParallelClickedEvent (stages, layout));
+		commands.valueProperty().addListener(new CommandBoxChangeEvent(input, info));
 	}
 	
 	private void setPositions () {

@@ -42,7 +42,7 @@ public interface PortConstants {
 	public static final int CUBE_DETECTOR_SENSOR = 0;
 	
 	//Analog
-	public static final int CHOAS_POT_PORT = 0;
+	public static final int CHOAS_POT_PORT = 3;
 	
 	
 	
