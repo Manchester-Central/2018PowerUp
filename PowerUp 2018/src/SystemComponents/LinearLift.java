@@ -20,7 +20,11 @@ public class LinearLift {
 	
 	private final double DEADBAND = 1;
 	
-	private final double SPEED = 0.3;
+	private static final double MAX_SPEED = 0.5;
+	private static final double MIN_SPEED = 0.2;
+	
+	// denominator of the proportional set
+	private static final double PROPORTIONAL_DISTANCE = 12;
 	
 	private final double OFFSET = 0;
 	private final double RANGE = 84.0;
@@ -137,7 +141,16 @@ public class LinearLift {
 	 */
 	private double getProportionalSet () {
 		
-		double proportionalSet = (targetPosition- pot.get()) / Math.abs(targetPosition);
+		return getProportionalSet(targetPosition, pot.get());
+		
+	}
+	
+	public static double getProportionalSet (double targetPosition, double currentPosition) {
+		
+		if (targetPosition == currentPosition)
+			return 0;
+		
+		double proportionalSet = (targetPosition- currentPosition) / PROPORTIONAL_DISTANCE;
 		
 		if (proportionalSet > 1.0)
 			proportionalSet = 1.0;
@@ -145,7 +158,10 @@ public class LinearLift {
 			proportionalSet = -1.0;
 		
 		final double signModifier = (proportionalSet / Math.abs(proportionalSet));
-		proportionalSet = signModifier * SPEED * (1.0 - Math.abs(proportionalSet));
+		proportionalSet = signModifier * MAX_SPEED * (Math.abs(proportionalSet));
+		
+		if (Math.abs(proportionalSet) < MIN_SPEED) 
+			proportionalSet = signModifier * MIN_SPEED;
 		
 		return proportionalSet;
 		
