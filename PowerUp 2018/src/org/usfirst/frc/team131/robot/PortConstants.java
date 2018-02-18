@@ -20,8 +20,6 @@ public interface PortConstants {
 	public static final int LINEAR_LIFT_3 =	 	2;
 	public static final int LINEAR_LIFT_4 =	 	3;
 	
-	public static final int CLIMBER = 			0;
-	
 	public static final int ROLLER_CLAW_LEFT =	4;
 	public static final int ROLLER_CLAW_RIGHT =	5;
 	
@@ -37,7 +35,7 @@ public interface PortConstants {
 	
 	//DIO
 	public static final int LINEAR_LIFT_ENCODER_INPUT = 0;
-	public static final int LINEAR_LIFT_ENCODER_OUTPUT = 0;
+	public static final int LINEAR_LIFT_ENCODER_OUTPUT = 1;
 	
 	public static final int CUBE_DETECTOR_SENSOR = 0;
 	

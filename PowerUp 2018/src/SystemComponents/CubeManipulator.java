@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CubeManipulator {
 	
@@ -15,6 +16,7 @@ public class CubeManipulator {
 	Victor motor1;
 	Victor motor2;
 	
+	// broken beam sensor
 	DigitalInput cubeDetector;
 	
 	private static final double SPEED = 1.0;
@@ -46,6 +48,9 @@ public class CubeManipulator {
 		motor2.set(0.0);
 	}
 	
+	/**
+	 * extends claw only if it is above the intake position
+	 */
 	public void extend () {
 		if (lift.liftPosition() > LinearLift.INTAKE_POSITION) {
 			pusher1.set(Value.kForward);
@@ -53,6 +58,9 @@ public class CubeManipulator {
 		}
 	}
 	
+	/**
+	 * retracts claw only if it is above the intake position
+	 */
 	public void retract () {
 		if (lift.liftPosition() > LinearLift.INTAKE_POSITION) {
 			pusher1.set(Value.kReverse);
@@ -67,6 +75,14 @@ public class CubeManipulator {
 	
 	public boolean isExtended () {
 		return pusher1.get() == Value.kForward;
+	}
+	
+	public void putInfo () {
+		
+		SmartDashboard.putBoolean("Claw is extended: ", isExtended());
+		SmartDashboard.putBoolean("Intake is running: ", motor1.get() == SPEED);
+		SmartDashboard.putBoolean("Output is running: ", motor1.get() == -SPEED);
+		
 	}
 	
 }

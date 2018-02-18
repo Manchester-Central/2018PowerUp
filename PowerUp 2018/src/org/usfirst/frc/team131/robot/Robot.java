@@ -9,8 +9,11 @@ package org.usfirst.frc.team131.robot;
 
 import Commands.ClearPrefs;
 import NewAutoShell.AutoBuilder;
+import SystemComponents.CubeManipulator;
+import SystemComponents.DriveBase;
 import SystemComponents.LinearLift;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,8 +28,8 @@ public class Robot extends IterativeRobot {
 	
 	AutoBuilder autoBuilder;
 	
-	//DriveBase drive;
-	//CubeManipulator cubeManipulator;
+	DriveBase drive;
+	CubeManipulator cubeManipulator;
 	LinearLift lift;
 	ControllerManager cm;
 	
@@ -38,10 +41,10 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		SmartDashboard.putData("Clear Prefernces: ", new ClearPrefs());
 		SmartDashboard.updateValues();
-		//drive = new DriveBase ();
+		drive = new DriveBase ();
 		cm = new ControllerManager();
 		lift = new LinearLift();
-		//cubeManipulator = new CubeManipulator(lift);
+		cubeManipulator = new CubeManipulator(lift);
 	}
 
 	/**
@@ -49,11 +52,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//CommandGroup autoSequence = new CommandGroup();
-		//autoBuilder = new AutoBuilder (drive, lift, cubeManipulator);
-		//autoBuilder.createCommandGroup(autoSequence);
+		CommandGroup autoSequence = new CommandGroup();
+		autoBuilder = new AutoBuilder (drive, lift, cubeManipulator);
+		autoBuilder.createCommandGroup(autoSequence);
 
-		//Scheduler.getInstance().add(autoSequence);
+		Scheduler.getInstance().add(autoSequence);
 
 	}
 
@@ -70,12 +73,12 @@ public class Robot extends IterativeRobot {
 	 */
 	private void driveControls () {
 		
-		//drive.setSpeed(cm.driver.getLeftY(), cm.driver.getLeftY());
+		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getLeftY());
 		
-		//boolean doGearShift = cm.driver.buttonPressed(Controller.LEFT_BUMPER) 
-		//		|| cm.driver.buttonPressed(Controller.RIGHT_BUMPER);
+		boolean doGearShift = cm.driver.buttonPressed(Controller.LEFT_BUMPER) 
+				|| cm.driver.buttonPressed(Controller.RIGHT_BUMPER);
 		
-		//drive.gearShift(doGearShift);
+		drive.gearShift(doGearShift);
 		
 	}
 	
@@ -84,16 +87,16 @@ public class Robot extends IterativeRobot {
 	 */
 	private void liftControls () {
 			
-//		if (cm.operator.getDPad() != Controller.DPadDirection.NONE) {
-//			
-//			lift.setToPosition(cm.operator.getDPad());
-//			lift.MoveToPosition();
-//			
-//		} else {
+		if (cm.operator.getDPad() != Controller.DPadDirection.NONE) {
+			
+			lift.setToPosition(cm.operator.getDPad());
+			lift.MoveToPosition();
+			
+		} else {
 			
 			lift.setSpeed(cm.operator.getLeftY());
 			
-//		}
+		}
 			
 	}
 	
@@ -102,29 +105,29 @@ public class Robot extends IterativeRobot {
 	 */
 	private void cubeControls () {
 		
-//		if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
-//			
-//			cubeManipulator.extend();
-//			
-//		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
-//			
-//			cubeManipulator.retract();
-//			
-//		}
-//		
-//		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
-//			
-//			cubeManipulator.output();
-//			
-//		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
-//			
-//			cubeManipulator.intake();
-//			
-//		} else {
-//			
-//			cubeManipulator.stopSpeed();
-//			
-//		}
+		if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+			
+			cubeManipulator.extend();
+			
+		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
+			
+			cubeManipulator.retract();
+			
+		}
+		
+		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
+			
+			cubeManipulator.output();
+			
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
+			
+			cubeManipulator.intake();
+			
+		} else {
+			
+			cubeManipulator.stopSpeed();
+			
+		}
 		
 	}
 	
@@ -134,35 +137,43 @@ public class Robot extends IterativeRobot {
 	private void autonomaticCubeIntake () {
 		
 			
-//		if (cubeManipulator.cubeIn()) {
-//			
-//			lift.setToIntakePosition();
-//			cubeManipulator.stopSpeed();
-//			
-//			if (lift.liftIsStopped()) {
-//				cubeManipulator.retract();
-//			} else {
-//				lift.MoveToPosition();
-//			}
-//			
-//		} else {
-//			
-//			if (cubeManipulator.isExtended() ) {
-//				lift.setToFloorPosition();
-//			} else {
-//				cubeManipulator.extend();
-//				if (!cubeManipulator.isExtended()) {
-//					lift.setToIntakePosition();
-//				}
-//			}
-//			
-//			if (lift.liftIsStopped()) {
-//				cubeManipulator.intake();
-//			} else {
-//				lift.MoveToPosition();
-//			}
-//		}
+		if (cubeManipulator.cubeIn()) {
 			
+			lift.setToIntakePosition();
+			cubeManipulator.stopSpeed();
+			
+			if (lift.liftIsStopped()) {
+				cubeManipulator.retract();
+			} else {
+				lift.MoveToPosition();
+			}
+			
+		} else {
+			
+			if (cubeManipulator.isExtended() ) {
+				lift.setToFloorPosition();
+			} else {
+				cubeManipulator.extend();
+				if (!cubeManipulator.isExtended()) {
+					lift.setToIntakePosition();
+				}
+			}
+			
+			if (lift.liftIsStopped()) {
+				cubeManipulator.intake();
+			} else {
+				lift.MoveToPosition();
+			}
+		}
+			
+		
+	}
+	
+	private void dashboardInfo () {
+		
+		drive.putInfo();
+		lift.putInfo();
+		cubeManipulator.putInfo();
 		
 	}
 	
@@ -173,18 +184,18 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 
 		driveControls();
-//		
-//		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
-//			
+		
+		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			
 			autonomaticCubeIntake();
-//			
-//		} else {
+			
+		} else {
 		
 			liftControls ();
 			
 			cubeControls ();
 			
-		//}
+		}
 	}
 
 	/**
@@ -200,7 +211,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void robotPeriodic() {
-
+		dashboardInfo();
 	} 
 	
 	/**

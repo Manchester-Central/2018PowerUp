@@ -1,15 +1,5 @@
 package NewAutoShell;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import org.junit.jupiter.api.Test;
-
-import Commands.TestChaosCommand;
-import edu.wpi.first.wpilibj.command.CommandGroup;
-
 class PreferenceTableLineTest {
 
 

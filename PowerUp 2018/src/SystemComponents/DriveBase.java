@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Victor;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase {
 
@@ -197,19 +198,19 @@ public class DriveBase {
 	}
 	
 	/**
-	 * Makes the drive Victors follow the speed of the Talons
+	 * Makes the drive Victors follow the speed of the Talons++
 	 */
 	private void talonSpeedToVictors() {
 		double leftTalonSpeed = leftTalonSRX.get();
 		double rightTalonSpeed = rightTalonSRX.get();
 		
 		
-//		leftBackVictor.set(leftTalonSpeed);
-//		leftMidVictor.set(leftTalonSpeed);
+		leftBackVictor.set(leftTalonSpeed);
+		leftMidVictor.set(leftTalonSpeed);
 		leftFrontVictor.set(leftTalonSpeed);
 		
-//		rightBackVictor.set(rightTalonSpeed);
-//		rightMidVictor.set(rightTalonSpeed);
+		rightBackVictor.set(rightTalonSpeed);
+		rightMidVictor.set(rightTalonSpeed);
 		rightFrontVictor.set(rightTalonSpeed);
 	}
 	
@@ -239,6 +240,17 @@ public class DriveBase {
 	
 	public double getLeftTarget () {
 		return leftTalonTarget;
+	}
+	
+	public void putInfo () {
+		
+		SmartDashboard.putNumber("Right Talon Speed: ", getRightEncoderVelocity());
+		SmartDashboard.putNumber("Left Talon Speed: ", getLeftEncoderVelocity());
+		
+		boolean inLowShift = gearShifter.get().equals(Value.kForward);
+		
+		SmartDashboard.putBoolean("Gear is shifted: ", inLowShift);
+		
 	}
 	
 }
