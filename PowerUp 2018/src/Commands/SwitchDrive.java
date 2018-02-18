@@ -42,6 +42,7 @@ public class SwitchDrive extends ChaosCommand {
 	
 	@Override
 	protected void end () {
+		drive.resetEncoders();
 		drive.end();
 	}
 

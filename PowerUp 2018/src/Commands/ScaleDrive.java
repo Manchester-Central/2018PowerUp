@@ -41,6 +41,7 @@ public class ScaleDrive extends ChaosCommand {
 	
 	@Override
 	protected void end () {
+		drive.resetEncoders();
 		drive.end();
 	}
 

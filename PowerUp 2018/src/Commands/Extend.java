@@ -1,9 +1,8 @@
 package Commands;
 
-import NewAutoShell.ChaosCommand;
 import SystemComponents.CubeManipulator;
 
-public class Extend extends ChaosCommand {
+public class Extend extends TimeRestrictedCommand {
 	
 	public static final String NAME = "Extend";
 
@@ -16,13 +15,12 @@ public class Extend extends ChaosCommand {
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return true;
+		return cubeManipulator.isExtended() || super.isFinished();
 	}
 	
 	@Override
 	protected void initialize () {
-		
+		super.initialize();
 		cubeManipulator.extend();
 		
 	}

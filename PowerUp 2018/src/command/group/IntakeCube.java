@@ -12,22 +12,25 @@ public class IntakeCube extends CommandGroup {
 	
 	public static final String NAME = "IntakeCube";
 	
-	private final double FLOOR_POSITION = 0;
-	private final double INTAKE_POSITION = 300;
-	
 	public IntakeCube(CubeManipulator cubeManipulator, LinearLift lift) {
 		
 		Lift liftCommand = new Lift (1, lift);
-		String[] args = { String.valueOf(FLOOR_POSITION) };
+		String[] args = { String.valueOf(LinearLift.INTAKE_POSITION) };
 		liftCommand.setArgs(args);
 		addSequential (liftCommand);
 		
 		addSequential (new Extend (0, cubeManipulator));
+		
+		liftCommand = new Lift (1, lift);
+		String[] args2 = { String.valueOf(LinearLift.FLOOR_POSITION) };
+		liftCommand.setArgs(args2);
+		addSequential (liftCommand);
+		
 		addSequential (new Intake (0, cubeManipulator));
 		
 		liftCommand = new Lift (1, lift);
-		String[] args2 = { String.valueOf(INTAKE_POSITION) };
-		liftCommand.setArgs(args2);
+		String[] args3 = { String.valueOf(LinearLift.INTAKE_POSITION) };
+		liftCommand.setArgs(args3);
 		addSequential (liftCommand);
 		
 		addSequential (new Retract (0, cubeManipulator));

@@ -7,6 +7,10 @@ public abstract class ChaosCommand extends Command {
 	
 	protected String[] args;
 	private final int argsLength;
+
+	public ChaosCommand(int argsLength) {
+        this.argsLength = argsLength;
+    }
 	
 	public void setArgs (String[] args) {
 		this.args = args;
@@ -21,9 +25,6 @@ public abstract class ChaosCommand extends Command {
 		return args.length;
 	}
 	
-	public ChaosCommand(int argsLength) {
-        this.argsLength = argsLength;
-    }
 	/**
 	 * 
 	 * @param driveBase drive

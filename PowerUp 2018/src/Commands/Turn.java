@@ -13,7 +13,6 @@ public class Turn extends ChaosCommand {
 	public Turn(int argsLength, DriveBase drive) {
 		super(argsLength);
 		this.drive = drive;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

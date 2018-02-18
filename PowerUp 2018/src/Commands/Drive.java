@@ -8,7 +8,7 @@ public class Drive extends ChaosCommand {
 	DriveBase driveBase;
 	public static final String NAME = "Drive";
 	
-	public Drive (DriveBase driveBase, int argsLength) {
+	public Drive (int argsLength, DriveBase driveBase) {
 		super (argsLength);
 		this.driveBase = driveBase;
 	}
@@ -34,6 +34,7 @@ public class Drive extends ChaosCommand {
 	
 	@Override
 	protected void end () {
+		driveBase.resetEncoders();
 		driveBase.end();
 	}
 

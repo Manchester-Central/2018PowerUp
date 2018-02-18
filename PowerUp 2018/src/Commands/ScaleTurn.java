@@ -14,7 +14,6 @@ public class ScaleTurn extends ChaosCommand {
 	public ScaleTurn(int argsLength, DriveBase drive) {
 		super(argsLength);
 		this.drive = drive;
-		// TODO Auto-generated constructor stub
 	}
 	
 	@Override

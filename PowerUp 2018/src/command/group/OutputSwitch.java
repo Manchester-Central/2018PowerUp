@@ -12,12 +12,10 @@ public class OutputSwitch extends CommandGroup {
 	
 	public static final String NAME = "OutputSwitch";
 	
-	private final double SWITCH_POSITION = 1000;
-	
 	public OutputSwitch(LinearLift lift, CubeManipulator roller) {
 		
 		Lift liftCommand = new Lift (1, lift);
-		String[] args = { String.valueOf(SWITCH_POSITION) };
+		String[] args = { String.valueOf(LinearLift.SWITCH_POSITION) };
 		liftCommand.setArgs(args);
 		addSequential (liftCommand);
 		

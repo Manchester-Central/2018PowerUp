@@ -8,13 +8,12 @@ public class GameData {
 	boolean scaleIsLeft;
 	boolean farIsLeft;
 	
-	@SuppressWarnings("null")
 	public GameData () {
 		
 		String message;
 		
 		while ((message = DriverStation.getInstance().getGameSpecificMessage()) == null 
-				&& message.length() != 3) {
+				|| message.length() != 3) {
 			try {
 				Thread.sleep(50);
 			} catch (InterruptedException e) {

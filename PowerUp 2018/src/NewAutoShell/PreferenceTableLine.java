@@ -100,7 +100,7 @@ public class PreferenceTableLine {
 				command = new TestChaosCommand (1);
 				break;
 			case Drive.NAME:
-				command = new Drive (drive, 1);
+				command = new Drive (1, drive);
 				break;
 			case SwitchDrive.NAME:
 				command = new SwitchDrive (2, drive);
