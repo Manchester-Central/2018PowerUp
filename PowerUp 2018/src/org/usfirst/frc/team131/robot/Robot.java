@@ -137,11 +137,13 @@ public class Robot extends IterativeRobot {
 	private void autonomaticCubeIntake () {
 		
 			
+		// if cube is in, move to retract position
 		if (cubeManipulator.cubeIn()) {
 			
 			lift.setToIntakePosition();
 			cubeManipulator.stopSpeed();
 			
+			// only retracts when lift is in position
 			if (lift.liftIsStopped()) {
 				cubeManipulator.retract();
 			} else {
@@ -150,14 +152,19 @@ public class Robot extends IterativeRobot {
 			
 		} else {
 			
+			// if the roller claw has succesfully extended, set to floor
 			if (cubeManipulator.isExtended() ) {
 				lift.setToFloorPosition();
 			} else {
+				// else, extend
 				cubeManipulator.extend();
+				
+				// if it didn't extend, go to intake to extend
 				if (!cubeManipulator.isExtended()) {
 					lift.setToIntakePosition();
 				}
 			}
+			
 			
 			if (lift.liftIsStopped()) {
 				cubeManipulator.intake();
@@ -174,6 +181,7 @@ public class Robot extends IterativeRobot {
 		drive.putInfo();
 		lift.putInfo();
 		cubeManipulator.putInfo();
+		SmartDashboard.updateValues();
 		
 	}
 	

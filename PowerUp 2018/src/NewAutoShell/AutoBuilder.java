@@ -24,11 +24,6 @@ public class AutoBuilder {
 		this.cubeManipulator = cubeManipulator;
 	}
 	
-	//public String getAutoStageString(int i) {
-	//	return prefs.getString("Auto Stage " + i, "none");
-	//}
-	
-	
 	/**
 	 * Takes the commands from the Preference Table Line and creates a command group to be run
 	 * @param commandGroup

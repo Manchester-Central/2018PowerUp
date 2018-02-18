@@ -18,7 +18,7 @@ public class LinearLift {
 	public static final double CLIMB_POSITION = 80.0;
 	public static final double TOP_POSITION = 100.0;
 	
-	private final double DEADBAND = 1;
+	public static final double DEADBAND = 1;
 	
 	private static final double MAX_SPEED = 0.5;
 	private static final double MIN_SPEED = 0.2;
@@ -111,7 +111,7 @@ public class LinearLift {
 	
 	
 	public boolean liftIsStopped () {
-		return lifts.get() == 0F && isAtTargetPosition() ;
+		return lifts.get() == 0F && isAtTargetPosition();
 	}
 	
 	public boolean isAtTargetPosition () {
@@ -128,10 +128,10 @@ public class LinearLift {
 	
 	public void MoveToPosition () {
 		
-		if (Math.abs(Math.abs(targetPosition) - Math.abs(pot.get())) >= DEADBAND ) {
-			setSpeed(getProportionalSet());
-		} else {
+		if (isAtTargetPosition ()) {
 			setSpeed(0.0);
+		} else {
+			setSpeed(getProportionalSet());
 		}
 		
 	}
@@ -147,19 +147,26 @@ public class LinearLift {
 	
 	public static double getProportionalSet (double targetPosition, double currentPosition) {
 		
+		// if at the correct position, return 0 to void NaN errors
 		if (targetPosition == currentPosition)
 			return 0;
 		
+		// the slope of x value distance awway from target distance
 		double proportionalSet = (targetPosition- currentPosition) / PROPORTIONAL_DISTANCE;
 		
+		// keeps proportions within 1 and -1
 		if (proportionalSet > 1.0)
 			proportionalSet = 1.0;
 		else if (proportionalSet < -1.0)
 			proportionalSet = -1.0;
 		
+		// gets whether proportional set is negative or positive
 		final double signModifier = (proportionalSet / Math.abs(proportionalSet));
+		
+		// sets the value of proportional set
 		proportionalSet = signModifier * MAX_SPEED * (Math.abs(proportionalSet));
 		
+		//makes sure value is within min speed
 		if (Math.abs(proportionalSet) < MIN_SPEED) 
 			proportionalSet = signModifier * MIN_SPEED;
 		
@@ -170,7 +177,7 @@ public class LinearLift {
 	public void putInfo () {
 		
 		SmartDashboard.putNumber("Lift position (in inches): ", lifts.get());
-		SmartDashboard.putString("Set Position", setPosition);
+		SmartDashboard.putString("Set Position: ", setPosition);
 		
 		
 	}

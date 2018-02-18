@@ -4,7 +4,9 @@ import org.usfirst.frc.team131.robot.PortConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -13,12 +15,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase {
 
-	Victor leftBackVictor;
-	Victor leftMidVictor;
-	Victor leftFrontVictor;
-	Victor rightBackVictor;
-	Victor rightMidVictor;
-	Victor rightFrontVictor;
+	WPI_VictorSPX leftBackVictor;
+	WPI_VictorSPX leftMidVictor;
+	WPI_VictorSPX leftFrontVictor;
+	WPI_VictorSPX rightBackVictor;
+	WPI_VictorSPX rightMidVictor;
+	WPI_VictorSPX rightFrontVictor;
 	
 	WPI_TalonSRX rightTalonSRX;
 	WPI_TalonSRX leftTalonSRX;
@@ -40,13 +42,13 @@ public class DriveBase {
 		leftTalonTarget = 0D;
 		rightTalonTarget = 0D;
 		
-		leftBackVictor = new Victor(PortConstants.LEFT_BACK_TALON);
-		leftMidVictor = new Victor(PortConstants.LEFT_MID_TALON);
-		leftFrontVictor = new Victor(PortConstants.LEFT_FRONT_TALON);
+		leftBackVictor = new WPI_VictorSPX(PortConstants.LEFT_BACK_VICTOR);
+		leftMidVictor = new WPI_VictorSPX(PortConstants.LEFT_MID_VICTOR);
+		leftFrontVictor = new WPI_VictorSPX(PortConstants.LEFT_FRONT_VICTOR);
 		
-		rightBackVictor = new Victor(PortConstants.RIGHT_BACK_TALON);
-		rightMidVictor = new Victor(PortConstants.RIGHT_MID_TALON);
-		rightFrontVictor = new Victor(PortConstants.RIGHT_FRONT_TALON);
+		rightBackVictor = new WPI_VictorSPX(PortConstants.RIGHT_BACK_VICTOR);
+		rightMidVictor = new WPI_VictorSPX(PortConstants.RIGHT_MID_VICTOR);
+		rightFrontVictor = new WPI_VictorSPX(PortConstants.RIGHT_FRONT_VICTOR);
 		
 		rightTalonSRX = new WPI_TalonSRX(PortConstants.RIGHT_CAN_TALON);
 		leftTalonSRX = new WPI_TalonSRX(PortConstants.LEFT_CAN_TALON);
@@ -65,8 +67,8 @@ public class DriveBase {
 		rightTalonSRX.setSensorPhase(true);
 		rightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		rightTalonSRX.configPeakCurrentLimit(30, 0);
-		rightTalonSRX.configPeakOutputForward(0.455 , 0);
-		rightTalonSRX.configPeakOutputReverse(-0.455, 0);
+		rightTalonSRX.configPeakOutputForward(0.5 , 0);
+		rightTalonSRX.configPeakOutputReverse(-0.5, 0);
 		
 
 		leftTalonSRX.enableCurrentLimit(true);
@@ -140,21 +142,6 @@ public class DriveBase {
 	public double getLeftTalonEncoderValue () {
 		
 		return leftTalonSRX.getSelectedSensorPosition(0);
-		
-	}
-	
-	@Deprecated
-	public void driveToInches(double inches) {
-		
-		if(getLeftTalonEncoderValue() >= inchesToTicks(inches) && getRightTalonEncoderValue() >= inchesToTicks(inches)) {
-			
-			setSpeed( 0.0 , 0.0);	
-		
-		} else {
-			
-			setSpeed( 0.5 , 0.5 );
-		
-		}
 		
 	}
 	

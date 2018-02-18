@@ -8,6 +8,7 @@ public class GameData {
 	boolean scaleIsLeft;
 	boolean farIsLeft;
 	
+	@SuppressWarnings("null")
 	public GameData () {
 		
 		String message;

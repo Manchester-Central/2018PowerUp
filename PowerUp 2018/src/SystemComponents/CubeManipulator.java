@@ -32,16 +32,18 @@ public class CubeManipulator {
 		pusher2 = new DoubleSolenoid(PortConstants.CUBE_PUSHER_RIGHT_A, PortConstants.CUBE_PUSHER_RIGHT_B);
 	
 		cubeDetector = new DigitalInput(PortConstants.CUBE_DETECTOR_SENSOR);
+		
+		motor2.setInverted(true);
 	}
 	
 	public void intake() {
 		motor1.set(SPEED);
-		motor2.set(-SPEED);
+		motor2.set(SPEED);
 	}
 	
 	public void output() {
 		motor1.set(-SPEED);
-		motor2.set(SPEED);
+		motor2.set(-SPEED);
 	}
 	public void stopSpeed () {
 		motor1.set(0.0);
@@ -52,7 +54,7 @@ public class CubeManipulator {
 	 * extends claw only if it is above the intake position
 	 */
 	public void extend () {
-		if (lift.liftPosition() > LinearLift.INTAKE_POSITION) {
+		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION - LinearLift.DEADBAND) {
 			pusher1.set(Value.kForward);
 			pusher2.set(Value.kForward);
 		}
@@ -62,7 +64,7 @@ public class CubeManipulator {
 	 * retracts claw only if it is above the intake position
 	 */
 	public void retract () {
-		if (lift.liftPosition() > LinearLift.INTAKE_POSITION) {
+		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION - LinearLift.DEADBAND) {
 			pusher1.set(Value.kReverse);
 			pusher2.set(Value.kReverse);
 		}
