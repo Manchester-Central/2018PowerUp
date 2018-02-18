@@ -9,9 +9,21 @@ public class GameData {
 	boolean farIsLeft;
 	
 	public GameData () {
-		closeIsLeft = DriverStation.getInstance().getGameSpecificMessage().substring (0, 1).equals("L");
-		scaleIsLeft = DriverStation.getInstance().getGameSpecificMessage().substring (0, 1).equals("L");
-		farIsLeft = DriverStation.getInstance().getGameSpecificMessage().substring (0, 1).equals("L");
+		
+		String message;
+		
+		while ((message = DriverStation.getInstance().getGameSpecificMessage()) == null 
+				&& message.length() != 3) {
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		closeIsLeft = message.substring (0, 1).equals("L");
+		scaleIsLeft = message.substring (1, 2).equals("L");
+		farIsLeft = message.substring (2).equals("L");
 	}
 	
 	public boolean closeSwitchIsLeft () {
