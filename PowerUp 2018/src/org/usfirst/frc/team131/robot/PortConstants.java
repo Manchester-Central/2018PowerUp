@@ -4,16 +4,16 @@ public interface PortConstants {
 
 	//Two-can Sam
 
-	public static final int RIGHT_CAN_TALON = 	0;
+	public static final int RIGHT_CAN_TALON = 	2;
 	public static final int LEFT_CAN_TALON =	1;
 	 
-	public static final int LEFT_BACK_VICTOR = 	2;
-	public static final int LEFT_MID_VICTOR = 	3;
-	public static final int LEFT_FRONT_VICTOR = 4;
+	public static final int LEFT_BACK_VICTOR = 	4;
+	public static final int LEFT_MID_VICTOR = 	5;
+	public static final int LEFT_FRONT_VICTOR = 3;
 	
-	public static final int RIGHT_BACK_VICTOR = 5;
-	public static final int RIGHT_MID_VICTOR = 	6;
-	public static final int RIGHT_FRONT_VICTOR = 7;
+	public static final int RIGHT_BACK_VICTOR = 8;
+	public static final int RIGHT_MID_VICTOR = 	7;
+	public static final int RIGHT_FRONT_VICTOR = 6;
 	
 	
 	//PWMs
@@ -26,14 +26,14 @@ public interface PortConstants {
 	public static final int ROLLER_CLAW_RIGHT =	5;
 	
 	//Solenoids
-	public static final int GEAR_SHIFTER_A_SLOW = 5;
+	public static final int GEAR_SHIFTER_A_SLOW = 2;
 	public static final int GEAR_SHIFTER_B_FAST = 6;
 	
-	public static final int CUBE_PUSHER_LEFT_A = 0;
-	public static final int CUBE_PUSHER_LEFT_B = 0;
+	public static final int CUBE_PUSHER_A = 1;
+	public static final int CUBE_PUSHER_B = 0;
 	
-	public static final int CUBE_PUSHER_RIGHT_A = 0;
-	public static final int CUBE_PUSHER_RIGHT_B = 0;
+	public static final int CUBE_PINCHER_A = 7;
+	public static final int CUBE_PINCHER_B = 3;
 	
 	//DIO
 	public static final int LINEAR_LIFT_ENCODER_INPUT = 0;

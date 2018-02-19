@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CubeManipulator {
 	
-	DoubleSolenoid pusher1;
-	DoubleSolenoid pusher2;
+	DoubleSolenoid extender;
+	DoubleSolenoid pincher;
 	
 	Victor motor1;
 	Victor motor2;
@@ -28,10 +28,10 @@ public class CubeManipulator {
 		
 		this.lift = lift;
 	
-		pusher1 = new DoubleSolenoid(PortConstants.CUBE_PUSHER_LEFT_A, PortConstants.CUBE_PUSHER_LEFT_B);
-		pusher2 = new DoubleSolenoid(PortConstants.CUBE_PUSHER_RIGHT_A, PortConstants.CUBE_PUSHER_RIGHT_B);
+		extender = new DoubleSolenoid(PortConstants.CUBE_PUSHER_A, PortConstants.CUBE_PUSHER_B);
+		pincher = new DoubleSolenoid(PortConstants.CUBE_PINCHER_A, PortConstants.CUBE_PINCHER_B);
 	
-		cubeDetector = new DigitalInput(PortConstants.CUBE_DETECTOR_SENSOR);
+		//cubeDetector = new DigitalInput(PortConstants.CUBE_DETECTOR_SENSOR);
 		
 		motor2.setInverted(true);
 	}
@@ -55,8 +55,7 @@ public class CubeManipulator {
 	 */
 	public void extend () {
 		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION - LinearLift.DEADBAND) {
-			pusher1.set(Value.kForward);
-			pusher2.set(Value.kForward);
+			extender.set(Value.kForward);
 		}
 	}
 	
@@ -65,9 +64,31 @@ public class CubeManipulator {
 	 */
 	public void retract () {
 		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION - LinearLift.DEADBAND) {
-			pusher1.set(Value.kReverse);
-			pusher2.set(Value.kReverse);
+			extender.set(Value.kReverse);
 		}
+	}
+	
+	@Deprecated
+	public void testPusher (Value TrumpSC) {
+		
+		extender.set(TrumpSC);
+		
+	}
+	
+	@Deprecated
+	public void testPincher (Value TrumpSC) {
+		
+		pincher.set(TrumpSC);
+		
+	}
+	
+	public void pinch (Value value) {
+		pincher.set(value);
+	}
+	
+	public void setFlywheels (double value) {
+		motor1.set(value);
+		motor2.set(value);
 	}
 	
 	public boolean cubeIn() {
@@ -75,8 +96,13 @@ public class CubeManipulator {
 		
 	}
 	
+	public boolean isPinched() {
+		return pincher.get() == Value.kForward;
+		
+	}
+	
 	public boolean isExtended () {
-		return pusher1.get() == Value.kForward;
+		return extender.get() == Value.kForward;
 	}
 	
 	public void putInfo () {

@@ -56,7 +56,7 @@ public class DriveBase {
 		gearShifter = new DoubleSolenoid(PortConstants.GEAR_SHIFTER_A_SLOW, PortConstants.GEAR_SHIFTER_B_FAST);
 		
 		leftTalonSRX.setInverted(false);
-		rightTalonSRX.setInverted(true); 
+		rightTalonSRX.setInverted(false); 
 		
 		leftTalonSRX.setSensorPhase(true);
 		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -91,8 +91,14 @@ public class DriveBase {
 		
 		
 		
-		talonSpeedToVictors();
+		//talonSpeedToVictors();
+		leftBackVictor.set(leftSpeed);
+		leftMidVictor.set(leftSpeed);
+		leftFrontVictor.set(leftSpeed);
 		
+		rightBackVictor.set(rightSpeed);
+		rightMidVictor.set(rightSpeed);
+		rightFrontVictor.set(rightSpeed);
 		
 	}
 	
@@ -108,7 +114,7 @@ public class DriveBase {
 		
 	}
 	
-	public void gearShift(boolean lowGear) {
+	public void shiftLow(boolean lowGear) {
 		
 		// Forward is low Gear
 		// Reverse is high Gear

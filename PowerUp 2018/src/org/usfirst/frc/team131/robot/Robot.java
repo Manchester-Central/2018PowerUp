@@ -12,6 +12,7 @@ import NewAutoShell.AutoBuilder;
 import SystemComponents.CubeManipulator;
 import SystemComponents.DriveBase;
 import SystemComponents.LinearLift;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -73,12 +74,12 @@ public class Robot extends IterativeRobot {
 	 */
 	private void driveControls () {
 		
-		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getLeftY());
+		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getRightY());
 		
 		boolean doGearShift = cm.driver.buttonPressed(Controller.LEFT_BUMPER) 
 				|| cm.driver.buttonPressed(Controller.RIGHT_BUMPER);
 		
-		drive.gearShift(doGearShift);
+		drive.shiftLow(doGearShift);
 		
 	}
 	
@@ -112,6 +113,16 @@ public class Robot extends IterativeRobot {
 		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
 			
 			cubeManipulator.retract();
+			
+		}
+		
+		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
+			
+			cubeManipulator.pinch(Value.kForward);;
+			
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			
+			cubeManipulator.pinch(Value.kReverse);;
 			
 		}
 		
@@ -151,7 +162,7 @@ public class Robot extends IterativeRobot {
 			}
 			
 		} else {
-			
+			cubeManipulator.pinch(Value.kReverse);
 			// if the roller claw has succesfully extended, set to floor
 			if (cubeManipulator.isExtended() ) {
 				lift.setToFloorPosition();
@@ -167,6 +178,7 @@ public class Robot extends IterativeRobot {
 			
 			
 			if (lift.liftIsStopped()) {
+				cubeManipulator.pinch(Value.kForward);
 				cubeManipulator.intake();
 			} else {
 				lift.MoveToPosition();
@@ -192,18 +204,43 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 
 		driveControls();
+//		
+//		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+//			
+//			autonomaticCubeIntake();
+//			
+//		} else {
+//		
+//			liftControls ();
+//			
+//			cubeControls ();
+//			
+//		}
 		
-		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
-			
-			autonomaticCubeIntake();
-			
-		} else {
-		
-			liftControls ();
-			
-			cubeControls ();
-			
+		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
+			cubeManipulator.extend();
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			cubeManipulator.retract();
 		}
+		
+		if(cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+			cubeManipulator.output();
+		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)){
+			cubeManipulator.intake();   
+		} else {
+			cubeManipulator.stopSpeed();
+		}
+		
+		if (cm.operator.buttonPressed(Controller.LEFT_X)) {
+			cubeManipulator.pinch(Value.kForward);
+		} else if (cm.operator.buttonPressed(Controller.UP_Y)) {
+			cubeManipulator.pinch(Value.kReverse);
+		}
+		
+		cubeManipulator.setFlywheels(cm.operator.getRightY());
+			
+		lift.setSpeed(cm.operator.getLeftY());
+		
 	}
 
 	/**
@@ -215,7 +252,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/**
-	 * take a guess my guy
+	 * called each periodic state
 	 */
 	@Override
 	public void robotPeriodic() {

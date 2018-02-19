@@ -45,7 +45,7 @@ public class LinearLift {
 	double targetPosition;
 	
 	public LinearLift() {
-		pot = new AnalogPotentiometer (new AnalogInput (PortConstants.CHOAS_POT_PORT), RANGE, OFFSET);
+		pot = new AnalogPotentiometer (new AnalogInput (PortConstants.CHOAS_POT_PORT));
 		lift1 = new Victor (PortConstants.LINEAR_LIFT_1);
 		lift2 = new Victor (PortConstants.LINEAR_LIFT_2);
 		lift3 = new Victor (PortConstants.LINEAR_LIFT_3);
@@ -61,11 +61,12 @@ public class LinearLift {
 	 * @param speed = min = -1.0, max = 1.0
 	 */
 	public void setSpeed (final double speed) {
-		if ((pot.get() >= TOP_POSITION && speed > 0.0) || (pot.get() <= FLOOR_POSITION && speed < 0.0)) {
-			lifts.set(0.0);
-		} else {
+//		if ((pot.get() >= TOP_POSITION && speed > 0.0) || (pot.get() <= FLOOR_POSITION && speed < 0.0)) {
+//			lifts.set(0.0);
+//		} else {
 			lifts.set(speed);
-		}
+//		}
+		System.out.println(pot.get());
 	}
 	/**
 	 * 
@@ -176,7 +177,7 @@ public class LinearLift {
 	
 	public void putInfo () {
 		
-		SmartDashboard.putNumber("Lift position (in inches): ", lifts.get());
+		SmartDashboard.putNumber("Lift position (in inches): ", pot.get());
 		SmartDashboard.putString("Set Position: ", setPosition);
 		
 		
