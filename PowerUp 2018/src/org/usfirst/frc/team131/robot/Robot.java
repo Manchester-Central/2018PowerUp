@@ -33,7 +33,8 @@ public class Robot extends IterativeRobot {
 	CubeManipulator cubeManipulator;
 	LinearLift lift;
 	ControllerManager cm;
-	//PowerDistributionPanel pdp;
+	
+	PowerDistributionPanel pdp;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -46,8 +47,11 @@ public class Robot extends IterativeRobot {
 		drive = new DriveBase ();
 		cm = new ControllerManager();
 		lift = new LinearLift();
-		//pdp = new PowerDistributionPanel();
-		cubeManipulator = new CubeManipulator(lift/*, pdp*/);
+		
+		pdp = new PowerDistributionPanel();
+		
+		// TODO Check CAN ID to use
+		cubeManipulator = new CubeManipulator(lift, pdp);
 	}
 
 	/**
@@ -140,21 +144,21 @@ public class Robot extends IterativeRobot {
 			
 		}
 		
-		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
+		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
 			
 			cubeManipulator.pinch();
 			
-		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
 			
 			cubeManipulator.release();
 			
 		}
 		
-		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
+		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
 			
 			cubeManipulator.output();
 			
-		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
+		} else if (cm.operator.buttonPressed(Controller.DOWN_A)) {
 			
 			cubeManipulator.intake();
 			
@@ -311,7 +315,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotPeriodic() {
 		dashboardInfo();
-		//cubeManipulator.checkPower();
+		cubeManipulator.checkPower();
 	} 
 	
 	/**

@@ -27,14 +27,15 @@ public class CubeManipulator {
 	private boolean cubeInByCurrent;
 	private final long waitTime = 1000;
 	
-	//private PowerDistributionPanel pdp;
+	private PowerDistributionPanel pdp;
 	
-	public CubeManipulator(LinearLift lift/*, PowerDistributionPanel pdp*/) {
+	public CubeManipulator(LinearLift lift, PowerDistributionPanel pdp) {
 		motor1 = new Victor(PortConstants.ROLLER_CLAW_LEFT);
 		motor2 = new Victor(PortConstants.ROLLER_CLAW_RIGHT);
 		
-		//this.pdp = pdp;
 		cubeInByCurrent = false;
+		
+		this.pdp = pdp;
 		
 		time = System.currentTimeMillis();
 		
@@ -115,20 +116,20 @@ public class CubeManipulator {
 	}
 	
 	public void checkPower () {
-//		
-//		if ((pdp.getCurrent(PortConstants.ROLLER_CLAW_LEFT)
-//				+ pdp.getCurrent(PortConstants.ROLLER_CLAW_RIGHT)) / 2 < 20) {
-//			
-//			time = System.currentTimeMillis();
-//			
-//		}
-//		
-//		if (System.currentTimeMillis() - time >= waitTime) {
-//			
-//			cubeInByCurrent = true;
-//			
-//		}
-//		
+		
+		if ((pdp.getCurrent(4)
+				+ pdp.getCurrent(11)) / 2 < 20) {
+			
+			time = System.currentTimeMillis();
+			
+		}
+		
+		if (System.currentTimeMillis() - time >= waitTime) {
+			
+			cubeInByCurrent = true;
+			
+		}
+		
 	}
 	
 	/**
