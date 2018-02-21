@@ -31,7 +31,7 @@ public class DriveBase {
 	private double rightTalonTarget;
 	
 	private static final double ENCODER_TICKS_PER_REVOLUTION = 4150.0;
-	private static final double WHEEL_CIRCUMFERENCE_INCHES = 4 * Math.PI;
+	private static final double WHEEL_CIRCUMFERENCE_INCHES = 6 * Math.PI;
 
 	private static final double ROBOT_TURN_RADIUS_INCHES = 13.0;
 	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
@@ -239,6 +239,8 @@ public class DriveBase {
 		
 		SmartDashboard.putNumber("Right Talon Speed: ", getRightEncoderVelocity());
 		SmartDashboard.putNumber("Left Talon Speed: ", getLeftEncoderVelocity());
+		SmartDashboard.putNumber("Right Talon Encoder: ", getRightTalonEncoderValue());
+		SmartDashboard.putNumber("Left Talon Encoder: ", getRightTalonEncoderValue());
 		
 		boolean inLowShift = gearShifter.get().equals(Value.kForward);
 		

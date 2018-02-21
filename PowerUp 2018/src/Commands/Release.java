@@ -24,7 +24,7 @@ public class Release extends TimeRestrictedCommand {
 	@Override
 	protected void initialize () {
 		super.initialize();
-		cubeManipulator.pinch(Value.kReverse);
+		cubeManipulator.release();
 		
 	}
 

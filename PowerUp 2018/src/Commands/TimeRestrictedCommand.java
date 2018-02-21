@@ -4,7 +4,7 @@ import NewAutoShell.ChaosCommand;
 
 public abstract class TimeRestrictedCommand extends ChaosCommand {
 
-	protected long maxTime = 5000;
+	protected long maxTime = 1000;
 	protected long startTime;
 	
 	public TimeRestrictedCommand(int argsLength) {

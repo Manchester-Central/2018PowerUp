@@ -24,7 +24,7 @@ public class Pinch extends TimeRestrictedCommand {
 	@Override
 	protected void initialize () {
 		super.initialize();
-		cubeManipulator.pinch(Value.kForward);
+		cubeManipulator.pinch();
 		
 	}
 

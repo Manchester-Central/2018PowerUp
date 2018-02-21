@@ -5,6 +5,7 @@ import org.usfirst.frc.team131.robot.PortConstants;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -22,9 +23,20 @@ public class CubeManipulator {
 	private static final double SPEED = 1.0;
 	private LinearLift lift;
 	
-	public CubeManipulator(LinearLift lift) {
+	private long time;
+	private boolean cubeInByCurrent;
+	private final long waitTime = 1000;
+	
+	//private PowerDistributionPanel pdp;
+	
+	public CubeManipulator(LinearLift lift/*, PowerDistributionPanel pdp*/) {
 		motor1 = new Victor(PortConstants.ROLLER_CLAW_LEFT);
 		motor2 = new Victor(PortConstants.ROLLER_CLAW_RIGHT);
+		
+		//this.pdp = pdp;
+		cubeInByCurrent = false;
+		
+		time = System.currentTimeMillis();
 		
 		this.lift = lift;
 	
@@ -54,7 +66,7 @@ public class CubeManipulator {
 	 * extends claw only if it is above the intake position
 	 */
 	public void extend () {
-		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION - LinearLift.DEADBAND) {
+		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION_INCHES - LinearLift.DEADBAND_INCHES) {
 			extender.set(Value.kForward);
 		}
 	}
@@ -63,27 +75,17 @@ public class CubeManipulator {
 	 * retracts claw only if it is above the intake position
 	 */
 	public void retract () {
-		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION - LinearLift.DEADBAND) {
+		if (lift.liftPosition() >= LinearLift.INTAKE_POSITION_INCHES - LinearLift.DEADBAND_INCHES) {
 			extender.set(Value.kReverse);
 		}
 	}
 	
-	@Deprecated
-	public void testPusher (Value TrumpSC) {
-		
-		extender.set(TrumpSC);
-		
+	public void pinch () {
+		pincher.set(Value.kForward);
 	}
 	
-	@Deprecated
-	public void testPincher (Value TrumpSC) {
-		
-		pincher.set(TrumpSC);
-		
-	}
-	
-	public void pinch (Value value) {
-		pincher.set(value);
+	public void release () {
+		pincher.set(Value.kReverse);
 	}
 	
 	public void setFlywheels (double value) {
@@ -91,20 +93,52 @@ public class CubeManipulator {
 		motor2.set(value);
 	}
 	
-	public boolean cubeIn() {
+	public boolean cubeInSensor() {
+		
 		return cubeDetector.get();
 		
 	}
 	
+	public boolean cubeInCurrent () {
+		
+		return cubeInByCurrent;
+		
+	}
+	
 	public boolean isPinched() {
-		return pincher.get() == Value.kForward;
+		return pincher.get().equals(Value.kForward);
 		
 	}
 	
 	public boolean isExtended () {
-		return extender.get() == Value.kForward;
+		return extender.get().equals(Value.kForward);
 	}
 	
+	public void checkPower () {
+//		
+//		if ((pdp.getCurrent(PortConstants.ROLLER_CLAW_LEFT)
+//				+ pdp.getCurrent(PortConstants.ROLLER_CLAW_RIGHT)) / 2 < 20) {
+//			
+//			time = System.currentTimeMillis();
+//			
+//		}
+//		
+//		if (System.currentTimeMillis() - time >= waitTime) {
+//			
+//			cubeInByCurrent = true;
+//			
+//		}
+//		
+	}
+	
+	/**
+	 * TODO harrison, eason: don't compare literal values!
+	 * If you must write a range() function, motor1.get() should
+	 *  be within SPEED +- epsilon.
+	 *  
+	 *  but motor1.get() isn't how fast it thinks that it is going, it's as fast as we set it to,
+	 *  which is only SPEED or -SPEED
+	 */
 	public void putInfo () {
 		
 		SmartDashboard.putBoolean("Claw is extended: ", isExtended());

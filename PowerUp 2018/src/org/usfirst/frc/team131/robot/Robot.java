@@ -12,8 +12,8 @@ import NewAutoShell.AutoBuilder;
 import SystemComponents.CubeManipulator;
 import SystemComponents.DriveBase;
 import SystemComponents.LinearLift;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -33,6 +33,7 @@ public class Robot extends IterativeRobot {
 	CubeManipulator cubeManipulator;
 	LinearLift lift;
 	ControllerManager cm;
+	//PowerDistributionPanel pdp;
 	
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -45,7 +46,8 @@ public class Robot extends IterativeRobot {
 		drive = new DriveBase ();
 		cm = new ControllerManager();
 		lift = new LinearLift();
-		cubeManipulator = new CubeManipulator(lift);
+		//pdp = new PowerDistributionPanel();
+		cubeManipulator = new CubeManipulator(lift/*, pdp*/);
 	}
 
 	/**
@@ -70,7 +72,12 @@ public class Robot extends IterativeRobot {
 	}
 
 	/**
-	 * Does the controls for the drive
+	 * Controls for the drive (Driver)
+	 * 
+	 * left and right y-axis for corresponding drive side
+	 * 
+	 * Holding left or right bumper shifts into high position
+	 * 
 	 */
 	private void driveControls () {
 		
@@ -79,12 +86,19 @@ public class Robot extends IterativeRobot {
 		boolean doGearShift = cm.driver.buttonPressed(Controller.LEFT_BUMPER) 
 				|| cm.driver.buttonPressed(Controller.RIGHT_BUMPER);
 		
-		drive.shiftLow(doGearShift);
+		drive.shiftLow(!doGearShift);
 		
 	}
 	
+	
+
 	/**
-	 * Does the lift controls (if auto pickup isn't in progress)
+	 * Lift controls (manual) (Operator)
+	 * 
+	 * D-Pad moves to preset position (have to hold to move) (see lift for more info)
+	 * 
+	 * left y-axis manually moves lift
+	 * 
 	 */
 	private void liftControls () {
 			
@@ -102,7 +116,17 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/**
-	 * Does the cube manipulator controls (if auto pickup isn't in progress)
+	 * Cube manipulator controls (manual) (operator)
+	 * 
+	 * left bumper extends manipulator
+	 * left trigger retracts manipulator
+	 * 
+	 * A pinches
+	 * B releases
+	 * 
+	 * Right bumper outputs flywheels
+	 * Right trigger intakes flywheels
+	 * 
 	 */
 	private void cubeControls () {
 		
@@ -118,11 +142,11 @@ public class Robot extends IterativeRobot {
 		
 		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
 			
-			cubeManipulator.pinch(Value.kForward);;
+			cubeManipulator.pinch();
 			
 		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
 			
-			cubeManipulator.pinch(Value.kReverse);;
+			cubeManipulator.release();
 			
 		}
 		
@@ -143,13 +167,16 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/**
-	 * intakes and picks up cube if A is pressed
+	 * Automatic Intake Cubes (Operator)
+	 * 
+	 * 
 	 */
 	private void autonomaticCubeIntake () {
 		
 			
 		// if cube is in, move to retract position
-		if (cubeManipulator.cubeIn()) {
+		// TODO to be changed to sensor if it gets working
+		if (cubeManipulator.cubeInCurrent()) {
 			
 			lift.setToIntakePosition();
 			cubeManipulator.stopSpeed();
@@ -162,29 +189,77 @@ public class Robot extends IterativeRobot {
 			}
 			
 		} else {
-			cubeManipulator.pinch(Value.kReverse);
-			// if the roller claw has succesfully extended, set to floor
+			cubeManipulator.release();
+			// if the roller claw has successfully extended, set to floor
 			if (cubeManipulator.isExtended() ) {
 				lift.setToFloorPosition();
 			} else {
 				// else, extend
 				cubeManipulator.extend();
 				
-				// if it didn't extend, go to intake to extend
+				// if it didn't extend, go to intake to extend, else, go to floor
 				if (!cubeManipulator.isExtended()) {
 					lift.setToIntakePosition();
+				} else {
+					lift.setToFloorPosition();
 				}
 			}
 			
-			
+			// intakes cube if in position
 			if (lift.liftIsStopped()) {
-				cubeManipulator.pinch(Value.kForward);
+				cubeManipulator.pinch();
 				cubeManipulator.intake();
 			} else {
 				lift.MoveToPosition();
 			}
 		}
 			
+		
+	}
+	
+	/**
+	 * 
+	 * controls with no automation and direct controller control, all operator
+	 * 
+	 * A extends the manipulator
+	 * B retracts the manipulator
+	 * 
+	 * left bumper spins the flywheels outward
+	 * left trigger spins the flywheels inwards
+	 * 
+	 * X makes the manipulator pinch
+	 * Y makes the manipulator release
+	 * 
+	 * left y-axis manually moves the lift
+	 * 
+	 * right y-axis manually sets the flywheels
+	 * 
+	 */
+	public void directTestControls () {
+		
+		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
+			cubeManipulator.extend();
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			cubeManipulator.retract();
+		}
+		
+		if(cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+			cubeManipulator.output();
+		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)){
+			cubeManipulator.intake();   
+		} else {
+			cubeManipulator.stopSpeed();
+		}
+		
+		if (cm.operator.buttonPressed(Controller.LEFT_X)) {
+			cubeManipulator.pinch();
+		} else if (cm.operator.buttonPressed(Controller.UP_Y)) {
+			cubeManipulator.release();
+		}
+		
+		cubeManipulator.setFlywheels(cm.operator.getRightY());
+			
+		lift.setSpeed(cm.operator.getLeftY());
 		
 	}
 	
@@ -204,42 +279,21 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 
 		driveControls();
-//		
-//		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
-//			
-//			autonomaticCubeIntake();
-//			
-//		} else {
-//		
-//			liftControls ();
-//			
-//			cubeControls ();
-//			
-//		}
 		
-		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
-			cubeManipulator.extend();
-		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
-			cubeManipulator.retract();
-		}
-		
-		if(cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
-			cubeManipulator.output();
-		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)){
-			cubeManipulator.intake();   
-		} else {
-			cubeManipulator.stopSpeed();
-		}
-		
-		if (cm.operator.buttonPressed(Controller.LEFT_X)) {
-			cubeManipulator.pinch(Value.kForward);
-		} else if (cm.operator.buttonPressed(Controller.UP_Y)) {
-			cubeManipulator.pinch(Value.kReverse);
-		}
-		
-		cubeManipulator.setFlywheels(cm.operator.getRightY());
+		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
 			
-		lift.setSpeed(cm.operator.getLeftY());
+			autonomaticCubeIntake();
+			
+		} else {
+		
+			liftControls ();
+			
+			cubeControls ();
+			
+		}
+		
+		// testDirectControls
+		
 		
 	}
 
@@ -257,6 +311,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotPeriodic() {
 		dashboardInfo();
+		//cubeManipulator.checkPower();
 	} 
 	
 	/**

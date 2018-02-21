@@ -20,14 +20,14 @@ public class IntakeCube extends CommandGroup {
 		addSequential(new Release (0, cubeManipulator));
 		
 		Lift liftCommand = new Lift (1, lift);
-		String[] args = { String.valueOf(LinearLift.INTAKE_POSITION) };
+		String[] args = { String.valueOf(LinearLift.INTAKE_POSITION_INCHES) };
 		liftCommand.setArgs(args);
 		addSequential (liftCommand);
 		
 		addSequential (new Extend (0, cubeManipulator));
 		
 		liftCommand = new Lift (1, lift);
-		String[] args2 = { String.valueOf(LinearLift.FLOOR_POSITION) };
+		String[] args2 = { String.valueOf(LinearLift.FLOOR_POSITION_INCHES) };
 		liftCommand.setArgs(args2);
 		addSequential (liftCommand);
 		
@@ -37,7 +37,7 @@ public class IntakeCube extends CommandGroup {
 		addSequential (new Pinch (0, cubeManipulator));
 		
 		liftCommand = new Lift (1, lift);
-		String[] args3 = { String.valueOf(LinearLift.INTAKE_POSITION) };
+		String[] args3 = { String.valueOf(LinearLift.INTAKE_POSITION_INCHES) };
 		liftCommand.setArgs(args3);
 		addSequential (liftCommand);
 		
