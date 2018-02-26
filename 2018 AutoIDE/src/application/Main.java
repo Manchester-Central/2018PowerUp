@@ -123,13 +123,13 @@ public class Main extends Application {
 		up.setOnAction(new ArrowEvent (nodes, false));
 		up.setTranslateX(-280);
 		up.setTranslateY(-280);
-		up.setText("up");
 		layout.getChildren().add(up);
+		up.setText("↑");
 		
 		down.setOnAction(new ArrowEvent (nodes, true));
 		down.setTranslateX(-280);
 		down.setTranslateY(-240);
-		down.setText("down");
+		down.setText("↓");
 		layout.getChildren().add(down);
 		
 		layout.getChildren().add(imageView);

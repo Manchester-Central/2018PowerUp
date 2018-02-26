@@ -132,14 +132,7 @@ public class CubeManipulator {
 		
 	}
 	
-	/**
-	 * TODO harrison, eason: don't compare literal values!
-	 * If you must write a range() function, motor1.get() should
-	 *  be within SPEED +- epsilon.
-	 *  
-	 *  but motor1.get() isn't how fast it thinks that it is going, it's as fast as we set it to,
-	 *  which is only SPEED or -SPEED
-	 */
+	
 	public void putInfo () {
 		
 		SmartDashboard.putBoolean("Claw is extended: ", isExtended());

@@ -11,12 +11,16 @@ import javafx.collections.ObservableList;
 
 public class AutoInfo {
 	
+	// Every command in the command box
 	private ObservableList<String> commandList;
-	
+
+	// The names (without .ini) of every config file 
 	private ArrayList<String> files;
 	
+	//
 	private HashMap <String, String> configMap;
 	
+	//
 	private HashMap <String, String> commandPlaceholders;
 	
 	public AutoInfo() {
@@ -80,8 +84,8 @@ public class AutoInfo {
 
 			File file = new File ("C:\\Program Files\\AutoFolder\\Config.txt");
 			
-			FileReader reee = new FileReader (file);
-			BufferedReader reader = new BufferedReader (reee);
+			FileReader fr = new FileReader (file);
+			BufferedReader reader = new BufferedReader (fr);
 			
 			String line;
 			
