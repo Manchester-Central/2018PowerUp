@@ -26,12 +26,22 @@ public class DriveBase {
 	
 	DoubleSolenoid gearShifter;
 	
+	private double leftTalonTarget;
+	private double rightTalonTarget;
+	
 	private static final double ENCODER_TICKS_PER_REVOLUTION = 4150.0;
 	private static final double WHEEL_CIRCUMFERENCE_INCHES = 4 * Math.PI;
+
+	private static final double ROBOT_TURN_RADIUS_INCHES = 13.0;
+	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 
 	
 	
 	public DriveBase () {
+		
+
+		leftTalonTarget = 0.0;
+		rightTalonTarget = 0.0;
 		
 		leftBackVictor = new Victor(PortConstants.LEFT_BACK_TALON);
 		leftMidVictor = new Victor(PortConstants.LEFT_MID_TALON);
@@ -89,15 +99,22 @@ public class DriveBase {
 		
 	}
 	
+	/**
+	 * Shifts the drive train to high or low gear
+	 * @param lowGear - true(forward) when you want to shift low, false(reverse) when you want to shift high
+	 */
 	public void gearShift(boolean lowGear) {
-		
-		// Forward is low Gear
-		// Reverse is high Gear
+
 		if (lowGear) {
 		gearShifter.set(Value.kForward);
 		} else {
 		gearShifter.set(Value.kReverse);
 		}
+	}
+	
+	private void updateTargetValues (double left, double right) {
+		leftTalonTarget = inchesToTicks(left);
+		rightTalonTarget = inchesToTicks(right);
 	}
 	
 	public double getRightTalonEncoderValue () {
@@ -119,6 +136,12 @@ public class DriveBase {
 	public double getLeftTalonEncoderValue () {
 		
 		return leftTalonSRX.getSelectedSensorPosition(0);
+		
+	}
+	
+	public double getLeftEncoderVelocity () {
+		
+		return leftTalonSRX.getSelectedSensorVelocity(0);
 		
 	}
 	
@@ -144,7 +167,10 @@ public class DriveBase {
 		return rightTalonSRX.getOutputCurrent();
 	}
 	
-	
+	/**
+	 * Configures PID commands and sets a distance to drive to
+	 * @param target - the distance to drive to
+	 */
 	public void setRightTalonToPosition(double target) {
 		leftTalonSRX.setSensorPhase(true);
 		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
@@ -167,6 +193,39 @@ public class DriveBase {
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(target));
 		
+		talonSpeedToVictors();
+		updateTargetValues (target, target);
+		
+	}
+	
+	public void end() {
+		rightTalonSRX.stopMotor();
+		leftTalonSRX.stopMotor();
+		resetEncoders();
+	}
+	
+	public void velocityData () {
+		System.out.println("left velocity: " + getRightEncoderVelocity() + " right velocity: " +getLeftEncoderVelocity());
+	}
+	
+
+	public double getRightTarget () {
+		return rightTalonTarget;
+	}
+	
+	public double getLeftTarget () {
+		return leftTalonTarget;
+	}
+	
+	public void turnToAngle (double angle) {
+		
+		double inches = (angle / 360) * ROBOT_CIRCUMFERENCE;
+		
+		resetEncoders();
+		rightTalonSRX.set(ControlMode.Position, inchesToTicks(inches));
+		
+		leftTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
+		updateTargetValues (-inches, inches);
 		talonSpeedToVictors();
 		
 	}

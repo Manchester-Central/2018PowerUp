@@ -171,9 +171,10 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/**
-	 * Automatic Intake Cubes (Operator)
+	 * Automatic Intake Cubes (Operator) B button
 	 * 
-	 * 
+	 * Releases the pincher, moves down to intake position, 
+	 * intakes & pinches until the cube is in, then lift to a higher position and retracts
 	 */
 	private void autonomaticCubeIntake () {
 		
@@ -277,7 +278,7 @@ public class Robot extends IterativeRobot {
 	}
 	
 	/**
-	 * This function is called periodically during operator control.
+	 * This function is called periodically during driver/operator control.
 	 */
 	@Override
 	public void teleopPeriodic() {

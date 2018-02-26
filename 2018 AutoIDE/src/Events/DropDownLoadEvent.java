@@ -1,12 +1,14 @@
 package Events;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import application.AutoInfo;
 import application.PreferenceLine;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -19,11 +21,14 @@ public class DropDownLoadEvent implements ChangeListener <String> {
 	private List<PreferenceLine> stages;
 	private StackPane layout;
 	private AutoInfo info;
+	private ArrayList <Node> nodes;
 	
 	private Stage primaryStage;
 	
 	public DropDownLoadEvent(TextField fileName, List<PreferenceLine> stages,
-			Stage primaryStage, StackPane layout, AutoInfo info) {
+			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList <Node> nodes) {
+		
+		this.nodes  = nodes;
 		
 		fileChooser = new FileChooser ();
 		this.fileName = fileName;
@@ -40,8 +45,8 @@ public class DropDownLoadEvent implements ChangeListener <String> {
 			return;
 		
 		if (oldValue == null || !newValue.equals(oldValue)) {
-			File file = new File (info.filePath() + "\\" + newValue + ".ini");
-			NumberManager.load(file, primaryStage, fileName, stages, layout, info);
+			File file = new File (info.getFilePath(info.filePath(), newValue));
+			NumberManager.load(file, primaryStage, fileName, stages, layout, info, nodes);
 		}
 		
 	}

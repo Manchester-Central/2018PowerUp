@@ -1,12 +1,12 @@
 package application;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Events.CommandBoxChangeEvent;
 import Events.DeleteEvent;
 import Events.ParallelClickedEvent;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -29,8 +29,10 @@ public class PreferenceLine {
 	private StackPane layout;
 	
 	private AutoInfo info;
+	private ArrayList <Node> nodes;
 	
-	public PreferenceLine (StackPane layout, List <PreferenceLine> stages, AutoInfo info) {
+	public PreferenceLine (StackPane layout, List <PreferenceLine> stages, AutoInfo info,
+			ArrayList <Node> nodes, TextField fileName) {
 		isOff = false;
 		this.info = info;
 		commands = new ComboBox <String> (info.getCommandList());
@@ -39,17 +41,19 @@ public class PreferenceLine {
 		
 		delete = new Button ();
 		
-		delete.setOnAction(new DeleteEvent(layout, stages, this));
+		delete.setOnAction(new DeleteEvent(layout, stages, this, nodes, fileName));
 
 		this.layout = layout;
+		this.nodes = nodes;
 		
 		stageNumber = new Label ();
 		stageNumber.setMaxWidth(40);
-		addToScene ();
 		
 
-		isParallel.setOnMouseReleased(new ParallelClickedEvent (stages, layout));
+		isParallel.setOnMouseReleased(new ParallelClickedEvent (stages, layout, nodes, fileName));
 		commands.valueProperty().addListener(new CommandBoxChangeEvent(input, info));
+
+		addToScene ();
 	}
 	
 	private void setPositions () {
@@ -110,6 +114,11 @@ public class PreferenceLine {
 		layout.getChildren().add(isParallel);
 		layout.getChildren().add(delete);
 		layout.getChildren().add(stageNumber);
+		nodes.add(commands);
+		nodes.add(input);
+		nodes.add(isParallel);
+		nodes.add(delete);
+		nodes.add(stageNumber);
 		setPositions ();
 	}
 	

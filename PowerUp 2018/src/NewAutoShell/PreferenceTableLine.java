@@ -73,6 +73,7 @@ public class PreferenceTableLine {
 				return;
 			} else {
 				
+				// Put CommandGroups Here
 				switch (commandInput) {
 				case IntakeCube.NAME:
 					commandGroup = new IntakeCube(cubeManipulator, lift);
@@ -97,6 +98,7 @@ public class PreferenceTableLine {
 			
 			isParallel = splitLine[1].endsWith(",");
 			
+			// Put Commands Here
 			switch (commandInput) {
 			case TestChaosCommand.NAME:
 				command = new TestChaosCommand (1);

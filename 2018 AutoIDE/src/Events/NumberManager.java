@@ -8,9 +8,9 @@ import java.util.List;
 
 import application.AutoInfo;
 import application.PreferenceLine;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 public class NumberManager {
@@ -19,7 +19,7 @@ public class NumberManager {
 		// TODO reorganize entries on isParallel check, refactor reorganization in other events
 	}
 	
-	public static void reorganizeEntries(List <PreferenceLine>stages, StackPane layout) {
+	public static void reorganizeEntries(List <PreferenceLine>stages, StackPane layout, ArrayList<Node> nodes, TextField fileName) {
 		int stagePosition = 1;
 		int stageNumber =   1;
 		
@@ -27,13 +27,18 @@ public class NumberManager {
 		
 		for (PreferenceLine x : stages) {
 			if (!x.getIsOff()) {
-				x.setYPostions((stagePosition * 30) - 200);
+				x.setYPostions((stagePosition * 30) + fileName.getTranslateY());
 				x.setStageNumber(stageNumber);
 				if (!x.getIsParallel().isSelected()) {
 					stageNumber++;
 				}
 				stagePosition++;
 			} else {
+				nodes.remove(x.getCommands());
+				nodes.remove(x.getInput());
+				nodes.remove(x.getIsParallel());
+				nodes.remove(x.getDelete());
+				nodes.remove(x.getStageNumber());
 				layout.getChildren().remove(x.getCommands());
 				layout.getChildren().remove(x.getInput());
 				layout.getChildren().remove(x.getIsParallel());
@@ -50,7 +55,7 @@ public class NumberManager {
 	}
 	
 	public static void load (File file, Stage primaryStage, TextField fileName,
-			List <PreferenceLine> stages, StackPane layout, AutoInfo info) {
+			List <PreferenceLine> stages, StackPane layout, AutoInfo info, ArrayList <Node> nodes) {
 		
 		ArrayList <String> lines = new ArrayList<String> ();
 		
@@ -74,14 +79,14 @@ public class NumberManager {
 		for (PreferenceLine line : stages) {
 			line.setIsOff(true);
 		}
-		NumberManager.reorganizeEntries(stages, layout);
+		NumberManager.reorganizeEntries(stages, layout, nodes, fileName);
 		
 		stages.clear();
 		
 		for (String line : lines) {
 			if (!line.equals("string \"/Preferences/.type\"=\"RobotPreferences\"") && !line.equals("[NetworkTables Storage 3.0]")) {
 				
-				PreferenceLine newLine = new PreferenceLine (layout, stages, info);
+				PreferenceLine newLine = new PreferenceLine (layout, stages, info, nodes, fileName);
 				
 				String comma = ",";
 				
@@ -101,7 +106,8 @@ public class NumberManager {
 				
 			}
 		}
-		NumberManager.reorganizeEntries(stages, layout);
+		fileName.setTranslateY(-200);
+		NumberManager.reorganizeEntries(stages, layout, nodes, fileName);
 	}
 
 }

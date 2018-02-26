@@ -1,8 +1,6 @@
 package Events;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,6 +8,7 @@ import application.AutoInfo;
 import application.PreferenceLine;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -22,12 +21,14 @@ public class LoadEvent implements EventHandler<ActionEvent>{
 	private List<PreferenceLine> stages;
 	private StackPane layout;
 	private AutoInfo info;
+	private ArrayList <Node> nodes;
 	
 	private Stage primaryStage;
 	
 	public LoadEvent(TextField fileName, List<PreferenceLine> stages,
-			Stage primaryStage, StackPane layout, AutoInfo info) {
+			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList<Node> nodes) {
 		fileChooser = new FileChooser ();
+		this.nodes = nodes;
 		this.fileName = fileName;
 		this.info = info;
 		this.stages = stages;
@@ -40,7 +41,7 @@ public class LoadEvent implements EventHandler<ActionEvent>{
 		
 		File file = fileChooser.showOpenDialog(primaryStage);
 		
-		NumberManager.load(file, primaryStage, fileName, stages, layout, info);
+		NumberManager.load(file, primaryStage, fileName, stages, layout, info, nodes);
 		
 	}
 

@@ -1,8 +1,11 @@
 package org.usfirst.frc.team131.robot;
 
+import NewAutoShell.AutoBuilder;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,6 +26,8 @@ public class Robot extends IterativeRobot {
 	Compressor compressor;
 	TestVictors testVictors;
 	AnalogPotentiometer testPot;
+	
+	AutoBuilder autoBuilder;
 		
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -57,10 +62,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autoSelected = chooser.getSelected();
-		// autoSelected = SmartDashboard.getString("Auto Selector",
-		// defaultAuto);
-		//System.out.println("Auto selected: " + autoSelected);
+		CommandGroup autoSequence = new CommandGroup();
+		autoBuilder = new AutoBuilder (drive);
+		autoBuilder.createCommandGroup(autoSequence);
+
+		Scheduler.getInstance().add(autoSequence);
 	}
 
 	/**
@@ -69,6 +75,8 @@ public class Robot extends IterativeRobot {
 	
 	@Override
 	public void autonomousPeriodic() {
+		
+		Scheduler.getInstance().run();
 		
 		//drive.encoderData();
 //		System.out.println("Left Encoder Current: " + drive.getLeftTalonCurrent() + 

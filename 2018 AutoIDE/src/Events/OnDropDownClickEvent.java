@@ -21,6 +21,7 @@ public class OnDropDownClickEvent implements EventHandler<MouseEvent> {
 	public void handle(MouseEvent event) {
 		
 		info.setfiles();
+		box.itemsProperty().get().clear();
 		box.setItems(info.getFileNames());
 		
 	}

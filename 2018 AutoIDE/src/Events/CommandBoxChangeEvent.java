@@ -25,6 +25,7 @@ public class CommandBoxChangeEvent implements ChangeListener <String> {
 		input.setPromptText(placeholder);
 		
 		if (placeholder.equals("void")) {
+			input.setText("");
 			input.setDisable(true);
 		} else {
 			input.setDisable(false);

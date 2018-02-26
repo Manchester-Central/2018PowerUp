@@ -116,6 +116,64 @@ public class AutoInfo {
 		return commandList;
 	}
 	
+	private void recursiveFileArrayCreate (File folder) {
+		
+		for (File file : folder.listFiles()) {
+			
+			if (!file.isDirectory()) {
+				
+				if (file.getName().endsWith(".ini")) {
+					
+					files.add(file.getName().replaceAll(".ini", ""));
+					
+				}
+				
+			} else {
+				
+				recursiveFileArrayCreate (file);
+				
+			}
+			
+		}
+		
+	}
+	
+	public String getFilePath (String folderPath, String name) {
+		
+		File saveFolder = new File (folderPath);
+		
+		for (File file : saveFolder.listFiles()) {
+			
+			if (!file.isDirectory()) {
+				
+				if (file.getName().replaceAll(".ini", "").equals(name)) {
+					
+					System.out.println(file.getPath());
+					return file.getPath();
+					
+				}
+				
+			} else {
+				
+				String result = getFilePath (file.getPath(), name);
+				
+				if (!result.equals("Not Found")) {
+					
+					return result;
+					
+				}
+				
+			}
+			
+		}
+		
+		return "Not Found";
+		
+	}
+	
+	/**
+	 * Finds all saved files in the saved files folder and puts them in the load dropdown
+	 */
 	public void setfiles () {
 		
 		File folder = new File(filePath());
@@ -124,16 +182,9 @@ public class AutoInfo {
 		if (folder == null)
 			return;
 		
-		for (File file : folder.listFiles()) {
-			
-			if (!file.isDirectory() && file.getName().endsWith(".ini")) {
-				
-				files.add(file.getName().replaceAll(".ini", ""));
-				
-			}
-			
-		}
+		files.clear();
 		
+		recursiveFileArrayCreate(folder);
 		
 	}
 	
