@@ -14,22 +14,25 @@ public class ParallelClickedEvent implements EventHandler<MouseEvent> {
 
 	private List <PreferenceLine> stages;
 	private StackPane layout;
-	private ArrayList <Node> nodes;
+	private ArrayList <Node> movableElements;
 	private TextField fileName;
 	
 	public ParallelClickedEvent(List <PreferenceLine> stages, StackPane layout,
-			ArrayList <Node> nodes, TextField fileName) {
-		this.nodes = nodes;
+			ArrayList <Node> movableElements, TextField fileName) {
+		this.movableElements = movableElements;
 		this.fileName = fileName;
 		this.stages = stages;
 		this.layout = layout;
 		
 	}
 
+	/**
+	 * Reorganizes entries after ticking box to update stage numbers
+	 */
 	@Override
 	public void handle(MouseEvent event) {
 		
-		NumberManager.reorganizeEntries(stages, layout, nodes, fileName);
+		EventManager.reorganizeEntries(stages, layout, movableElements, fileName);
 		
 	}
 

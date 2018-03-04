@@ -3,6 +3,7 @@ package Commands;
 
 import NewAutoShell.ChaosCommand;
 import SystemComponents.LinearLift;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Lift extends ChaosCommand {
 
@@ -10,7 +11,7 @@ public class Lift extends ChaosCommand {
 	public static final String NAME = "Lift";
 	
 	public Lift(int argsLength, LinearLift linearLift) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.linearLift = linearLift;
 	}
 
@@ -21,7 +22,7 @@ public class Lift extends ChaosCommand {
 
 	@Override
 	protected void initialize () {
-		
+		super.initialize();
 		linearLift.setTargetPosition(Double.parseDouble(args[0]));
 		
 	}
@@ -35,5 +36,6 @@ public class Lift extends ChaosCommand {
 	@Override
 	protected void end () {
 		linearLift.setTargetPosition(linearLift.liftPosition());
+		super.end();
 	}
 }

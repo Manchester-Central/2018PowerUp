@@ -17,8 +17,13 @@ public class CommandBoxChangeEvent implements ChangeListener <String> {
 		
 	}
 
+	/**
+	 * Changes the Preference line command, clears value, changes value textfield 
+	 * to appropriate placeholder, and disables and clears the value if the placeholder is void
+	 */
 	@Override
-	public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	public void changed(ObservableValue<? extends String> observable,
+			String oldValue, String newValue) {
 		
 		String placeholder = info.getCommandPlaceholders().getOrDefault(newValue, "");
 		

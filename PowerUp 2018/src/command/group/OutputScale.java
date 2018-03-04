@@ -15,7 +15,7 @@ public class OutputScale extends CommandGroup {
 	public OutputScale(LinearLift lift, CubeManipulator roller) {
 		
 		Lift liftCommand = new Lift (1, lift);
-		String[] args = { String.valueOf(LinearLift.SCALE_POSITION_INCHES) };
+		String[] args = { String.valueOf(LinearLift.HIGH_POSITION_INCHES) };
 		liftCommand.setArgs(args);
 		addSequential (liftCommand);
 		

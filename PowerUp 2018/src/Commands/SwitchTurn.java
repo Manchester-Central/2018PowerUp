@@ -9,22 +9,24 @@ public class SwitchTurn extends ChaosCommand {
 	// CounterClockwise is positive turn
 	
 	DriveBase drive;
-	public static final String NAME = "SwitchTurn";
+	public static final String NAME = "SwitchTurnRight";
 	
 	public SwitchTurn(int argsLength, DriveBase drive) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
+		
+		super.initialize();
 		drive.resetEncoders();
 		GameData data = new GameData ();
 		if (data.closeSwitchIsLeft()) {
-			drive.turnToAngle(Double.parseDouble(args[0]));
+			drive.turnToAngleRight(Double.parseDouble(args[0]));
 		} else {
 		
-			drive.turnToAngle(Double.parseDouble(args[1]));
+			drive.turnToAngleRight(Double.parseDouble(args[1]));
 			
 		}
 	}
@@ -44,6 +46,7 @@ public class SwitchTurn extends ChaosCommand {
 	protected void end () {
 		drive.resetEncoders();
 		drive.end();
+		super.end();
 	}
 
 }

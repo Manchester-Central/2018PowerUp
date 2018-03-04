@@ -11,30 +11,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LinearLift {
 	
-	public static final double FLOOR_POSITION_INCHES = 0.0;
-	public static final double INTAKE_POSITION_INCHES = 8.0;
+	public static final double FLOOR_POSITION_INCHES = 3.0;
+	public static final double EXTEND_POSITION_INCHES = 8.0;
+	public static final double PORTAL_POSITION_INCHES = 20.0;
+	public static final double VAULT_POSITION_INCHES = 9.0;//10.0;
 	public static final double SWITCH_POSITION_INCHES = 36.0;
-	public static final double SCALE_POSITION_INCHES = 88.0;
-	public static final double CLIMB_POSITION_INCHES = 84.0;
-	public static final double TOP_POSITION_INCHES = 105.0; // the top position of the lift
+	public static final double HIGH_POSITION_INCHES = 96.0; // position for scale and climb
 	
 	public static final double DEADBAND_INCHES = 2.0; // the acceptable error 
 	
-	private static final double MAX_UP_SPEED = 0.5;
-	private static final double MIN_UP_SPEED = 0.2;
+	private static final double MAX_UP_SPEED = 0.4;
+	private static final double MIN_UP_SPEED = 0.0;
 	
 	private static final double MAX_DOWN_SPEED = 0.3;
-	private static final double MIN_DOWN_SPEED = 0.1;
+	private static final double MIN_DOWN_SPEED = 0.0;
 	
 	// denominator of the proportional set
-	private static final double PROPORTIONAL_DISTANCE = 12;
+	private static final double PROPORTIONAL_DISTANCE = 4;
 	
 	private final double OFFSET = 0;
 	private final double RANGE = 105.375;
 	
 	private final double chaosRange = 105.375;
-	private final double potRange = 0.28 / 1.2;
-	private final double potOffset = 0.0166;
+	private final double potRange = (0.28 / 1.2) / 0.821917;
+	private final double potOffset = 0.0048;
 	
 	Victor lift1;
 	Victor lift2;
@@ -56,7 +56,7 @@ public class LinearLift {
 		lift3 = new Victor (PortConstants.LINEAR_LIFT_3);
 		lift4 = new Victor (PortConstants.LINEAR_LIFT_4);
 		lifts = new SpeedControllerGroup(lift1, lift2, lift3, lift4);
-		lifts.setInverted(true);
+		lifts.setInverted(false);
 		targetPosition = FLOOR_POSITION_INCHES;
 		setPosition = "current position";
 	}
@@ -66,16 +66,19 @@ public class LinearLift {
 	 * @param speed = min = -1.0, max = 1.0
 	 */
 	public void setSpeed (final double speed) {
-//		if ((chaosPotGet() >= TOP_POSITION && speed > 0.0) || (chaosPotGet() <= FLOOR_POSITION && speed < 0.0)) {
+//		if ((chaosPotGet() >= HIGH_POSITION_INCHES && speed > 0.0) || (chaosPotGet() <= FLOOR_POSITION_INCHES && speed < 0.0)) {
 //			lifts.set(0.0);
 //		} else {
 			lifts.set(speed);
 //		}
-		System.out.println(chaosPotGet());
+			
+			
+			
+			//System.out.println (chaosPotGet());
 	}
 	/**
 	 * 
-	 * @param direction - Up = Climb, Left = Scale, Right = Switch, Down = Floor
+	 * @param direction - Up = High (climb/scale), Left = Vault, Right = Switch, Down = Floor
 	 */
 	public void setToPosition (final Controller.DPadDirection direction) {
 		
@@ -90,12 +93,12 @@ public class LinearLift {
 			setPosition = "switch position";
 			break;
 		case LEFT:
-			targetPosition = SCALE_POSITION_INCHES;
+			targetPosition = VAULT_POSITION_INCHES;
 			setPosition = "scale position";
 			break;
 		case UP:
-			targetPosition = CLIMB_POSITION_INCHES;
-			setPosition = "climb position";
+			targetPosition = HIGH_POSITION_INCHES;
+			setPosition = "high position";
 			break;
 		case NONE:
 		default:
@@ -107,7 +110,7 @@ public class LinearLift {
 	}
 	
 	public void setToIntakePosition () {
-		targetPosition = INTAKE_POSITION_INCHES;
+		targetPosition = EXTEND_POSITION_INCHES;
 	}
 	
 	public void setToFloorPosition () {
@@ -117,7 +120,7 @@ public class LinearLift {
 	
 	
 	public boolean liftIsStopped () {
-		return lifts.get() == 0F && isAtTargetPosition();
+		return isAtTargetPosition();
 	}
 	
 	public boolean isAtTargetPosition () {
@@ -188,6 +191,8 @@ public class LinearLift {
 		//makes sure value is within min speed
 		if (Math.abs(proportionalSet) < minSpeed) 
 			proportionalSet = signModifier * minSpeed;
+
+		SmartDashboard.putNumber("Proportional Set: ", proportionalSet);
 		
 		return proportionalSet;
 		
@@ -203,9 +208,10 @@ public class LinearLift {
 	public void putInfo () {
 		
 		SmartDashboard.putNumber("Lift position (in inches): ", chaosPotGet());
+		SmartDashboard.putNumber("Lift position (raw): ", pot.get());
 		SmartDashboard.putString("Set Position: ", setPosition);
 		SmartDashboard.putNumber("Speed set: ", getProportionalSet());
-		targetPosition = 12D;
+		
 		
 		
 		

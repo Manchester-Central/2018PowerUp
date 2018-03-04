@@ -14,25 +14,27 @@ public final class AddEvent implements EventHandler<ActionEvent> {
 	private final ArrayList<PreferenceLine> stages;
 	private final StackPane layout;
 	private final AutoInfo info;
-	private ArrayList <Node> nodes;
+	private ArrayList <Node> movableElements;
 	private TextField fileName;
 
 	public AddEvent(ArrayList<PreferenceLine> stages, StackPane layout, AutoInfo info,
-			ArrayList <Node> nodes, TextField fileName) {
-		this.nodes = nodes;
+			ArrayList <Node> movableElements, TextField fileName) {
+		this.movableElements = movableElements;
 		this.fileName = fileName;
 		this.stages = stages;
 		this.layout = layout;
 		this.info = info;
 	}
 
+	
+	/**
+	 * creates a new preference line and organizes it within the list
+	 */
 	@Override
 	public void handle(ActionEvent arg0) {
-		PreferenceLine line = new PreferenceLine (layout, stages, info, nodes, fileName);
+		PreferenceLine line = new PreferenceLine (layout, stages, info, movableElements, fileName);
 		stages.add(line);
-		NumberManager.reorganizeEntries(stages, layout, nodes, fileName);
-		
-			
+		EventManager.reorganizeEntries(stages, layout, movableElements, fileName);
 		
 	}
 }

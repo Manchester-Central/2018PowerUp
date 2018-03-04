@@ -17,6 +17,9 @@ public class OnDropDownClickEvent implements EventHandler<MouseEvent> {
 		
 	}
 
+	/**
+	 * Updates drop down list to every file within the save folder
+	 */
 	@Override
 	public void handle(MouseEvent event) {
 		

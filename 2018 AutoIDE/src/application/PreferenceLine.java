@@ -14,6 +14,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 
+/**
+ * Controls the components of each line
+ * @author CHAOS131
+ *
+ */
 public class PreferenceLine {
 
 	private ComboBox <String> commands;
@@ -28,44 +33,48 @@ public class PreferenceLine {
 	private Button delete;
 	private StackPane layout;
 	
-	private AutoInfo info;
-	private ArrayList <Node> nodes;
+	private int uniqueNumber;
+	
+	// The list of movable elements in the scene (the lines and the fileName Textfield)
+	private ArrayList <Node> movableElements;
 	
 	public PreferenceLine (StackPane layout, List <PreferenceLine> stages, AutoInfo info,
-			ArrayList <Node> nodes, TextField fileName) {
+			ArrayList <Node> movableElements, TextField fileName) {
+		
 		isOff = false;
-		this.info = info;
 		commands = new ComboBox <String> (info.getCommandList());
 		input = new TextField();
 		isParallel = new CheckBox ();
-		
 		delete = new Button ();
-		
-		delete.setOnAction(new DeleteEvent(layout, stages, this, nodes, fileName));
-
 		this.layout = layout;
-		this.nodes = nodes;
-		
+		this.movableElements = movableElements;
 		stageNumber = new Label ();
-		stageNumber.setMaxWidth(40);
 		
-
-		isParallel.setOnMouseReleased(new ParallelClickedEvent (stages, layout, nodes, fileName));
+		uniqueNumber = 1;
+		
+		stageNumber.setMaxWidth(40);
+		delete.setText("delete");
+		stageNumber.setMaxWidth(20);
+		input.setMaxWidth(70);
+		
+		delete.setOnAction(new DeleteEvent(layout, stages, this, movableElements, fileName));
+		isParallel.setOnMouseReleased(new ParallelClickedEvent (stages, layout, movableElements, fileName));
 		commands.valueProperty().addListener(new CommandBoxChangeEvent(input, info));
 
 		addToScene ();
 	}
 	
-	private void setPositions () {
+	private void setXPositions () {
 		
 		commands.setTranslateX(-120);
+		
 		input.setTranslateX(-20);
+		
 		stageNumber.setTranslateX(40);
-		stageNumber.setMaxWidth(20);
-		input.setMaxWidth(70);
+		
 		isParallel.setTranslateX(70);
+		
 		delete.setTranslateX(110);
-		delete.setText("delete");
 	}
 	
 	public void setYPostions (double y) {
@@ -84,7 +93,7 @@ public class PreferenceLine {
 		isOff = value;
 	}
 	
-	public ComboBox getCommands () {
+	public ComboBox <String> getCommands () {
 		return commands;
 	}
 	
@@ -108,18 +117,26 @@ public class PreferenceLine {
 		stageNumber.setText(String.valueOf(number));
 	}
 	
+	public void setUniqueNumber (int x) {
+		uniqueNumber = x;
+	}
+	
+	public int getUniqueNumber () {
+		return uniqueNumber;
+	}
+	
 	public void addToScene () {
 		layout.getChildren().add(commands);
 		layout.getChildren().add(input);
 		layout.getChildren().add(isParallel);
 		layout.getChildren().add(delete);
 		layout.getChildren().add(stageNumber);
-		nodes.add(commands);
-		nodes.add(input);
-		nodes.add(isParallel);
-		nodes.add(delete);
-		nodes.add(stageNumber);
-		setPositions ();
+		movableElements.add(commands);
+		movableElements.add(input);
+		movableElements.add(isParallel);
+		movableElements.add(delete);
+		movableElements.add(stageNumber);
+		setXPositions ();
 	}
 	
 	public void setComponents (String command, String value, boolean parallel, String number) {

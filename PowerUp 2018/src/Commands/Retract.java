@@ -10,7 +10,7 @@ public class Retract extends TimeRestrictedCommand {
 	CubeManipulator cubeManipulator;
 	
 	public Retract(int argsLength, CubeManipulator cubeManipulator) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 		
 	}

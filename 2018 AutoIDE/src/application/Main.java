@@ -39,67 +39,70 @@ public class Main extends Application {
 	Label instructions;
 	AutoInfo info;
 	TextField description;
-	ArrayList<Node> nodes;
+	ArrayList<Node> movableElements;
+	String imageLocation;
 	
 	Button up;
 	Button down;
 	
-	Integer position;
-	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		nodes = new ArrayList<Node> ();
-		description = new TextField ();
-		add = new Button();
-		layout = new StackPane ();
-		load = new Button ();
-		info = new AutoInfo();
-		up = new Button();
-		down = new Button();
-		openInfo = new Button ();
-		dropDownLoad = new ComboBox <String>();
-		dropDownLoad.setOnMouseClicked(new OnDropDownClickEvent(info, dropDownLoad));
 		
-		instructions = new Label();
+		movableElements 					= new ArrayList<Node> ();
+		description 						= new TextField ();
+		add 								= new Button();
+		layout 								= new StackPane ();
+		load 								= new Button ();
+		info 								= new AutoInfo();
+		up 									= new Button();
+		down 								= new Button();
+		openInfo 							= new Button ();
+		dropDownLoad 						= new ComboBox <String>();
+		instructions 						= new Label();
+		imageLocation 						= "C:\\Program Files\\AutoFolder\\Logo.jpg";
+		FileInputStream x 					= new FileInputStream (imageLocation);
+		logo 								= new Image (x);
+		imageView 							= new ImageView (logo);
+		make 								= new Button ();
+		fileName 							= new TextField ();
+		ArrayList <PreferenceLine> stages 	= new ArrayList <PreferenceLine>();
+		
+		
 		instructions.setMaxWidth(175);
-		
 		instructions.setTranslateX(250);
 		instructions.setTranslateY(0);
 		instructions.setText(getInstructions());
 		
-		FileInputStream x = new FileInputStream ("C:\\Program Files\\AutoFolder\\Logo.jpg");
-		logo = new Image (x);
-		imageView = new ImageView (logo);
 		imageView.preserveRatioProperty();
 		imageView.setFitHeight(140);
 		imageView.setFitWidth(260);
-		
 		imageView.setTranslateX(270);
 		imageView.setTranslateY(-280);
 		
-		make = new Button ();
-		fileName = new TextField ();
+		
 		fileName.setMaxWidth(250);
 		fileName.setPromptText("Title");
 		fileName.setTranslateX(0);
 		fileName.setTranslateY(-200);
+		movableElements.add(fileName);
 		layout.getChildren().add(fileName);
-		ArrayList <PreferenceLine> stages = new ArrayList <PreferenceLine>();
 		
-		nodes.add(fileName);
 		
-		add.setOnAction(new AddEvent(stages, layout, info, nodes, fileName));
+		add.setOnAction(new AddEvent(stages, layout, info, movableElements, fileName));
 		add.setTranslateX(-240);
 		add.setTranslateY(-140);
 		add.setText("add");
 		layout.getChildren().add(add);
 		
+		
+		dropDownLoad.setOnMouseClicked(new OnDropDownClickEvent(info, dropDownLoad));
 		dropDownLoad.valueProperty().addListener(new DropDownLoadEvent(fileName, 
-				stages, primaryStage, layout, info, nodes));
+				stages, primaryStage, layout, info, movableElements));
 		dropDownLoad.setTranslateX(-300);
 		dropDownLoad.setTranslateY(-100);
 		dropDownLoad.setPromptText("Drop-Down load");
 		layout.getChildren().add(dropDownLoad);
+		
 		
 		openInfo.setOnAction(new OpenInfoEvent ());
 		openInfo.setTranslateX(240);
@@ -107,30 +110,34 @@ public class Main extends Application {
 		openInfo.setText("open info");
 		layout.getChildren().add(openInfo);
 		
+		
 		make.setOnAction(new MakeEvent(stages, fileName, info));
 		make.setTranslateX(-240);
 		make.setTranslateY(-170);
 		make.setText("make");
 		layout.getChildren().add(make);
 		
-		load.setOnAction(new LoadEvent (fileName, stages, primaryStage, layout, info, nodes));
+		
+		load.setOnAction(new LoadEvent (fileName, stages, primaryStage, layout, info, movableElements));
 		load.setTranslateX(-240);
 		load.setTranslateY(-200);
 		load.setText("load");
 		layout.getChildren().add(load);
 		
 		
-		up.setOnAction(new ArrowEvent (nodes, false));
+		up.setOnAction(new ArrowEvent (movableElements, false));
 		up.setTranslateX(-280);
 		up.setTranslateY(-280);
+		up.setText("▲");
 		layout.getChildren().add(up);
-		up.setText("↑");
 		
-		down.setOnAction(new ArrowEvent (nodes, true));
+		
+		down.setOnAction(new ArrowEvent (movableElements, true));
 		down.setTranslateX(-280);
 		down.setTranslateY(-240);
-		down.setText("↓");
+		down.setText("▼");
 		layout.getChildren().add(down);
+		
 		
 		layout.getChildren().add(imageView);
 		layout.getChildren().add(instructions);

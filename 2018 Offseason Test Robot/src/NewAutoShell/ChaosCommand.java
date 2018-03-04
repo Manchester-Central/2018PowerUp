@@ -36,7 +36,7 @@ public abstract class ChaosCommand extends Command {
 				&& Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
 				&& Math.abs(Math.abs(drive.getLeftTalonEncoderValue()) - Math.abs(drive.getLeftTarget())) < 100 
 				&& Math.abs(Math.abs(drive.getRightTalonEncoderValue()) - Math.abs(drive.getRightTarget())) < 100;
-		System.out.println("shouldFinish: " + shouldFinish);
+		//System.out.println("shouldFinish: " + shouldFinish);
 		return shouldFinish;
 	}
 

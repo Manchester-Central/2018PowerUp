@@ -31,9 +31,9 @@ public class DriveBase {
 	private double rightTalonTarget;
 	
 	private static final double ENCODER_TICKS_PER_REVOLUTION = 4150.0;
-	private static final double WHEEL_CIRCUMFERENCE_INCHES = 6 * Math.PI;
+	private static final double WHEEL_CIRCUMFERENCE_INCHES = 5.8642 * Math.PI;
 
-	private static final double ROBOT_TURN_RADIUS_INCHES = 13.0;
+	private static final double ROBOT_TURN_RADIUS_INCHES = 12.25;
 	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 	
 	
@@ -55,16 +55,26 @@ public class DriveBase {
 		
 		gearShifter = new DoubleSolenoid(PortConstants.GEAR_SHIFTER_A_SLOW, PortConstants.GEAR_SHIFTER_B_FAST);
 		
-		leftTalonSRX.setInverted(false);
-		rightTalonSRX.setInverted(false); 
+		leftTalonSRX.setInverted(true);
+		rightTalonSRX.setInverted(true);
 		
-		leftTalonSRX.setSensorPhase(true);
+		//leftTalonSRX.setSensorPhase(true);
+		//rightTalonSRX.setSensorPhase(true);
+		
+		leftBackVictor.setInverted(true);
+		leftMidVictor.setInverted(true);
+		leftFrontVictor.setInverted(true);
+		rightBackVictor.setInverted(true);
+		rightMidVictor.setInverted(true);
+		rightFrontVictor.setInverted(true);
+		
+		//leftTalonSRX.setSensorPhase(true);
 		leftTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		leftTalonSRX.configPeakCurrentLimit(30, 0);
 		leftTalonSRX.configPeakOutputForward(0.5 , 0);
 		leftTalonSRX.configPeakOutputReverse(-0.5, 0);
 
-		rightTalonSRX.setSensorPhase(true);
+		//rightTalonSRX.setSensorPhase(true);
 		rightTalonSRX.configSelectedFeedbackSensor(FeedbackDevice.QuadEncoder, 0, 0);
 		rightTalonSRX.configPeakCurrentLimit(30, 0);
 		rightTalonSRX.configPeakOutputForward(0.5 , 0);
@@ -82,6 +92,19 @@ public class DriveBase {
 		
 		rightTalonSRX.configClosedloopRamp (1, 0);
 		leftTalonSRX.configClosedloopRamp (1, 0);
+		
+		leftTalonSRX.config_kF(0, 0, 0);
+		leftTalonSRX.config_kP(0, 0.6, 0);
+		leftTalonSRX.config_kI(0, 0, 0);
+		leftTalonSRX.config_kD(0, 0, 0);
+
+		rightTalonSRX.config_kF(0, 0, 0);
+		rightTalonSRX.config_kP(0, 0.6, 0);
+		rightTalonSRX.config_kI(0, 0, 0);
+		rightTalonSRX.config_kD(0, 0, 0);
+		resetEncoders();
+		
+		resetEncoders();
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -125,11 +148,18 @@ public class DriveBase {
 		}
 	}
 	
-	public double getRightTalonEncoderValue () {
+	public double getCorrctedRightTalonEncoderValue () {
 		
-		return rightTalonSRX.getSelectedSensorPosition(0);
+		return -rightTalonSRX.getSelectedSensorPosition(0);
 		
 	}
+	
+	public double getCorrectedLeftTalonEncoderValue () {
+		
+		return leftTalonSRX.getSelectedSensorPosition(0);
+		
+	}
+	
 	public double getRightEncoderVelocity () {
 		
 		return rightTalonSRX.getSelectedSensorVelocity(0);
@@ -143,12 +173,6 @@ public class DriveBase {
 	public void resetEncoders () {
 		rightTalonSRX.setSelectedSensorPosition(0, 0, 0);
 		leftTalonSRX.setSelectedSensorPosition(0, 0, 0);
-	}
-	
-	public double getLeftTalonEncoderValue () {
-		
-		return leftTalonSRX.getSelectedSensorPosition(0);
-		
 	}
 	
 	/**
@@ -172,14 +196,17 @@ public class DriveBase {
 	 * 
 	 * @param angle - Angle in Degrees to turn. Positive angle = counterclockwise
 	 */
-	public void turnToAngle (double angle) {
+	public void turnToAngleRight (double angle) {
 		
 		double inches = (angle / 360) * ROBOT_CIRCUMFERENCE;
 		
 		resetEncoders();
-		rightTalonSRX.set(ControlMode.Position, inchesToTicks(inches));
+		rightTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
 		
-		leftTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
+		leftTalonSRX.set(ControlMode.Position, inchesToTicks(inches));
+		
+		System.out.println ("ticks: " + inchesToTicks(inches));
+		
 		updateTargetValues (-inches, inches);
 		talonSpeedToVictors();
 		
@@ -193,7 +220,7 @@ public class DriveBase {
 	/**
 	 * Makes the drive Victors follow the speed of the Talons++
 	 */
-	private void talonSpeedToVictors() {
+	public void talonSpeedToVictors() {
 		double leftTalonSpeed = leftTalonSRX.get();
 		double rightTalonSpeed = rightTalonSRX.get();
 		
@@ -209,26 +236,37 @@ public class DriveBase {
 	
 	public void encoderData() {
 		
-		System.out.println("Left Encoder: " + ticksToInches(getLeftTalonEncoderValue())
-		+ " right Encoder: " +ticksToInches(getRightTalonEncoderValue()) + "-- "
-		+ ticksToInches(rightTalonSRX.getClosedLoopError(0)));
+//		System.out.println("Left Encoder: " + ticksToInches(getCorrectedLeftTalonEncoderValue())
+//		+ " right Encoder: " +ticksToInches(getCorrctedRightTalonEncoderValue()) + "-- "
+//		+ ticksToInches(rightTalonSRX.getClosedLoopError(0)));
 	}
 	
 	public void velocityData () {
-		System.out.println("left velocity: " + getRightEncoderVelocity() + " right velocity: " +getLeftEncoderVelocity());
+		//System.out.println("left velocity: " + getLeftEncoderVelocity() + " right velocity: " +getRightEncoderVelocity());
+		//System.out.println("left encoder: " + getCorrectedLeftTalonEncoderValue() + " right encoder: " +getCorrctedRightTalonEncoderValue());
 	}
 	
 	/**
 	 * Stops the drive and resets the encoders for the next drive command
 	 */
 	public void end () {
-		rightTalonSRX.stopMotor();
-		leftTalonSRX.stopMotor();
+//		rightTalonSRX.stopMotor();
+//		leftTalonSRX.stopMotor();
+		rightTalonSRX.set(ControlMode.Disabled, 0);
+		leftTalonSRX.set(ControlMode.Disabled, 0);
+		rightTalonSRX.set(0.0);
+		leftTalonSRX.set(0.0);
+		//talonSpeedToVictors();
 		resetEncoders();
 	}
 	
 	public double getRightTarget () {
 		return rightTalonTarget;
+	}
+	
+	public boolean isEnable () {
+		return rightTalonSRX.getControlMode() == ControlMode.Disabled || 
+				leftTalonSRX.getControlMode() == ControlMode.Disabled;
 	}
 	
 	public double getLeftTarget () {
@@ -239,8 +277,8 @@ public class DriveBase {
 		
 		SmartDashboard.putNumber("Right Talon Speed: ", getRightEncoderVelocity());
 		SmartDashboard.putNumber("Left Talon Speed: ", getLeftEncoderVelocity());
-		SmartDashboard.putNumber("Right Talon Encoder: ", getRightTalonEncoderValue());
-		SmartDashboard.putNumber("Left Talon Encoder: ", getRightTalonEncoderValue());
+		SmartDashboard.putNumber("Right Talon Encoder: ", ticksToInches(getCorrctedRightTalonEncoderValue()));
+		SmartDashboard.putNumber("Left Talon Encoder: ", ticksToInches(getCorrctedRightTalonEncoderValue()));
 		
 		boolean inLowShift = gearShifter.get().equals(Value.kForward);
 		

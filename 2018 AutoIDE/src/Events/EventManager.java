@@ -13,38 +13,51 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class NumberManager {
-
-	public NumberManager() {
-		// TODO reorganize entries on isParallel check, refactor reorganization in other events
-	}
+public class EventManager {
 	
-	public static void reorganizeEntries(List <PreferenceLine>stages, StackPane layout, ArrayList<Node> nodes, TextField fileName) {
+	/**
+	 * organizes each line and gives them the appropriate stage number
+	 * removes entries that are to be deleted 
+	 * @param stages - the list of lines
+	 * @param layout - the layout for entries to be removed from and added to
+	 * @param movableElements - Node elements that can be moved (fileName and PreferenceLines)
+	 * @param fileName - the TextField for the title
+	 */
+	public static void reorganizeEntries(List <PreferenceLine>stages, 
+			StackPane layout, ArrayList<Node> movableElements, TextField fileName) {
+		
 		int stagePosition = 1;
-		int stageNumber =   1;
+		int stageNumber   = 1;
 		
 		List <PreferenceLine> removedEntries = new ArrayList <PreferenceLine> ();
 		
+		// 
 		for (PreferenceLine x : stages) {
 			if (!x.getIsOff()) {
+				
 				x.setYPostions((stagePosition * 30) + fileName.getTranslateY());
 				x.setStageNumber(stageNumber);
+				
 				if (!x.getIsParallel().isSelected()) {
 					stageNumber++;
 				}
-				stagePosition++;
+				x.setUniqueNumber(stagePosition);
+				stagePosition++;;
+				
 			} else {
-				nodes.remove(x.getCommands());
-				nodes.remove(x.getInput());
-				nodes.remove(x.getIsParallel());
-				nodes.remove(x.getDelete());
-				nodes.remove(x.getStageNumber());
+				
+				movableElements.remove(x.getCommands());
+				movableElements.remove(x.getInput());
+				movableElements.remove(x.getIsParallel());
+				movableElements.remove(x.getDelete());
+				movableElements.remove(x.getStageNumber());
 				layout.getChildren().remove(x.getCommands());
 				layout.getChildren().remove(x.getInput());
 				layout.getChildren().remove(x.getIsParallel());
 				layout.getChildren().remove(x.getDelete());
 				layout.getChildren().remove(x.getStageNumber());
 				removedEntries.add(x);
+				
 			}
 		}
 		
@@ -54,8 +67,19 @@ public class NumberManager {
 
 	}
 	
+	/**
+	 * loads a file from the save folder into the editor
+	 * @param file - the file to load
+	 * @param primaryStage - the stage to add PrefenceLine elements to
+	 * @param fileName - the TextField for the title
+	 * @param stages - the list of lines
+	 * @param layout - the layout for entries to be removed from and added to
+	 * @param info - the build info for getting corresponding commands and placeholders
+	 * @param movableElements - Node elements that can be moved (fileName and PreferenceLines)
+	 */
 	public static void load (File file, Stage primaryStage, TextField fileName,
-			List <PreferenceLine> stages, StackPane layout, AutoInfo info, ArrayList <Node> nodes) {
+			List <PreferenceLine> stages, StackPane layout, AutoInfo info, 
+			ArrayList <Node> movableElements) {
 		
 		ArrayList <String> lines = new ArrayList<String> ();
 		
@@ -79,14 +103,14 @@ public class NumberManager {
 		for (PreferenceLine line : stages) {
 			line.setIsOff(true);
 		}
-		NumberManager.reorganizeEntries(stages, layout, nodes, fileName);
+		EventManager.reorganizeEntries(stages, layout, movableElements, fileName);
 		
 		stages.clear();
 		
 		for (String line : lines) {
 			if (!line.equals("string \"/Preferences/.type\"=\"RobotPreferences\"") && !line.equals("[NetworkTables Storage 3.0]")) {
 				
-				PreferenceLine newLine = new PreferenceLine (layout, stages, info, nodes, fileName);
+				PreferenceLine newLine = new PreferenceLine (layout, stages, info, movableElements, fileName);
 				
 				String comma = ",";
 				
@@ -107,7 +131,7 @@ public class NumberManager {
 			}
 		}
 		fileName.setTranslateY(-200);
-		NumberManager.reorganizeEntries(stages, layout, nodes, fileName);
+		EventManager.reorganizeEntries(stages, layout, movableElements, fileName);
 	}
 
 }

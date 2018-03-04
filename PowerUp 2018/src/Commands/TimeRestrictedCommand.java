@@ -7,8 +7,8 @@ public abstract class TimeRestrictedCommand extends ChaosCommand {
 	protected long maxTime = 1000;
 	protected long startTime;
 	
-	public TimeRestrictedCommand(int argsLength) {
-		super (argsLength);
+	public TimeRestrictedCommand(int argsLength, String NAME) {
+		super(argsLength, NAME);
 	}
 	
 	@Override
@@ -18,7 +18,9 @@ public abstract class TimeRestrictedCommand extends ChaosCommand {
 	
 	@Override
 	protected void initialize () {
+		super.initialize();
 		startTime = System.currentTimeMillis();
 	}
 
+	
 }

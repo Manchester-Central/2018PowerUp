@@ -21,15 +21,14 @@ public class DropDownLoadEvent implements ChangeListener <String> {
 	private List<PreferenceLine> stages;
 	private StackPane layout;
 	private AutoInfo info;
-	private ArrayList <Node> nodes;
+	private ArrayList <Node> movableElements;
 	
 	private Stage primaryStage;
 	
 	public DropDownLoadEvent(TextField fileName, List<PreferenceLine> stages,
-			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList <Node> nodes) {
+			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList <Node> movableElements) {
 		
-		this.nodes  = nodes;
-		
+		this.movableElements  = movableElements;
 		fileChooser = new FileChooser ();
 		this.fileName = fileName;
 		this.info = info;
@@ -38,15 +37,20 @@ public class DropDownLoadEvent implements ChangeListener <String> {
 		this.primaryStage = primaryStage;
 	}
 
+	/**
+	 * Determines if the the user selected a different file and if they have,
+	 * then it finds the file path of the new file and loads that file
+	 */
 	@Override
-	public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+	public void changed(ObservableValue<? extends String> observable, 
+			String oldValue, String newValue) {
 		
 		if (newValue == null)
 			return;
 		
 		if (oldValue == null || !newValue.equals(oldValue)) {
 			File file = new File (info.getFilePath(info.filePath(), newValue));
-			NumberManager.load(file, primaryStage, fileName, stages, layout, info, nodes);
+			EventManager.load(file, primaryStage, fileName, stages, layout, info, movableElements);
 		}
 		
 	}

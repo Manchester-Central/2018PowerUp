@@ -8,16 +8,17 @@ public class Turn extends ChaosCommand {
 	// CounterClockwise is positive turn
 	
 	DriveBase drive;
-	public static final String NAME = "Turn";
+	public static final String NAME = "TurnRight";
 	
 	public Turn(int argsLength, DriveBase drive) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
-		drive.turnToAngle(Double.parseDouble(args[0]));
+		super.initialize();
+		drive.turnToAngleRight(Double.parseDouble(args[0]));
 	}
 	
 	@Override
@@ -36,6 +37,7 @@ public class Turn extends ChaosCommand {
 	protected void end () {
 		drive.resetEncoders();
 		drive.end();
+		super.end();
 	}
 
 

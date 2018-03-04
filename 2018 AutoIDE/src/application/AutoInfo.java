@@ -17,10 +17,10 @@ public class AutoInfo {
 	// The names (without .ini) of every config file 
 	private ArrayList<String> files;
 	
-	//
+	// Key and value for every configuration variable
 	private HashMap <String, String> configMap;
 	
-	//
+	// Grayed background text for every command value
 	private HashMap <String, String> commandPlaceholders;
 	
 	public AutoInfo() {
@@ -29,24 +29,26 @@ public class AutoInfo {
 		configMap = new HashMap <String, String> ();
 		commandPlaceholders = new HashMap <String, String> ();
 		
+		// creates command list with placeholders
 		try {
 			File file = new File("C:\\Program Files\\AutoFolder\\Command_Config.txt");
 			
-			FileReader reee = new FileReader (file);
-			BufferedReader reader = new BufferedReader (reee);
+			FileReader fr = new FileReader (file);
+			BufferedReader reader = new BufferedReader (fr);
 			
 			String line;
 			
+			// for every line in the Command_Config file
 			while ((line = reader.readLine()) != null) {
 				
+				// command:placeholder
 				String command = line.split(":")[0];
+				String value = line.split("\\|")[1].trim();
 				
 				commandList.add(command);
 				
 				if (line.split("\\|").length > 1) {
-					commandPlaceholders.put(command, line.split("\\|")[1].trim());
-					System.out.println(command);
-					System.out.println(line.split("\\|")[1].trim());
+					commandPlaceholders.put(command, value);
 				}
 				
 				
@@ -58,6 +60,7 @@ public class AutoInfo {
 			
 			e.printStackTrace();
 			
+			//generates default command list
 			commandList = 
 				    FXCollections.observableArrayList(
 				        "Test",
@@ -80,6 +83,7 @@ public class AutoInfo {
 			
 		}
 		
+		// Generates config map.
 		try {
 
 			File file = new File ("C:\\Program Files\\AutoFolder\\Config.txt");
@@ -89,8 +93,10 @@ public class AutoInfo {
 			
 			String line;
 			
+			// for every line in the Config.txt file
 			while ((line = reader.readLine()) != null) {
 				
+				// config_variable=config_value
 				String[] args = line.split("=");
 				
 				if (args.length == 2)
@@ -104,6 +110,12 @@ public class AutoInfo {
 		}
 	}
 	
+	/**
+	 * Gets save path under Save_Path config_variable (or desktop default if Save_Path doesn't 
+	 * exist) and creates directory if it doesn't exist.
+	 * 
+	 * @return The path to the Save Folder
+	 */
 	public String filePath () {
 		
 		String savePath = configMap.getOrDefault("Save_Path", System.getProperty("user.home") + "\\Desktop\\Auto Modes");
@@ -120,6 +132,10 @@ public class AutoInfo {
 		return commandList;
 	}
 	
+	/**
+	 * Adds each file name in the save folder to the files list
+	 * @param folder - Save Path and embedded files
+	 */
 	private void recursiveFileArrayCreate (File folder) {
 		
 		for (File file : folder.listFiles()) {
@@ -142,6 +158,12 @@ public class AutoInfo {
 		
 	}
 	
+	/**
+	 * Gets the file path for the specified file name in the save path
+	 * @param folderPath - the save path and embedded folders
+	 * @param name - the name (without .ini) of the file requested
+	 * @return the file path or "Not Found" if not found
+	 */
 	public String getFilePath (String folderPath, String name) {
 		
 		File saveFolder = new File (folderPath);

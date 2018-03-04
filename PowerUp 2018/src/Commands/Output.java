@@ -9,13 +9,13 @@ public class Output extends TimeRestrictedCommand {
 	CubeManipulator cubeManipulator;
 	
 	public Output(int argsLength, CubeManipulator cubeManipulator) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return !cubeManipulator.cubeInCurrent() || super.isFinished();
+		return !cubeManipulator.cubeInSensor() || super.isFinished();
 	}
 	
 	@Override

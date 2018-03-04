@@ -27,13 +27,16 @@ public interface PortConstants {
 	
 	//Solenoids
 	public static final int GEAR_SHIFTER_A_SLOW = 2;
-	public static final int GEAR_SHIFTER_B_FAST = 6;
+	public static final int GEAR_SHIFTER_B_FAST = 7;
 	
 	public static final int CUBE_PUSHER_A = 1;
 	public static final int CUBE_PUSHER_B = 0;
 	
-	public static final int CUBE_PINCHER_A = 7;
+	public static final int CUBE_PINCHER_A = 6;
 	public static final int CUBE_PINCHER_B = 3;
+	
+	public static final int CUBE_UNPINCHER_A = 4;
+	public static final int CUBE_UNPINCHER_B = 5;
 	
 	//DIO
 	public static final int LINEAR_LIFT_ENCODER_INPUT = 0;

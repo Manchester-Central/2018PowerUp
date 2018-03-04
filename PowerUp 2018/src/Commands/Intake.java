@@ -10,14 +10,14 @@ public class Intake extends TimeRestrictedCommand {
 	CubeManipulator cubeManipulator;
 	
 	public Intake(int argsLength, CubeManipulator cubeManipulator) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return cubeManipulator.cubeInCurrent() || super.isFinished();
+		return cubeManipulator.cubeInSensor() || super.isFinished();
 	}
 	
 	@Override

@@ -78,14 +78,14 @@ public class Robot extends IterativeRobot {
 	/**
 	 * Controls for the drive (Driver)
 	 * 
-	 * left and right y-axis for corresponding drive side
+	 * left and right y-axis for corresponding drive side (currently at 80% power)
 	 * 
 	 * Holding left or right bumper shifts into high position
 	 * 
 	 */
 	private void driveControls () {
 		
-		drive.setSpeed(cm.driver.getLeftY(), cm.driver.getRightY());
+		drive.setSpeed(-cm.driver.getLeftY() * 0.9, -cm.driver.getRightY() * 0.9);
 		
 		boolean doGearShift = cm.driver.buttonPressed(Controller.LEFT_BUMPER) 
 				|| cm.driver.buttonPressed(Controller.RIGHT_BUMPER);
@@ -99,21 +99,43 @@ public class Robot extends IterativeRobot {
 	/**
 	 * Lift controls (manual) (Operator)
 	 * 
-	 * D-Pad moves to preset position (have to hold to move) (see lift for more info)
+	 * ABXY moves to preset position (have to hold to move)
+	 * A - floor position, B - vault position, X - switch position, Y - top position
 	 * 
-	 * left y-axis manually moves lift
+	 * right y-axis manually moves lift
 	 * 
 	 */
 	private void liftControls () {
 			
-		if (cm.operator.getDPad() != Controller.DPadDirection.NONE) {
+		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
 			
-			lift.setToPosition(cm.operator.getDPad());
+			lift.setTargetPosition(LinearLift.FLOOR_POSITION_INCHES);
+			lift.MoveToPosition();
+			
+		} else if (cm.operator.buttonPressed(Controller.UP_Y)) {
+			
+			lift.setTargetPosition(LinearLift.HIGH_POSITION_INCHES);
+			lift.MoveToPosition();
+			
+		} else if (cm.operator.buttonPressed(Controller.LEFT_X)) {
+			
+			lift.setTargetPosition(LinearLift.SWITCH_POSITION_INCHES);
+			lift.MoveToPosition();
+			
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+			
+			lift.setTargetPosition(LinearLift.VAULT_POSITION_INCHES);
+			lift.MoveToPosition();
+			
+		} else if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+			
+			lift.setTargetPosition(LinearLift.PORTAL_POSITION_INCHES);
 			lift.MoveToPosition();
 			
 		} else {
-			
-			lift.setSpeed(cm.operator.getLeftY());
+			//if (lift.liftPosition() < 109 || cm.operator.getRightY() > 0) {
+				lift.setSpeed(-cm.operator.getRightY() * 0.8);
+			//}
 			
 		}
 			
@@ -122,56 +144,63 @@ public class Robot extends IterativeRobot {
 	/**
 	 * Cube manipulator controls (manual) (operator)
 	 * 
-	 * left bumper extends manipulator
-	 * left trigger retracts manipulator
+	 * Dpad up extends manipulator
+	 * Dpad down retracts manipulator
 	 * 
-	 * A pinches
-	 * B releases
+	 * right trigger intakes flywheels (full speed)
+	 * right bumper outputs flywheels (full speed)
 	 * 
-	 * Right bumper outputs flywheels
-	 * Right trigger intakes flywheels
+	 * Dpad right pinches
+	 * Dpad left relaxes
+	 * left trigger releases
+	 * 
+	 * left y-axis manual set of flywheel
 	 * 
 	 */
 	private void cubeControls () {
 		
-		if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+		if (cm.operator.getDPad() == Controller.DPadDirection.UP) {
 			
 			cubeManipulator.extend();
 			
-		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
+		} else if (cm.operator.getDPad() == Controller.DPadDirection.DOWN) {
 			
 			cubeManipulator.retract();
 			
 		}
 		
-		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
+		if (cm.operator.getDPad() == Controller.DPadDirection.LEFT) {
+			
+			cubeManipulator.relax();
+			
+		} else if (cm.operator.getDPad() == Controller.DPadDirection.RIGHT) {
 			
 			cubeManipulator.pinch();
 			
-		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
+		} else if (cm.operator.buttonPressed(cm.operator.LEFT_TRIGGER)) {
 			
 			cubeManipulator.release();
 			
 		}
 		
-		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
 			
 			cubeManipulator.output();
 			
-		} else if (cm.operator.buttonPressed(Controller.DOWN_A)) {
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
 			
 			cubeManipulator.intake();
 			
 		} else {
 			
-			cubeManipulator.stopSpeed();
+			cubeManipulator.setFlywheels(-cm.operator.getLeftY());
 			
 		}
 		
 	}
 	
 	/**
-	 * Automatic Intake Cubes (Operator) B button
+	 * Automatic Intake Cubes (Operator) left bumper button
 	 * 
 	 * Releases the pincher, moves down to intake position, 
 	 * intakes & pinches until the cube is in, then lift to a higher position and retracts
@@ -183,6 +212,7 @@ public class Robot extends IterativeRobot {
 		// TODO to be changed to sensor if it gets working
 		if (cubeManipulator.cubeInCurrent()) {
 			
+			cubeManipulator.pinch();
 			lift.setToIntakePosition();
 			cubeManipulator.stopSpeed();
 			
@@ -212,7 +242,7 @@ public class Robot extends IterativeRobot {
 			
 			// intakes cube if in position
 			if (lift.liftIsStopped()) {
-				cubeManipulator.pinch();
+				cubeManipulator.relax();
 				cubeManipulator.intake();
 			} else {
 				lift.MoveToPosition();
@@ -285,17 +315,20 @@ public class Robot extends IterativeRobot {
 
 		driveControls();
 		
-		if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
-			
-			autonomaticCubeIntake();
-			
-		} else {
+//		if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+//			
+//			//autonomaticCubeIntake();
+//			
+//		} else {
 		
 			liftControls ();
 			
 			cubeControls ();
 			
-		}
+//		}
+		
+
+		SmartDashboard.putNumber("Right Y speed: ", -cm.operator.getRightY());
 		
 		// testDirectControls
 		
@@ -317,6 +350,8 @@ public class Robot extends IterativeRobot {
 	public void robotPeriodic() {
 		dashboardInfo();
 		cubeManipulator.checkPower();
+		SmartDashboard.updateValues();
+		//drive.velocityData();
 	} 
 	
 	/**
@@ -325,6 +360,5 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.updateValues();
 	}
 }

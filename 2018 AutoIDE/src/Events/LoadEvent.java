@@ -21,14 +21,14 @@ public class LoadEvent implements EventHandler<ActionEvent>{
 	private List<PreferenceLine> stages;
 	private StackPane layout;
 	private AutoInfo info;
-	private ArrayList <Node> nodes;
+	private ArrayList <Node> movableElements;
 	
 	private Stage primaryStage;
 	
 	public LoadEvent(TextField fileName, List<PreferenceLine> stages,
-			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList<Node> nodes) {
+			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList<Node> movableElements) {
 		fileChooser = new FileChooser ();
-		this.nodes = nodes;
+		this.movableElements = movableElements;
 		this.fileName = fileName;
 		this.info = info;
 		this.stages = stages;
@@ -36,12 +36,15 @@ public class LoadEvent implements EventHandler<ActionEvent>{
 		this.primaryStage = primaryStage;
 	}
 
+	/**
+	 * Calls the load method with open dialog file
+	 */
 	@Override
 	public void handle(ActionEvent event) {
 		
 		File file = fileChooser.showOpenDialog(primaryStage);
 		
-		NumberManager.load(file, primaryStage, fileName, stages, layout, info, nodes);
+		EventManager.load(file, primaryStage, fileName, stages, layout, info, movableElements);
 		
 	}
 

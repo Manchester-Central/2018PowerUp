@@ -10,12 +10,13 @@ public class ScaleDrive extends ChaosCommand {
 	public static final String NAME = "ScaleDrive";
 	
 	public ScaleDrive(int argsLength, DriveBase drive) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
+		super.initialize();
 		GameData data = new GameData ();
 		if (data.scaleIsLeft()) {
 			drive.setTalonsToPosition(Double.valueOf(args[0]));
@@ -43,6 +44,7 @@ public class ScaleDrive extends ChaosCommand {
 	protected void end () {
 		drive.resetEncoders();
 		drive.end();
+		super.end();
 	}
 
 }

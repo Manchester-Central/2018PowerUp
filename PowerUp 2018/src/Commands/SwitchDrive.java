@@ -10,12 +10,13 @@ public class SwitchDrive extends ChaosCommand {
 	public static final String NAME = "SwitchDrive";
 	
 	public SwitchDrive(int argsLength, DriveBase drive) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
+		super.initialize();
 		drive.resetEncoders();
 		GameData data = new GameData ();
 		if (data.closeSwitchIsLeft()) {
@@ -44,6 +45,7 @@ public class SwitchDrive extends ChaosCommand {
 	protected void end () {
 		drive.resetEncoders();
 		drive.end();
+		super.end();
 	}
 
 

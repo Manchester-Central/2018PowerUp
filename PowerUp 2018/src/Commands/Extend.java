@@ -9,7 +9,7 @@ public class Extend extends TimeRestrictedCommand {
 	private CubeManipulator cubeManipulator;
 	
 	public Extend(int argsLength, CubeManipulator cubeManipulator) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 	}
 

@@ -6,25 +6,26 @@ import SystemComponents.DriveBase;
 
 public class ScaleTurn extends ChaosCommand {
 
-	// CounterClockwise is positive turn
+
 	
 	DriveBase drive;
-	public static final String NAME = "ScaleTurn";
+	public static final String NAME = "ScaleTurnRight";
 	
 	public ScaleTurn(int argsLength, DriveBase drive) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
+		super.initialize();
 		drive.resetEncoders();
 		GameData data = new GameData ();
 		if (data.scaleIsLeft()) {
-			drive.turnToAngle(Double.valueOf(args[0]));
+			drive.turnToAngleRight(Double.valueOf(args[0]));
 		} else {
 		
-			drive.turnToAngle(Double.valueOf(args[1]));
+			drive.turnToAngleRight(Double.valueOf(args[1]));
 			
 		}
 	}
@@ -44,6 +45,7 @@ public class ScaleTurn extends ChaosCommand {
 	protected void end () {
 		drive.resetEncoders();
 		drive.end();
+		super.end();
 	}
 
 }

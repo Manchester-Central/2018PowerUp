@@ -10,7 +10,7 @@ public class Pinch extends TimeRestrictedCommand {
 	CubeManipulator cubeManipulator;
 	
 	public Pinch(int argsLength, CubeManipulator cubeManipulator) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 		
 	}

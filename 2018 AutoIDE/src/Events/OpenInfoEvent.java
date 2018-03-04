@@ -12,6 +12,9 @@ public class OpenInfoEvent implements EventHandler<ActionEvent> {
 		
 	}
 
+	/**
+	 * Opens up the info file (Command_Config.ini)
+	 */
 	@Override
 	public void handle(ActionEvent event) {
 		

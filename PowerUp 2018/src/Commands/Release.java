@@ -10,7 +10,7 @@ public class Release extends TimeRestrictedCommand {
 	CubeManipulator cubeManipulator;
 	
 	public Release(int argsLength, CubeManipulator cubeManipulator) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 		
 	}
@@ -26,6 +26,11 @@ public class Release extends TimeRestrictedCommand {
 		super.initialize();
 		cubeManipulator.release();
 		
+	}
+	
+	@Override
+	protected void execute () {
+		cubeManipulator.release();
 	}
 
 
