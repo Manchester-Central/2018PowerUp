@@ -62,11 +62,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		CommandGroup autoSequence = new CommandGroup();
-		autoBuilder = new AutoBuilder (drive);
-		autoBuilder.createCommandGroup(autoSequence);
-
-		Scheduler.getInstance().add(autoSequence);
+//		CommandGroup autoSequence = new CommandGroup();
+//		autoBuilder = new AutoBuilder (drive);
+//		autoBuilder.createCommandGroup(autoSequence);
+		drive.turnToAngle(90);
+//		Scheduler.getInstance().add(autoSequence);
 	}
 
 	/**

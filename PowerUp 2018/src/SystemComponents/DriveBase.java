@@ -36,6 +36,11 @@ public class DriveBase {
 	private static final double ROBOT_TURN_RADIUS_INCHES = 12.25;
 	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 	
+	private double minSpeed = 0.3;
+	private double maxSpeed = 0.5;
+	
+	private double forwardGain;
+	private double turnGain;
 	
 	public DriveBase () {
 		
@@ -104,7 +109,7 @@ public class DriveBase {
 		rightTalonSRX.config_kD(0, 0, 0);
 		resetEncoders();
 		
-		resetEncoders();
+		setGains (0.0125, 0.2);
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -191,6 +196,7 @@ public class DriveBase {
 		
 		talonSpeedToVictors();
 		
+		
 	}
 	/**
 	 * 
@@ -204,6 +210,8 @@ public class DriveBase {
 		rightTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(inches));
+		
+		tankCorrectedDrive (inchesToTicks(inches), inchesToTicks(-inches));
 		
 		System.out.println ("ticks: " + inchesToTicks(inches));
 		
@@ -232,6 +240,58 @@ public class DriveBase {
 		rightBackVictor.set(rightTalonSpeed);
 		rightMidVictor.set(rightTalonSpeed);
 		rightFrontVictor.set(rightTalonSpeed);
+	}
+	
+	public void setGains(double forwardGain, double turnGain) {
+		this.forwardGain = forwardGain;
+		this.turnGain = turnGain;
+	}
+	
+	public void tankCorrectedDrive (double leftTarget, double rightTarget)
+	{
+		double leftError  = leftTarget  - getCorrectedLeftTalonEncoderValue ();
+		double rightError = rightTarget - getCorrctedRightTalonEncoderValue ();
+		
+		double leftScaled  = (leftTarget  != 0) ? (leftError  / leftTarget)  : 0;
+		double rightScaled = (rightTarget != 0) ? (rightError / rightTarget) : 0;
+		double turnError  = (leftScaled - rightScaled) *
+				            (leftTarget + rightTarget) /
+				             2.0;
+		
+		double leftOutput  = (leftError  * forwardGain) + (turnError * turnGain);
+		double rightOutput = (rightError * forwardGain) - (turnError * turnGain);
+		
+		double absLeftOutput  = Math.abs(leftOutput);
+		double absRightOutput = Math.abs(rightOutput);
+		
+		if (absLeftOutput < minSpeed || absRightOutput < minSpeed) {
+			if (absRightOutput > absLeftOutput) {
+				if (absRightOutput != 0) {
+					rightOutput = rightOutput * (minSpeed / absRightOutput);
+					leftOutput  = leftOutput  * (minSpeed / absRightOutput);
+				}
+			} else {
+				if (absLeftOutput != 0) {
+					rightOutput = rightOutput * (minSpeed / absLeftOutput);
+					leftOutput  = leftOutput  * (minSpeed / absLeftOutput);
+				}
+			}
+		}
+		else if (absRightOutput > maxSpeed || absLeftOutput > maxSpeed) {
+			if (absRightOutput > absLeftOutput) {
+				if (absRightOutput != 0) {
+					rightOutput = rightOutput * (maxSpeed / absRightOutput);
+					leftOutput  = leftOutput  * (maxSpeed / absRightOutput);
+				}
+			} else {
+				if (absLeftOutput != 0) {
+					rightOutput = rightOutput * (maxSpeed / absLeftOutput);
+					leftOutput  = leftOutput  * (maxSpeed / absLeftOutput);
+				}
+			}
+		}
+		
+		setSpeed (leftOutput, rightOutput);
 	}
 	
 	public void encoderData() {

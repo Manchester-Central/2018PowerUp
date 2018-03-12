@@ -199,12 +199,71 @@ public class Robot extends IterativeRobot {
 		
 	}
 	
+	
+	
+	private void dashboardInfo () {
+		
+		drive.putInfo();
+		lift.putInfo();
+		cubeManipulator.putInfo();
+		SmartDashboard.updateValues();
+		
+	}
+	
+	/**
+	 * This function is called periodically during driver/operator control.
+	 */
+	@Override
+	public void teleopPeriodic() {
+
+		driveControls();
+		
+		liftControls ();
+			
+		cubeControls ();
+			
+
+
+		SmartDashboard.putNumber("Right Y speed: ", -cm.operator.getRightY());
+
+		
+		
+	}
+
+	/**
+	 * This function is called periodically during test mode.
+	 */
+	@Override
+	public void testPeriodic() {
+		
+	}
+	
+	/**
+	 * called each periodic state
+	 */
+	@Override
+	public void robotPeriodic() {
+		dashboardInfo();
+		cubeManipulator.checkPower();
+		SmartDashboard.updateValues();
+		//drive.velocityData();
+	} 
+	
+	/**
+	 * Schedule scheduler runs for table commands
+	 */
+	@Override
+	public void disabledPeriodic() {
+		Scheduler.getInstance().run();
+	}
+	
 	/**
 	 * Automatic Intake Cubes (Operator) left bumper button
 	 * 
 	 * Releases the pincher, moves down to intake position, 
 	 * intakes & pinches until the cube is in, then lift to a higher position and retracts
 	 */
+	@Deprecated
 	private void autonomaticCubeIntake () {
 		
 			
@@ -250,115 +309,5 @@ public class Robot extends IterativeRobot {
 		}
 			
 		
-	}
-	
-	/**
-	 * 
-	 * controls with no automation and direct controller control, all operator
-	 * 
-	 * A extends the manipulator
-	 * B retracts the manipulator
-	 * 
-	 * left bumper spins the flywheels outward
-	 * left trigger spins the flywheels inwards
-	 * 
-	 * X makes the manipulator pinch
-	 * Y makes the manipulator release
-	 * 
-	 * left y-axis manually moves the lift
-	 * 
-	 * right y-axis manually sets the flywheels
-	 * 
-	 */
-	public void directTestControls () {
-		
-		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
-			cubeManipulator.extend();
-		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
-			cubeManipulator.retract();
-		}
-		
-		if(cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
-			cubeManipulator.output();
-		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)){
-			cubeManipulator.intake();   
-		} else {
-			cubeManipulator.stopSpeed();
-		}
-		
-		if (cm.operator.buttonPressed(Controller.LEFT_X)) {
-			cubeManipulator.pinch();
-		} else if (cm.operator.buttonPressed(Controller.UP_Y)) {
-			cubeManipulator.release();
-		}
-		
-		cubeManipulator.setFlywheels(cm.operator.getRightY());
-			
-		lift.setSpeed(cm.operator.getLeftY());
-		
-	}
-	
-	private void dashboardInfo () {
-		
-		drive.putInfo();
-		lift.putInfo();
-		cubeManipulator.putInfo();
-		SmartDashboard.updateValues();
-		
-	}
-	
-	/**
-	 * This function is called periodically during driver/operator control.
-	 */
-	@Override
-	public void teleopPeriodic() {
-
-		driveControls();
-		
-//		if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
-//			
-//			//autonomaticCubeIntake();
-//			
-//		} else {
-		
-			liftControls ();
-			
-			cubeControls ();
-			
-//		}
-		
-
-		SmartDashboard.putNumber("Right Y speed: ", -cm.operator.getRightY());
-		
-		// testDirectControls
-		
-		
-	}
-
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
-	public void testPeriodic() {
-		
-	}
-	
-	/**
-	 * called each periodic state
-	 */
-	@Override
-	public void robotPeriodic() {
-		dashboardInfo();
-		cubeManipulator.checkPower();
-		SmartDashboard.updateValues();
-		//drive.velocityData();
-	} 
-	
-	/**
-	 * Schedule scheduler runs for table commands
-	 */
-	@Override
-	public void disabledPeriodic() {
-		Scheduler.getInstance().run();
 	}
 }
