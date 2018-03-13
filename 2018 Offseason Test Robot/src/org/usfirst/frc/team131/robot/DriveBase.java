@@ -83,10 +83,10 @@ public class DriveBase {
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
 		
-		//leftTalonSRX.set(-leftSpeed);
+		leftTalonSRX.set(leftSpeed);
 		rightTalonSRX.set(rightSpeed);
 		
-		talonSpeedToVictors();
+		//talonSpeedToVictors();
 		
 		
 	}
@@ -230,7 +230,7 @@ public class DriveBase {
 		
 		leftTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
 		updateTargetValues (-inches, inches);
-		talonSpeedToVictors();
+		//talonSpeedToVictors();
 		
 	}
 	
@@ -247,6 +247,25 @@ public class DriveBase {
 		//rightBackVictor.set(rightTalonSpeed);
 		//rightMidVictor.set(rightTalonSpeed);
 		rightFrontVictor.set(rightTalonSpeed);
+	}
+	
+	/**
+	 * 
+	 * @param angle - Angle in Degrees to turn. Positive angle = counterclockwise
+	 */
+	public void turnToAngleRight (double angle) {
+		
+		double inches = (angle / 360) * ROBOT_CIRCUMFERENCE;
+		
+		resetEncoders();
+		
+		tankCorrectedDrive (inchesToTicks(inches), inchesToTicks(-inches));
+		
+		System.out.println ("ticks: " + inchesToTicks(inches));
+		
+		updateTargetValues (-inches, inches);
+		//talonSpeedToVictors();
+		
 	}
 	
 	public void setGains(double forwardGain, double turnGain) {

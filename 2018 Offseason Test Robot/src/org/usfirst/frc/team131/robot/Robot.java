@@ -65,7 +65,8 @@ public class Robot extends IterativeRobot {
 //		CommandGroup autoSequence = new CommandGroup();
 //		autoBuilder = new AutoBuilder (drive);
 //		autoBuilder.createCommandGroup(autoSequence);
-		drive.turnToAngle(90);
+//		drive.turnToAngleRight(90D);
+		drive.tankCorrectedDrive(DriveBase.inchesToTicks(12D), -DriveBase.inchesToTicks(12D));
 //		Scheduler.getInstance().add(autoSequence);
 	}
 
@@ -77,6 +78,9 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		
 		Scheduler.getInstance().run();
+		
+		drive.tankCorrectedDrive(DriveBase.inchesToTicks(12D), -DriveBase.inchesToTicks(12D));
+		
 		
 		//drive.encoderData();
 //		System.out.println("Left Encoder Current: " + drive.getLeftTalonCurrent() + 
@@ -106,11 +110,11 @@ public class Robot extends IterativeRobot {
 	
 		}	
 			
-		drive.setSpeed(cm.driver.getLeftY() * 0.7, cm.driver.getRightY() * 0.7);
+		drive.setSpeed(-cm.driver.getLeftY() * 0.7, -cm.driver.getRightY() * 0.7);
 		
 		System.out.println(cm.driver.getRightY());
 		
-		testVictors.setSpeed(cm.operator.getLeftY());
+		//testVictors.setSpeed(cm.operator.getLeftY());
 		
 	}
 

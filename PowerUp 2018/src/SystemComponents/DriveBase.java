@@ -207,9 +207,6 @@ public class DriveBase {
 		double inches = (angle / 360) * ROBOT_CIRCUMFERENCE;
 		
 		resetEncoders();
-		rightTalonSRX.set(ControlMode.Position, inchesToTicks(-inches));
-		
-		leftTalonSRX.set(ControlMode.Position, inchesToTicks(inches));
 		
 		tankCorrectedDrive (inchesToTicks(inches), inchesToTicks(-inches));
 		
