@@ -24,5 +24,13 @@ public interface PortConstants {
 	int GEAR_SHIFTER_A_SLOW = 5;
 	int GEAR_SHIFTER_B_SLOW = 6;
 	
+	//SOLENOIDS
+	public static final int CUBE_GRABBER_A = 1;
+	public static final int CUBE_GRABBER_B = 0;
+
+	public static final int CUBE_RELEASE_A = 3;
+	public static final int CUBE_RELEASE_B = 2;
 	
+	public static final int CUBE_EXTENDER_A = 5;
+	public static final int CUBE_EXTENDER_B = 4;
 }

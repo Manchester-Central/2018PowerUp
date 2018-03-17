@@ -153,7 +153,7 @@ public class DriveBase {
 		}
 	}
 	
-	public double getCorrctedRightTalonEncoderValue () {
+	public double getCorrectedRightTalonEncoderValue () {
 		
 		return -rightTalonSRX.getSelectedSensorPosition(0);
 		
@@ -204,17 +204,51 @@ public class DriveBase {
 	 */
 	public void turnToAngleRight (double angle) {
 		
+		
+	
 		double inches = (angle / 360) * ROBOT_CIRCUMFERENCE;
 		
-		resetEncoders();
+				
+		tankCorrectedDrive ((inches), (-inches));
 		
-		tankCorrectedDrive (inchesToTicks(inches), inchesToTicks(-inches));
-		
-		System.out.println ("ticks: " + inchesToTicks(inches));
+		//System.out.println ("ticks: " + inchesToTicks(inches));
 		
 		updateTargetValues (-inches, inches);
-		talonSpeedToVictors();
+		//talonSpeedToVictors();
 		
+	}
+
+	public void tankCorrectedDrive (double leftTarget, double rightTarget)
+	{
+		double leftError  = leftTarget  - ticksToInches(getCorrectedRightTalonEncoderValue ());
+		double rightError = rightTarget - ticksToInches(getCorrectedLeftTalonEncoderValue ());
+		
+		double leftScaled  = (leftTarget  != 0) ? (leftError  / leftTarget)  : 0;
+		double rightScaled = (rightTarget != 0) ? (rightError / rightTarget) : 0;
+		double turnError  = (leftScaled - rightScaled) *
+				            (leftTarget + rightTarget) /
+				             2.0;
+		
+		double leftOutput  = (leftError  * forwardGain) + (turnError * turnGain);
+		double rightOutput = (rightError * forwardGain) - (turnError * turnGain);
+		
+		double absLeftOutput  = Math.abs(leftOutput);
+		double absRightOutput = Math.abs(rightOutput);
+		
+		double speedDenominator = (absRightOutput > absLeftOutput) ? absRightOutput : absLeftOutput;
+		
+		if (speedDenominator != 0) {
+			if (absLeftOutput < minSpeed || absRightOutput < minSpeed) {
+				rightOutput = rightOutput * (minSpeed / speedDenominator);
+				leftOutput  = leftOutput  * (minSpeed / speedDenominator);
+			}
+			else if (absRightOutput > maxSpeed || absLeftOutput > maxSpeed) {
+				rightOutput = rightOutput * (maxSpeed / speedDenominator);
+				leftOutput  = leftOutput  * (maxSpeed / speedDenominator);
+			}
+		}
+		
+		setSpeed (leftOutput, rightOutput);
 	}
 	
 	private void updateTargetValues (double left, double right) {
@@ -242,53 +276,6 @@ public class DriveBase {
 	public void setGains(double forwardGain, double turnGain) {
 		this.forwardGain = forwardGain;
 		this.turnGain = turnGain;
-	}
-	
-	public void tankCorrectedDrive (double leftTarget, double rightTarget)
-	{
-		double leftError  = leftTarget  - getCorrectedLeftTalonEncoderValue ();
-		double rightError = rightTarget - getCorrctedRightTalonEncoderValue ();
-		
-		double leftScaled  = (leftTarget  != 0) ? (leftError  / leftTarget)  : 0;
-		double rightScaled = (rightTarget != 0) ? (rightError / rightTarget) : 0;
-		double turnError  = (leftScaled - rightScaled) *
-				            (leftTarget + rightTarget) /
-				             2.0;
-		
-		double leftOutput  = (leftError  * forwardGain) + (turnError * turnGain);
-		double rightOutput = (rightError * forwardGain) - (turnError * turnGain);
-		
-		double absLeftOutput  = Math.abs(leftOutput);
-		double absRightOutput = Math.abs(rightOutput);
-		
-		if (absLeftOutput < minSpeed || absRightOutput < minSpeed) {
-			if (absRightOutput > absLeftOutput) {
-				if (absRightOutput != 0) {
-					rightOutput = rightOutput * (minSpeed / absRightOutput);
-					leftOutput  = leftOutput  * (minSpeed / absRightOutput);
-				}
-			} else {
-				if (absLeftOutput != 0) {
-					rightOutput = rightOutput * (minSpeed / absLeftOutput);
-					leftOutput  = leftOutput  * (minSpeed / absLeftOutput);
-				}
-			}
-		}
-		else if (absRightOutput > maxSpeed || absLeftOutput > maxSpeed) {
-			if (absRightOutput > absLeftOutput) {
-				if (absRightOutput != 0) {
-					rightOutput = rightOutput * (maxSpeed / absRightOutput);
-					leftOutput  = leftOutput  * (maxSpeed / absRightOutput);
-				}
-			} else {
-				if (absLeftOutput != 0) {
-					rightOutput = rightOutput * (maxSpeed / absLeftOutput);
-					leftOutput  = leftOutput  * (maxSpeed / absLeftOutput);
-				}
-			}
-		}
-		
-		setSpeed (leftOutput, rightOutput);
 	}
 	
 	public void encoderData() {
@@ -334,8 +321,8 @@ public class DriveBase {
 		
 		SmartDashboard.putNumber("Right Talon Speed: ", getRightEncoderVelocity());
 		SmartDashboard.putNumber("Left Talon Speed: ", getLeftEncoderVelocity());
-		SmartDashboard.putNumber("Right Talon Encoder: ", ticksToInches(getCorrctedRightTalonEncoderValue()));
-		SmartDashboard.putNumber("Left Talon Encoder: ", ticksToInches(getCorrctedRightTalonEncoderValue()));
+		SmartDashboard.putNumber("Right Talon Encoder: ", ticksToInches(getCorrectedRightTalonEncoderValue()));
+		SmartDashboard.putNumber("Left Talon Encoder: ", ticksToInches(getCorrectedRightTalonEncoderValue()));
 		
 		boolean inLowShift = gearShifter.get().equals(Value.kForward);
 		

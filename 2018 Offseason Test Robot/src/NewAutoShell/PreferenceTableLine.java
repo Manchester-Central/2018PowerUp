@@ -5,13 +5,6 @@ import java.util.regex.Pattern;
 import org.usfirst.frc.team131.robot.DriveBase;
 
 import Commands.Drive;
-import Commands.Extend;
-import Commands.Intake;
-import Commands.Lift;
-import Commands.Output;
-import Commands.Pinch;
-import Commands.Release;
-import Commands.Retract;
 import Commands.ScaleDrive;
 import Commands.ScaleTurn;
 import Commands.SwitchDrive;
@@ -20,8 +13,6 @@ import Commands.TestChaosCommand;
 import Commands.Turn;
 import Commands.Wait;
 import command.group.IntakeCube;
-import command.group.OutputScale;
-import command.group.OutputSwitch;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 public class PreferenceTableLine {
@@ -31,10 +22,9 @@ public class PreferenceTableLine {
 	private boolean isParallel;
 	
 	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME 
-			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME, Retract.NAME, Output.NAME,
-			Lift.NAME, Intake.NAME, Extend.NAME, Wait.NAME, Release.NAME, Pinch.NAME};
+			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME, Wait.NAME};
 	
-	private String[] commandGroups = {IntakeCube.NAME, OutputSwitch.NAME, OutputScale.NAME};
+	private String[] commandGroups = {IntakeCube.NAME};
 	
 	/**
 	 * 
@@ -77,12 +67,6 @@ public class PreferenceTableLine {
 				case IntakeCube.NAME:
 					commandGroup = new IntakeCube();
 					break;
-				case OutputSwitch.NAME:
-					commandGroup = new OutputSwitch();
-					break;
-				case OutputScale.NAME:
-					commandGroup = new OutputScale();
-					break;
 				default:
 					commandInput = null;
 					break;
@@ -91,9 +75,7 @@ public class PreferenceTableLine {
 			}
 		} else {
 			String[] commandArgs = splitLine[1].substring(0, splitLine[1].length() - 1).split("&");
-			if (commandArgs[0].equals("")) {
-				commandArgs = null;
-			}
+			System.out.println(commandArgs[0]);
 			
 			isParallel = splitLine[1].endsWith(",");
 			
@@ -117,39 +99,27 @@ public class PreferenceTableLine {
 			case SwitchTurn.NAME:
 				command = new SwitchTurn (2, drive);
 				break;
-			case Output.NAME:
-				command = new Output (0);
-				break;
-			case Lift.NAME:
-				command = new Lift (1);
-				break;
-			case Retract.NAME:
-				command = new Retract (0);
-				break;
-			case Extend.NAME:
-				command = new Extend (0);
-				break;
-			case Intake.NAME:
-				command = new Intake (0);
-				break;
 			case ScaleTurn.NAME:
 				command = new ScaleTurn (2, drive);
 				break;
 			case Wait.NAME:
-				command = new Wait (0);
-				break;
-			case Release.NAME:
-				command = new Release (0);
-				break;
-			case Pinch.NAME:
-				command = new Pinch (0);
+				command = new Wait (1);
 				break;
 			default:
 				command = null;	
 				break;
 			}
+			System.out.println(commandInput);
 			
-			command.setArgs(commandArgs);
+			if (command == null) {
+				return;
+			}
+			
+			if(command.getArgsLength() != 0) {
+				command.setArgs(commandArgs);
+			}
+		
+			
 		}
 	}
 	

@@ -6,16 +6,18 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public abstract class ChaosCommand extends Command {
 	
-	protected String[] args;
+	protected String[] args = new String[0];
 	private final int argsLength;
+	private String name;
 
-	public ChaosCommand(int argsLength) {
+	public ChaosCommand(int argsLength, String name) {
         this.argsLength = argsLength;
+        this.name = name;
+        
     }
 	
 	public void setArgs (String[] args) {
 		this.args = args;
-		System.out.println(String.join(" ", args));
 	}
 	
 	public int getArgsLength () {
@@ -29,24 +31,37 @@ public abstract class ChaosCommand extends Command {
 	/**
 	 * 
 	 * @param driveBase drive
-	 * @return - returns whether both talons have stopped and are within the target
+	 * @return - returns whether one talon have stopped and are within the target
 	 */
 	protected boolean doneDriving (DriveBase drive) {
-		boolean shouldFinish = Math.abs(drive.getRightEncoderVelocity()) <= 0.1 
-				&& Math.abs(drive.getLeftEncoderVelocity()) <= 0.1
-				&& Math.abs(Math.abs(drive.getLeftTalonEncoderValue()) - Math.abs(drive.getLeftTarget())) < 100 
-				&& Math.abs(Math.abs(drive.getRightTalonEncoderValue()) - Math.abs(drive.getRightTarget())) < 100;
-		//System.out.println("shouldFinish: " + shouldFinish);
+		
+		double talonValueRightAbs = Math.abs(DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
+		double talonValueLeftAbs = Math.abs(DriveBase.ticksToInches(drive.getLeftTalonEncoderValue()));
+		
+		double rightTargetAbs = Math.abs(drive.getRightTarget());
+		double leftTargetAbs = Math.abs(drive.getLeftTarget());
+		
+		boolean shouldFinish = (Math.abs(leftTargetAbs - talonValueLeftAbs) < 1 
+				|| Math.abs(rightTargetAbs - talonValueRightAbs) < 1);
+		
+		System.out.println(rightTargetAbs + " " + rightTargetAbs + "\n " + shouldFinish);
+		
 		return shouldFinish;
 	}
-
+	
     /**
      *  Called just before this Command runs the first time
      */
 	@Override
     protected void initialize() {
-    	
+		System.out.println("state started: " + name);
+		System.out.flush();
     }
+	
+	@Override
+	protected void end () {
+		System.out.println("state ended: " + name);
+	}
     
     
     

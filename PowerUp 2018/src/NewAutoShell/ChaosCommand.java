@@ -35,7 +35,7 @@ public abstract class ChaosCommand extends Command {
 	 */
 	protected boolean doneDriving (DriveBase drive) {
 		boolean shouldFinish = (Math.abs(Math.abs(drive.getCorrectedLeftTalonEncoderValue()) - Math.abs(drive.getLeftTarget())) < 100 
-				|| Math.abs(Math.abs(drive.getCorrctedRightTalonEncoderValue()) - Math.abs(drive.getRightTarget())) < 100);
+				|| Math.abs(Math.abs(drive.getCorrectedRightTalonEncoderValue()) - Math.abs(drive.getRightTarget())) < 100);
 		//System.out.println("shouldFinish: " + shouldFinish);
 		return shouldFinish;
 	}
@@ -43,7 +43,7 @@ public abstract class ChaosCommand extends Command {
 	//TODO test if this works for turning
 	protected boolean doneTurning (DriveBase drive) {
 		boolean shouldFinish = ( Math.abs(drive.getLeftTarget()) - Math.abs(drive.getCorrectedLeftTalonEncoderValue()) < 100 
-				&& Math.abs(drive.getRightTarget()) - Math.abs(drive.getCorrctedRightTalonEncoderValue())  < 100);
+				&& Math.abs(drive.getRightTarget()) - Math.abs(drive.getCorrectedRightTalonEncoderValue())  < 100);
 		//System.out.println("shouldFinish: " + shouldFinish);
 		return shouldFinish;
 	}

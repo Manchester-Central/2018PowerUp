@@ -8,23 +8,19 @@ import NewAutoShell.GameData;
 public class ScaleDrive extends ChaosCommand {
 
 	DriveBase drive;
+	GameData data;
 	public static final String NAME = "ScaleDrive";
 	
 	public ScaleDrive(int argsLength, DriveBase drive) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
-		GameData data = new GameData ();
-		if (data.scaleIsLeft()) {
-			drive.setRightTalonToPosition(Double.valueOf(args[0]));
-		} else {
+		super.initialize();
+		data = new GameData ();
 		
-			drive.setRightTalonToPosition(Double.valueOf(args[1]));
-			
-		}
 		
 	}
 
@@ -37,13 +33,20 @@ public class ScaleDrive extends ChaosCommand {
 	@Override 
 	protected void execute() {
 		//driveBase.encoderData();
-		drive.velocityData();
+		if (data.scaleIsLeft()) {
+			drive.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
+		} else {
+		
+			drive.tankCorrectedDrive(Double.parseDouble(args[1]), Double.parseDouble(args[1]));
+			
+		}
 	}
 	
 	@Override
 	protected void end () {
 		drive.resetEncoders();
 		drive.end();
+		super.end();
 	}
 
 }

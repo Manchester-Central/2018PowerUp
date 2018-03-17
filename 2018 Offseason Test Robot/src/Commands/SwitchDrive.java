@@ -8,24 +8,19 @@ import NewAutoShell.GameData;
 public class SwitchDrive extends ChaosCommand {
 
 	DriveBase drive;
+	GameData data;
 	public static final String NAME = "SwitchDrive";
 	
 	public SwitchDrive(int argsLength, DriveBase drive) {
-		super(argsLength);
+		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
+		super.initialize();
 		drive.resetEncoders();
-		GameData data = new GameData ();
-		if (data.closeSwitchIsLeft()) {
-			drive.setRightTalonToPosition(Double.parseDouble(args[0]));
-		} else {
-		
-			drive.setRightTalonToPosition(Double.parseDouble(args[1]));
-			
-		}
+		data = new GameData ();
 		
 	}
 
@@ -38,13 +33,20 @@ public class SwitchDrive extends ChaosCommand {
 	@Override 
 	protected void execute() {
 		//driveBase.encoderData();
-		drive.velocityData();
+		if (data.scaleIsLeft()) {
+			drive.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
+		} else {
+		
+			drive.tankCorrectedDrive(Double.parseDouble(args[1]), Double.parseDouble(args[1]));
+			
+		}
 	}
 	
 	@Override
 	protected void end () {
 		drive.resetEncoders();
 		drive.end();
+		super.end();
 	}
 
 

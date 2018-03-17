@@ -27,6 +27,9 @@ public class Robot extends IterativeRobot {
 	TestVictors testVictors;
 	AnalogPotentiometer testPot;
 	
+	//Manipulator claw; 
+	//Manipulator causes weird glitch while deploying
+	
 	AutoBuilder autoBuilder;
 		
 	/**
@@ -42,11 +45,12 @@ public class Robot extends IterativeRobot {
 		drive = new DriveBase();
 		cm = new ControllerManager();
 		compressor = new Compressor();
+		SmartDashboard.putBoolean("Print Values", false);
 		
 		drive.resetEncoders();
 		
+	//	claw = new Manipulator();
 		testVictors = new TestVictors ();
-		
 	}
 
 	/**
@@ -62,12 +66,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-//		CommandGroup autoSequence = new CommandGroup();
-//		autoBuilder = new AutoBuilder (drive);
-//		autoBuilder.createCommandGroup(autoSequence);
-//		drive.turnToAngleRight(90D);
-		drive.tankCorrectedDrive(DriveBase.inchesToTicks(12D), -DriveBase.inchesToTicks(12D));
-//		Scheduler.getInstance().add(autoSequence);
+		drive.resetEncoders();
+		
+		CommandGroup autoSequence = new CommandGroup();
+		autoBuilder = new AutoBuilder (drive);
+		autoBuilder.createCommandGroup(autoSequence);
+
+		Scheduler.getInstance().add(autoSequence);
 	}
 
 	/**
@@ -78,15 +83,10 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		
 		Scheduler.getInstance().run();
-		
-		drive.tankCorrectedDrive(DriveBase.inchesToTicks(12D), -DriveBase.inchesToTicks(12D));
-		
-		
-		//drive.encoderData();
+
 //		System.out.println("Left Encoder Current: " + drive.getLeftTalonCurrent() + 
 //				"\tRight Encoder Current :" + drive.getRightTalonCurrent());
-	
-		//drive.driveToInches(60);
+
 		
 	}
 
@@ -101,22 +101,43 @@ public class Robot extends IterativeRobot {
 //			drive.gearShift();
 //		}
 		
-		if (cm.driver.buttonPressed(Controller.LEFT_TRIGGER) || cm.driver.buttonPressed(Controller.RIGHT_TRIGGER)) {
-			drive.gearShift(true);
-		
-		} else {
-		
-			drive.gearShift(false);
-	
-		}	
-			
-		drive.setSpeed(-cm.driver.getLeftY() * 0.7, -cm.driver.getRightY() * 0.7);
-		
-		System.out.println(cm.driver.getRightY());
+//		if (cm.driver.buttonPressed(Controller.LEFT_TRIGGER) || cm.driver.buttonPressed(Controller.RIGHT_TRIGGER)) {
+//			drive.gearShift(true);
+//		
+//		} else {
+//		
+//			drive.gearShift(false);
+//	
+//		}	
+//			
+//		drive.setSpeed(-cm.driver.getLeftY() * 0.7, -cm.driver.getRightY() * 0.7);
+//		
+//		System.out.println(cm.driver.getRightY());
 		
 		//testVictors.setSpeed(cm.operator.getLeftY());
 		
-	}
+		// Claw on raft setup
+//		testVictors.six.set(cm.operator.getLeftY());
+//		testVictors.seven.set(-cm.operator.getRightY());
+		
+//		if(cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+//			claw.extend();
+//			}
+//		else if(cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
+//			claw.retract();
+//		}
+//		
+//		if(cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
+//			claw.release();
+//			}
+//		else if(cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
+//			claw.pinch();
+//		}
+//		else {
+//			claw.relax();
+//		}
+		
+		}
 
 	/**
 	 * This function is called periodically during test mode
@@ -134,10 +155,19 @@ public class Robot extends IterativeRobot {
 //		System.out.println("Left Encoder: " + DriveBase.ticksToInches(drive.getLeftTalonEncoderValue())
 //		+ " right Encoder: " + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
 //		
+		//System.out.println("Left Value :" + drive.getLeftTalonEncoderValue() + "Robot Right Value :" + drive.getRightTalonEncoderValue());
 		
 		
 		
 		//System.out.print(drive.get);
+	}
+	
+	@Override
+	public void robotPeriodic () {
+		if (SmartDashboard.getBoolean("Print Values", false)) {
+			
+			System.out.println("Left Value :" + drive.getLeftTalonEncoderValue() + "Robot Right Value :" + drive.getRightTalonEncoderValue());
+		}
 	}
 	
 }
