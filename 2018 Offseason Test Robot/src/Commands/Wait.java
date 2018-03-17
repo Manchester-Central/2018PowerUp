@@ -12,6 +12,7 @@ public class Wait extends TimeRestrictedCommand {
 	protected void initialize () {
 		super.initialize();
 		maxTime = Long.parseLong(args[0]);
+		System.out.println("Waiting");
 		
 	}
 

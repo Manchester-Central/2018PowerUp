@@ -31,11 +31,11 @@ public class DriveBase {
 	private static final double ENCODER_TICKS_PER_REVOLUTION = 4150.0;
 	private static final double WHEEL_CIRCUMFERENCE_INCHES = 4 * Math.PI;
 
-	private static final double ROBOT_TURN_RADIUS_INCHES = 13.0;
+	private static final double ROBOT_TURN_RADIUS_INCHES = 13.755;
 	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 
-	private double minSpeed = 0.32;
-	private double maxSpeed = 0.5;
+	private double minSpeed = 0.1;
+	private double maxSpeed = 0.4;
 	
 	private double forwardGain;
 	private double turnGain;
@@ -77,7 +77,7 @@ public class DriveBase {
 		rightTalonSRX.configClosedloopRamp (1, 0);
 		leftTalonSRX.configClosedloopRamp (1, 0);
 		
-		setGains (0.0125, 0.3);
+		setGains (0.07, 0.07);
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -211,12 +211,13 @@ public class DriveBase {
 		
 		if (speedDenominator != 0) {
 			if (absLeftOutput < minSpeed || absRightOutput < minSpeed) {
-				rightOutput = rightOutput * (minSpeed / speedDenominator);
-				leftOutput  = leftOutput  * (minSpeed / speedDenominator);
-			}
-			else if (absRightOutput > maxSpeed || absLeftOutput > maxSpeed) {
-				rightOutput = rightOutput * (maxSpeed / speedDenominator);
-				leftOutput  = leftOutput  * (maxSpeed / speedDenominator);
+				rightOutput *= (minSpeed / speedDenominator);
+				leftOutput  *= (minSpeed / speedDenominator);
+		
+			
+			} else if (absRightOutput > maxSpeed || absLeftOutput > maxSpeed) {
+				rightOutput *= (maxSpeed / speedDenominator);
+				leftOutput  *= (maxSpeed / speedDenominator);
 			}
 		}
 		
@@ -225,8 +226,8 @@ public class DriveBase {
 	}
 
 	public void end() {
-		rightTalonSRX.stopMotor();
-		leftTalonSRX.stopMotor();
+		rightTalonSRX.set(0.0);
+		leftTalonSRX.set(0.0);
 		resetEncoders();
 	}
 	

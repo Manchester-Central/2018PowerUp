@@ -13,6 +13,7 @@ public abstract class TimeRestrictedCommand extends ChaosCommand {
 	
 	@Override
 	protected boolean isFinished() {
+		System.out.println(startTime + maxTime < System.currentTimeMillis());
 		return startTime + maxTime < System.currentTimeMillis();
 	}
 	

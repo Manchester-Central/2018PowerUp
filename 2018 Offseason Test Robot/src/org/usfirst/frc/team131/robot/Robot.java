@@ -1,5 +1,6 @@
 package org.usfirst.frc.team131.robot;
 
+import Commands.ClearPrefs;
 import NewAutoShell.AutoBuilder;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -46,6 +47,7 @@ public class Robot extends IterativeRobot {
 		cm = new ControllerManager();
 		compressor = new Compressor();
 		SmartDashboard.putBoolean("Print Values", false);
+		SmartDashboard.putData("Clear Prefernces: ", new ClearPrefs());
 		
 		drive.resetEncoders();
 		
@@ -72,6 +74,11 @@ public class Robot extends IterativeRobot {
 		autoBuilder = new AutoBuilder (drive);
 		autoBuilder.createCommandGroup(autoSequence);
 
+		//drive.turnToAngleRight(360D);
+		
+		//System.out.println(drive.getLeftTarget() + "\t" + drive.getRightTarget());
+		
+		
 		Scheduler.getInstance().add(autoSequence);
 	}
 
@@ -83,7 +90,8 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		
 		Scheduler.getInstance().run();
-
+		//drive.turnToAngleRight(360D);
+		//System.out.println(DriveBase.ticksToInches(drive.getLeftTalonEncoderValue()) + "\t" + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
 //		System.out.println("Left Encoder Current: " + drive.getLeftTalonCurrent() + 
 //				"\tRight Encoder Current :" + drive.getRightTalonCurrent());
 
@@ -157,7 +165,7 @@ public class Robot extends IterativeRobot {
 //		
 		//System.out.println("Left Value :" + drive.getLeftTalonEncoderValue() + "Robot Right Value :" + drive.getRightTalonEncoderValue());
 		
-		
+		Scheduler.getInstance().run();
 		
 		//System.out.print(drive.get);
 	}

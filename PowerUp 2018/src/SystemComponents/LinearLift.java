@@ -35,6 +35,7 @@ public class LinearLift {
 	private final double chaosRange = 105.375;
 	private final double potRange = (0.28 / 1.2) / 0.821917;
 	private final double potOffset = 0.0048;
+	//private final double maxAcceleration;
 	
 	Victor lift1;
 	Victor lift2;
@@ -49,6 +50,10 @@ public class LinearLift {
 	
 	double targetPosition;
 	
+	double currentSet;
+	
+	
+	
 	public LinearLift() {
 		pot = new AnalogPotentiometer (new AnalogInput (PortConstants.CHOAS_POT_PORT));
 		lift1 = new Victor (PortConstants.LINEAR_LIFT_1);
@@ -59,6 +64,7 @@ public class LinearLift {
 		lifts.setInverted(false);
 		targetPosition = FLOOR_POSITION_INCHES;
 		setPosition = "current position";
+		currentSet = 0;
 	}
 	
 	/**
@@ -154,10 +160,11 @@ public class LinearLift {
 		
 	}
 	
-	public static double getProportionalSet (double targetPosition, double currentPosition) {
+	public double getProportionalSet (double targetPosition, double currentPosition) {
 		
 		// if at the correct position, return 0 to void NaN errors
 		if (targetPosition == currentPosition) {
+			currentSet = 0;
 			return 0;
 		}
 		
@@ -194,6 +201,9 @@ public class LinearLift {
 
 		SmartDashboard.putNumber("Proportional Set: ", proportionalSet);
 		
+		
+		
+		currentSet = proportionalSet;
 		return proportionalSet;
 		
 	}
