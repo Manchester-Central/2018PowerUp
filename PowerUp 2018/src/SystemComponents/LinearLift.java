@@ -26,6 +26,8 @@ public class LinearLift {
 	private static final double MAX_DOWN_SPEED = 0.3;
 	private static final double MIN_DOWN_SPEED = 0.0;
 	
+	private static final double HOLD_SPEED = 0.2;
+	
 	// denominator of the proportional set
 	private static final double PROPORTIONAL_DISTANCE = 4;
 	
@@ -148,7 +150,7 @@ public class LinearLift {
 	public void MoveToPosition () {
 		
 		if (isAtTargetPosition ()) {
-			setSpeed(0.0);
+			setSpeed(HOLD_SPEED);
 		} else {
 			setSpeed(getProportionalSet());
 		}
