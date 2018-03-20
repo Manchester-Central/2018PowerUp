@@ -68,18 +68,18 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		drive.resetEncoders();
-		
-		CommandGroup autoSequence = new CommandGroup();
-		autoBuilder = new AutoBuilder (drive);
-		autoBuilder.createCommandGroup(autoSequence);
+//		drive.resetEncoders();
+//		
+//		CommandGroup autoSequence = new CommandGroup();
+//		autoBuilder = new AutoBuilder (drive);
+//		autoBuilder.createCommandGroup(autoSequence);
 
 		//drive.turnToAngleRight(360D);
 		
 		//System.out.println(drive.getLeftTarget() + "\t" + drive.getRightTarget());
 		
 		
-		Scheduler.getInstance().add(autoSequence);
+//		Scheduler.getInstance().add(autoSequence);
 	}
 
 	/**
@@ -89,7 +89,11 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		
-		Scheduler.getInstance().run();
+//		Scheduler.getInstance().run();
+		
+		if (Math.abs(drive.getRightTalonEncoderValue() - 150.0) > 2) {
+			drive.setSpeed(0, drive.getProportionalSet(150.0, DriveBase.ticksToInches(drive.getRightTalonEncoderValue())));
+		}
 		//drive.turnToAngleRight(360D);
 		//System.out.println(DriveBase.ticksToInches(drive.getLeftTalonEncoderValue()) + "\t" + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
 //		System.out.println("Left Encoder Current: " + drive.getLeftTalonCurrent() + 

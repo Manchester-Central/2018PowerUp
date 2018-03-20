@@ -12,6 +12,27 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.Victor;
 
 public class DriveBase {
+	// lift testing
+	///////////////////////////////////////////////////////////////////
+	
+	private static final double MAX_UP_SPEED = 0.5;
+	private static final double MIN_UP_SPEED = 0.2;
+	
+	private static final double MAX_DOWN_SPEED = 0.3;
+	private static final double MIN_DOWN_SPEED = 0.0;
+	
+	private static final double PROPORTIONAL_DISTANCE = 24;
+	
+	private final long changeRate = 500;
+	private final double maxAcceleration = 0.05;
+	
+
+	double currentSet;
+	
+	long lastTimeUpdate;
+	
+	
+	///////////////////////////////////////////////////////////////////
 
 	Victor leftBackVictor;
 	Victor leftMidVictor;
@@ -167,6 +188,73 @@ public class DriveBase {
 		
 		talonSpeedToVictors();
 		updateTargetValues (target, target);
+		
+	}
+	
+	public double getProportionalSet (double targetPosition, double currentPosition) {
+		
+
+		// if at the correct position, return 0 to void NaN errors
+			if (targetPosition == currentPosition) {
+				currentSet = 0;
+				return 0;
+			}
+			
+			// the slope of x value distance away from target distance
+			double proportionalSet = (targetPosition- currentPosition) / PROPORTIONAL_DISTANCE;
+			
+			double maxSpeed;
+			double minSpeed;
+			double signModifier;
+			
+			// keeps proportions within 1 and -1
+			if (proportionalSet > 1.0) {
+				proportionalSet = 1.0;
+			} else if (proportionalSet < -1.0) {
+				proportionalSet = -1.0;
+			}
+			
+			if (proportionalSet > 0.0) {
+				maxSpeed = MAX_UP_SPEED;
+				minSpeed = MIN_UP_SPEED;
+				signModifier = 1.0;
+			} else {
+				maxSpeed = MAX_DOWN_SPEED;
+				minSpeed = MIN_DOWN_SPEED;
+				signModifier = -1.0;
+			}
+			
+			// sets the value of proportional set
+			proportionalSet = maxSpeed * proportionalSet;
+			
+			//makes sure value is within min speed
+			if (Math.abs(proportionalSet) < minSpeed) 
+				proportionalSet = signModifier * minSpeed;
+
+			
+			// if ΔV > max acceleration
+			if (proportionalSet - currentSet > maxAcceleration) {
+				
+				if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+					
+					proportionalSet = currentSet + maxAcceleration;
+					
+					lastTimeUpdate = System.currentTimeMillis();
+				
+				} else {
+					
+					proportionalSet = currentSet;
+					
+				}
+				
+			}
+				
+			System.out.printf("p-set: %.3f,\tposition: %.3f\n", proportionalSet, ticksToInches(getRightTalonEncoderValue()));
+			
+			currentSet = proportionalSet;
+			
+			return proportionalSet;
+		
 		
 	}
 	

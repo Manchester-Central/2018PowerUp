@@ -35,6 +35,9 @@ public class LinearLift {
 	private final double chaosRange = 105.375;
 	private final double potRange = (0.28 / 1.2) / 0.821917;
 	private final double potOffset = 0.0048;
+	
+	private final long changeRate = 500;
+	private final double maxAcceleration = 0.1;
 	//private final double maxAcceleration;
 	
 	Victor lift1;
@@ -52,7 +55,7 @@ public class LinearLift {
 	
 	double currentSet;
 	
-	
+	long lastTimeUpdate;
 	
 	public LinearLift() {
 		pot = new AnalogPotentiometer (new AnalogInput (PortConstants.CHOAS_POT_PORT));
@@ -64,7 +67,8 @@ public class LinearLift {
 		lifts.setInverted(false);
 		targetPosition = FLOOR_POSITION_INCHES;
 		setPosition = "current position";
-		currentSet = 0;
+		currentSet = 0D;
+		lastTimeUpdate = 0;
 	}
 	
 	/**
@@ -162,49 +166,68 @@ public class LinearLift {
 	
 	public double getProportionalSet (double targetPosition, double currentPosition) {
 		
-		// if at the correct position, return 0 to void NaN errors
-		if (targetPosition == currentPosition) {
-			currentSet = 0;
-			return 0;
-		}
-		
-		// the slope of x value distance away from target distance
-		double proportionalSet = (targetPosition- currentPosition) / PROPORTIONAL_DISTANCE;
-		
-		double maxSpeed;
-		double minSpeed;
-		double signModifier;
-		
-		// keeps proportions within 1 and -1
-		if (proportionalSet > 1.0) {
-			proportionalSet = 1.0;
-		} else if (proportionalSet < -1.0) {
-			proportionalSet = -1.0;
-		}
-		
-		if (proportionalSet > 0.0) {
-			maxSpeed = MAX_UP_SPEED;
-			minSpeed = MIN_UP_SPEED;
-			signModifier = 1.0;
-		} else {
-			maxSpeed = MAX_DOWN_SPEED;
-			minSpeed = MIN_DOWN_SPEED;
-			signModifier = -1.0;
-		}
-		
-		// sets the value of proportional set
-		proportionalSet = maxSpeed * proportionalSet;
-		
-		//makes sure value is within min speed
-		if (Math.abs(proportionalSet) < minSpeed) 
-			proportionalSet = signModifier * minSpeed;
 
-		SmartDashboard.putNumber("Proportional Set: ", proportionalSet);
+		// if at the correct position, return 0 to void NaN errors
+			if (targetPosition == currentPosition) {
+				currentSet = 0;
+				return 0;
+			}
+			
+			// the slope of x value distance away from target distance
+			double proportionalSet = (targetPosition- currentPosition) / PROPORTIONAL_DISTANCE;
+			
+			double maxSpeed;
+			double minSpeed;
+			double signModifier;
+			
+			// keeps proportions within 1 and -1
+			if (proportionalSet > 1.0) {
+				proportionalSet = 1.0;
+			} else if (proportionalSet < -1.0) {
+				proportionalSet = -1.0;
+			}
+			
+			if (proportionalSet > 0.0) {
+				maxSpeed = MAX_UP_SPEED;
+				minSpeed = MIN_UP_SPEED;
+				signModifier = 1.0;
+			} else {
+				maxSpeed = MAX_DOWN_SPEED;
+				minSpeed = MIN_DOWN_SPEED;
+				signModifier = -1.0;
+			}
+			
+			// sets the value of proportional set
+			proportionalSet = maxSpeed * proportionalSet;
+			
+			//makes sure value is within min speed
+			if (Math.abs(proportionalSet) < minSpeed) 
+				proportionalSet = signModifier * minSpeed;
+
+			
+			// if ΔV > max acceleration
+			if (proportionalSet - currentSet > maxAcceleration) {
+				
+				if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+					
+					proportionalSet = currentSet + maxAcceleration;
+					
+					lastTimeUpdate = System.currentTimeMillis();
+				
+				} else {
+					
+					proportionalSet = currentSet;
+					
+				}
+				
+			}
+				
+			System.out.printf("p-set: %.3f", proportionalSet);
+			
+			currentSet = proportionalSet;
+			
+			return proportionalSet;
 		
-		
-		
-		currentSet = proportionalSet;
-		return proportionalSet;
 		
 	}
 	
