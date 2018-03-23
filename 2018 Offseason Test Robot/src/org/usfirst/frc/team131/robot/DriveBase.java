@@ -18,8 +18,10 @@ public class DriveBase {
 	private static final double MAX_UP_SPEED = 0.5;
 	private static final double MIN_UP_SPEED = 0.2;
 	
-	private static final double MAX_DOWN_SPEED = 0.3;
-	private static final double MIN_DOWN_SPEED = 0.0;
+	private static final double MAX_DOWN_SPEED = 0.5;
+	private static final double MIN_DOWN_SPEED = 0.2;
+
+	
 	
 	private static final double PROPORTIONAL_DISTANCE = 24;
 	
@@ -214,7 +216,9 @@ public class DriveBase {
 				proportionalSet = -1.0;
 			}
 			
-			if (proportionalSet > 0.0) {
+			boolean proportionalSetIsPositive = proportionalSet > 0.0;
+			
+			if (proportionalSetIsPositive) {
 				maxSpeed = MAX_UP_SPEED;
 				minSpeed = MIN_UP_SPEED;
 				signModifier = 1.0;
@@ -232,12 +236,26 @@ public class DriveBase {
 				proportionalSet = signModifier * minSpeed;
 
 			
+			double velocityChange = (proportionalSetIsPositive) ? proportionalSet - currentSet : Math.abs(currentSet - proportionalSet);
+			
+			if (currentSet == 0.0) {
+				velocityChange = Math.abs(currentSet - proportionalSet); 
+			} else if (proportionalSet == 0.0) {
+				velocityChange = -Math.abs(currentSet - proportionalSet); 
+			}
+			
 			// if ΔV > max acceleration
-			if (proportionalSet - currentSet > maxAcceleration) {
+			if (velocityChange > maxAcceleration) {
 				
-				if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+				if ((proportionalSet > 0 && currentSet < 0) || (proportionalSet < 0 && currentSet > 0)) {
 					
-					proportionalSet = currentSet + maxAcceleration;
+					proportionalSet = 0.0;
+					
+				} else if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+					
+					double addAcceleration = (proportionalSetIsPositive) ? maxAcceleration : -maxAcceleration;
+					
+					proportionalSet = currentSet + addAcceleration;
 					
 					lastTimeUpdate = System.currentTimeMillis();
 				

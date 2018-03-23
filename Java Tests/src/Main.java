@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Main {
 	
 	public static final double DEADBAND_INCHES = 2.0; // the acceptable error 
@@ -20,17 +22,33 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		double position = 0D;
-		double targetPosition = 140D;
+//		double position = 0D;
+//		double targetPosition = 140D;
+//		
+//		while (Math.abs(targetPosition - position) > DEADBAND_INCHES) {
+//			
+//			position += getProportionalSet (targetPosition, position);
+//			System.out.printf(", pos=%.3f\n", position);
+//			
+//		}
 		
-		while (Math.abs(targetPosition - position) > DEADBAND_INCHES) {
+		double lastRightYInput = 0;
+		
+		while (true) {
 			
-			position += getProportionalSet (targetPosition, position);
-			System.out.printf(", pos=%.3f\n", position);
+			Scanner scan = new Scanner(System.in);
+			
+			double rawAxis = scan.nextDouble();
+			
+			if (lastRightYInput == rawAxis && Math.abs(rawAxis) < 0.01) {
+				System.out.println("Move to Position");
+			} else {
+				System.out.println("Manual Set");
+			}
+			
+			lastRightYInput = rawAxis;
 			
 		}
-		
-		
 		
 		
 	}

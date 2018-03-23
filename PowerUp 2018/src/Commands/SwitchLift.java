@@ -28,13 +28,6 @@ public class SwitchLift extends ChaosCommand {
 			
 		}
 	}
-
-	@Override
-	protected void execute () {
-		
-		lift.MoveToPosition();
-		
-	}
 	
 	@Override
 	protected boolean isFinished() {

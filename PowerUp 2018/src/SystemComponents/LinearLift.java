@@ -11,6 +11,26 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LinearLift {
 	
+	private static final double MAX_UP_SPEED = 0.5;
+	private static final double MIN_UP_SPEED = 0.2;
+	
+	private static final double MAX_DOWN_SPEED = 0.5;
+	private static final double MIN_DOWN_SPEED = 0.2;
+
+	
+	
+	private static final double PROPORTIONAL_DISTANCE = 24;
+	
+	private final long changeRate = 500;
+	private final double maxAcceleration = 0.05;
+	
+
+	double currentSet;
+	
+	long lastTimeUpdate;
+	
+	public static final double DEADBAND_INCHES = 2.0; // the acceptable error 
+	
 	public static final double FLOOR_POSITION_INCHES = 3.0;
 	public static final double EXTEND_POSITION_INCHES = 8.0;
 	public static final double PORTAL_POSITION_INCHES = 20.0;
@@ -18,18 +38,9 @@ public class LinearLift {
 	public static final double SWITCH_POSITION_INCHES = 36.0;
 	public static final double HIGH_POSITION_INCHES = 96.0; // position for scale and climb
 	
-	public static final double DEADBAND_INCHES = 2.0; // the acceptable error 
-	
-	private static final double MAX_UP_SPEED = 0.4;
-	private static final double MIN_UP_SPEED = 0.0;
-	
-	private static final double MAX_DOWN_SPEED = 0.3;
-	private static final double MIN_DOWN_SPEED = 0.0;
+
 	
 	private static final double HOLD_SPEED = 0.2;
-	
-	// denominator of the proportional set
-	private static final double PROPORTIONAL_DISTANCE = 4;
 	
 	private final double OFFSET = 0;
 	private final double RANGE = 105.375;
@@ -37,9 +48,6 @@ public class LinearLift {
 	private final double chaosRange = 105.375;
 	private final double potRange = (0.28 / 1.2) / 0.821917;
 	private final double potOffset = 0.0048;
-	
-	private final long changeRate = 500;
-	private final double maxAcceleration = 0.1;
 	//private final double maxAcceleration;
 	
 	Victor lift1;
@@ -54,10 +62,6 @@ public class LinearLift {
 	AnalogPotentiometer pot;
 	
 	double targetPosition;
-	
-	double currentSet;
-	
-	long lastTimeUpdate;
 	
 	public LinearLift() {
 		pot = new AnalogPotentiometer (new AnalogInput (PortConstants.CHOAS_POT_PORT));
@@ -114,7 +118,7 @@ public class LinearLift {
 			break;
 		case NONE:
 		default:
-			targetPosition = chaosPotGet();
+			targetPosition = getChaosPot();
 			setPosition = "current position";
 			break;
 		}
@@ -136,7 +140,7 @@ public class LinearLift {
 	}
 	
 	public boolean isAtTargetPosition () {
-		return Math.abs(Math.abs(targetPosition) - Math.abs(chaosPotGet())) <= DEADBAND_INCHES ;
+		return Math.abs(Math.abs(targetPosition) - Math.abs(getChaosPot())) <= DEADBAND_INCHES ;
 	}
 	
 	public void setTargetPosition (double target) {
@@ -144,10 +148,10 @@ public class LinearLift {
 	}
 	
 	public double liftPosition () {
-		return chaosPotGet();
+		return getChaosPot();
 	}
 	
-	public void MoveToPosition () {
+	public void moveToPosition () {
 		
 		if (isAtTargetPosition ()) {
 			setSpeed(HOLD_SPEED);
@@ -162,7 +166,7 @@ public class LinearLift {
 	 */
 	private double getProportionalSet () {
 		
-		return getProportionalSet(targetPosition, chaosPotGet());
+		return getProportionalSet(targetPosition, getChaosPot());
 		
 	}
 	
@@ -189,7 +193,9 @@ public class LinearLift {
 				proportionalSet = -1.0;
 			}
 			
-			if (proportionalSet > 0.0) {
+			boolean proportionalSetIsPositive = proportionalSet > 0.0;
+			
+			if (proportionalSetIsPositive) {
 				maxSpeed = MAX_UP_SPEED;
 				minSpeed = MIN_UP_SPEED;
 				signModifier = 1.0;
@@ -207,12 +213,26 @@ public class LinearLift {
 				proportionalSet = signModifier * minSpeed;
 
 			
+			double velocityChange = (proportionalSetIsPositive) ? proportionalSet - currentSet : Math.abs(currentSet - proportionalSet);
+			
+			if (currentSet == 0.0) {
+				velocityChange = Math.abs(currentSet - proportionalSet); 
+			} else if (proportionalSet == 0.0) {
+				velocityChange = -Math.abs(currentSet - proportionalSet); 
+			}
+			
 			// if ΔV > max acceleration
-			if (proportionalSet - currentSet > maxAcceleration) {
+			if (velocityChange > maxAcceleration) {
 				
-				if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+				if ((proportionalSet > 0 && currentSet < 0) || (proportionalSet < 0 && currentSet > 0)) {
 					
-					proportionalSet = currentSet + maxAcceleration;
+					proportionalSet = 0.0;
+					
+				} else if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+					
+					double addAcceleration = (proportionalSetIsPositive) ? maxAcceleration : -maxAcceleration;
+					
+					proportionalSet = currentSet + addAcceleration;
 					
 					lastTimeUpdate = System.currentTimeMillis();
 				
@@ -224,7 +244,7 @@ public class LinearLift {
 				
 			}
 				
-			System.out.printf("p-set: %.3f", proportionalSet);
+			System.out.printf("p-set: %.3f,\tposition: %.3f\n", proportionalSet, getChaosPot());
 			
 			currentSet = proportionalSet;
 			
@@ -233,7 +253,7 @@ public class LinearLift {
 		
 	}
 	
-	public double chaosPotGet () {
+	public double getChaosPot () {
 		
 		double slope = (chaosRange / potRange);
 		
@@ -242,7 +262,7 @@ public class LinearLift {
 	
 	public void putInfo () {
 		
-		SmartDashboard.putNumber("Lift position (in inches): ", chaosPotGet());
+		SmartDashboard.putNumber("Lift position (in inches): ", getChaosPot());
 		SmartDashboard.putNumber("Lift position (raw): ", pot.get());
 		SmartDashboard.putString("Set Position: ", setPosition);
 		SmartDashboard.putNumber("Speed set: ", getProportionalSet());

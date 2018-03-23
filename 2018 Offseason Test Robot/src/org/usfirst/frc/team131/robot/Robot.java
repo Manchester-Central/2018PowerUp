@@ -3,6 +3,7 @@ package org.usfirst.frc.team131.robot;
 import Commands.ClearPrefs;
 import NewAutoShell.AutoBuilder;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -28,6 +29,8 @@ public class Robot extends IterativeRobot {
 	TestVictors testVictors;
 	AnalogPotentiometer testPot;
 	
+	double lastRightYInput;
+	
 	//Manipulator claw; 
 	//Manipulator causes weird glitch while deploying
 	
@@ -51,8 +54,15 @@ public class Robot extends IterativeRobot {
 		
 		drive.resetEncoders();
 		
-	//	claw = new Manipulator();
 		testVictors = new TestVictors ();
+		
+		lastRightYInput = 0;
+		
+		try {
+			CameraServer.getInstance().startAutomaticCapture();
+		} catch (Exception e) {
+			
+		}
 	}
 
 	/**
@@ -68,18 +78,13 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-//		drive.resetEncoders();
-//		
-//		CommandGroup autoSequence = new CommandGroup();
-//		autoBuilder = new AutoBuilder (drive);
-//		autoBuilder.createCommandGroup(autoSequence);
-
-		//drive.turnToAngleRight(360D);
+		drive.resetEncoders();
 		
-		//System.out.println(drive.getLeftTarget() + "\t" + drive.getRightTarget());
+		CommandGroup autoSequence = new CommandGroup();
+		autoBuilder = new AutoBuilder (drive);
+		autoBuilder.createCommandGroup(autoSequence);
 		
-		
-//		Scheduler.getInstance().add(autoSequence);
+		Scheduler.getInstance().add(autoSequence);
 	}
 
 	/**
@@ -89,16 +94,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		
-//		Scheduler.getInstance().run();
-		
-		if (Math.abs(drive.getRightTalonEncoderValue() - 150.0) > 2) {
-			drive.setSpeed(0, drive.getProportionalSet(150.0, DriveBase.ticksToInches(drive.getRightTalonEncoderValue())));
-		}
-		//drive.turnToAngleRight(360D);
-		//System.out.println(DriveBase.ticksToInches(drive.getLeftTalonEncoderValue()) + "\t" + DriveBase.ticksToInches(drive.getRightTalonEncoderValue()));
-//		System.out.println("Left Encoder Current: " + drive.getLeftTalonCurrent() + 
-//				"\tRight Encoder Current :" + drive.getRightTalonCurrent());
-
+		Scheduler.getInstance().run();
 		
 	}
 
@@ -107,6 +103,11 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void teleopPeriodic() {
+		
+		
+		
+		lastRightYInput = cm.operator.getRightY();
+		
 		
 //		if (cm.operator.buttonPressed(Controller.DOWN_A_ABXY))
 //		{
@@ -180,7 +181,11 @@ public class Robot extends IterativeRobot {
 			
 			System.out.println("Left Value :" + drive.getLeftTalonEncoderValue() + "Robot Right Value :" + drive.getRightTalonEncoderValue());
 		}
+		
+		//System.out.println("right y values: " + cm.operator.getRightY());
 	}
+	
+	
 	
 }
 

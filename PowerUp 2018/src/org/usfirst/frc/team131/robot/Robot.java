@@ -36,6 +36,8 @@ public class Robot extends IterativeRobot {
 	
 	PowerDistributionPanel pdp;
 	
+	double lastRightYInput;
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -50,6 +52,8 @@ public class Robot extends IterativeRobot {
 		
 		pdp = new PowerDistributionPanel();
 		
+		lastRightYInput = cm.operator.getRightY();
+		
 		// TODO Check CAN ID to use
 		cubeManipulator = new CubeManipulator(lift, pdp);
 	}
@@ -59,6 +63,7 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		
 		CommandGroup autoSequence = new CommandGroup();
 		autoBuilder = new AutoBuilder (drive, lift, cubeManipulator);
 		autoBuilder.createCommandGroup(autoSequence);
@@ -73,6 +78,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		lift.moveToPosition();
 	}
 
 	/**
@@ -107,37 +113,43 @@ public class Robot extends IterativeRobot {
 	 */
 	private void liftControls () {
 			
-		if (cm.operator.buttonPressed(Controller.DOWN_A)) {
+		if (lastRightYInput == cm.operator.getRightY() && Math.abs(cm.operator.getRightY()) < 0.01) {
 			
-			lift.setTargetPosition(LinearLift.FLOOR_POSITION_INCHES);
-			lift.MoveToPosition();
+			if (cm.operator.buttonPressed(Controller.DOWN_A)) {
+				
+				lift.setTargetPosition(LinearLift.FLOOR_POSITION_INCHES);
+				
+			} else if (cm.operator.buttonPressed(Controller.UP_Y)) {
+				
+				lift.setTargetPosition(LinearLift.HIGH_POSITION_INCHES);
+				
+			} else if (cm.operator.buttonPressed(Controller.LEFT_X)) {
+				
+				lift.setTargetPosition(LinearLift.SWITCH_POSITION_INCHES);
+				
+			} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
+				
+				lift.setTargetPosition(LinearLift.VAULT_POSITION_INCHES);
+				
+			} else if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
+				
+				lift.setTargetPosition(LinearLift.PORTAL_POSITION_INCHES);
+				
+			} else {
+				
+				lift.setTargetPosition(lift.getChaosPot());
+				
+			}
 			
-		} else if (cm.operator.buttonPressed(Controller.UP_Y)) {
-			
-			lift.setTargetPosition(LinearLift.HIGH_POSITION_INCHES);
-			lift.MoveToPosition();
-			
-		} else if (cm.operator.buttonPressed(Controller.LEFT_X)) {
-			
-			lift.setTargetPosition(LinearLift.SWITCH_POSITION_INCHES);
-			lift.MoveToPosition();
-			
-		} else if (cm.operator.buttonPressed(Controller.RIGHT_B)) {
-			
-			lift.setTargetPosition(LinearLift.VAULT_POSITION_INCHES);
-			lift.MoveToPosition();
-			
-		} else if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
-			
-			lift.setTargetPosition(LinearLift.PORTAL_POSITION_INCHES);
-			lift.MoveToPosition();
+			lift.moveToPosition();
 			
 		} else {
-			//if (lift.liftPosition() < 109 || cm.operator.getRightY() > 0) {
-				lift.setSpeed(-cm.operator.getRightY() * 0.8);
-			//}
+			
+			lift.setSpeed(-cm.operator.getRightY() * 0.8);
 			
 		}
+		
+		lastRightYInput = cm.operator.getRightY();
 			
 	}
 	
@@ -279,7 +291,7 @@ public class Robot extends IterativeRobot {
 			if (lift.liftIsStopped()) {
 				cubeManipulator.retract();
 			} else {
-				lift.MoveToPosition();
+				lift.moveToPosition();
 			}
 			
 		} else {
@@ -304,7 +316,7 @@ public class Robot extends IterativeRobot {
 				cubeManipulator.relax();
 				cubeManipulator.intake();
 			} else {
-				lift.MoveToPosition();
+				lift.moveToPosition();
 			}
 		}
 			

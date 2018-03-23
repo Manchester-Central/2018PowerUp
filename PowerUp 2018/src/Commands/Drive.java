@@ -22,14 +22,14 @@ public class Drive extends ChaosCommand {
 	protected void initialize () {
 		super.initialize();
 		driveBase.resetEncoders();
-		driveBase.setTalonsToPosition(Double.valueOf(args[0]));
 		System.out.println("started");
-		///System.out
 	}
 	
 	@Override 
 	protected void execute() {
-		//driveBase.encoderData();
+		
+		driveBase.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
+		
 		driveBase.velocityData();
 		driveBase.talonSpeedToVictors();
 	}

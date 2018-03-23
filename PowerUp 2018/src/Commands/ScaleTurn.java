@@ -9,6 +9,7 @@ public class ScaleTurn extends ChaosCommand {
 
 	
 	DriveBase drive;
+	GameData data;
 	public static final String NAME = "ScaleTurnRight";
 	
 	public ScaleTurn(int argsLength, DriveBase drive) {
@@ -20,14 +21,8 @@ public class ScaleTurn extends ChaosCommand {
 	protected void initialize () {
 		super.initialize();
 		drive.resetEncoders();
-		GameData data = new GameData ();
-		if (data.scaleIsLeft()) {
-			drive.turnToAngleRight(Double.valueOf(args[0]));
-		} else {
+		data = new GameData ();
 		
-			drive.turnToAngleRight(Double.valueOf(args[1]));
-			
-		}
 	}
 
 	@Override
@@ -37,7 +32,17 @@ public class ScaleTurn extends ChaosCommand {
 	
 	@Override 
 	protected void execute() {
-		//driveBase.encoderData();
+
+		if (data.scaleIsLeft()) {
+			
+			drive.turnToAngleRight(Double.valueOf(args[0]));
+			
+		} else {
+		
+			drive.turnToAngleRight(Double.valueOf(args[1]));
+			
+		}
+
 		drive.velocityData();
 	}
 	

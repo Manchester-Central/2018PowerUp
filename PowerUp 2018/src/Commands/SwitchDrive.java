@@ -8,6 +8,7 @@ public class SwitchDrive extends ChaosCommand {
 
 	DriveBase drive;
 	public static final String NAME = "SwitchDrive";
+	GameData data;
 	
 	public SwitchDrive(int argsLength, DriveBase drive) {
 		super(argsLength, NAME);
@@ -18,14 +19,8 @@ public class SwitchDrive extends ChaosCommand {
 	protected void initialize () {
 		super.initialize();
 		drive.resetEncoders();
-		GameData data = new GameData ();
-		if (data.closeSwitchIsLeft()) {
-			drive.setTalonsToPosition(Double.parseDouble(args[0]));
-		} else {
+		data = new GameData ();
 		
-			drive.setTalonsToPosition(Double.parseDouble(args[1]));
-			
-		}
 		
 	}
 
@@ -37,7 +32,17 @@ public class SwitchDrive extends ChaosCommand {
 
 	@Override 
 	protected void execute() {
-		//driveBase.encoderData();
+		
+		if (data.closeSwitchIsLeft()) {
+			
+			drive.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
+			
+		} else {
+		
+			drive.tankCorrectedDrive(Double.parseDouble(args[1]), Double.parseDouble(args[1]));
+			
+		}
+		
 		drive.velocityData();
 	}
 	

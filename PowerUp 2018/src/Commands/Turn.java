@@ -18,7 +18,6 @@ public class Turn extends ChaosCommand {
 	@Override
 	protected void initialize () {
 		super.initialize();
-		drive.turnToAngleRight(Double.parseDouble(args[0]));
 	}
 	
 	@Override
@@ -29,7 +28,9 @@ public class Turn extends ChaosCommand {
 
 	@Override 
 	protected void execute() {
-		//driveBase.encoderData();
+
+		drive.turnToAngleRight(Double.parseDouble(args[0]));
+		
 		drive.velocityData();
 	}
 	

@@ -27,12 +27,6 @@ public class Lift extends ChaosCommand {
 		
 	}
 	
-
-	@Override 
-	protected void execute() {
-		linearLift.MoveToPosition();
-	}
-	
 	@Override
 	protected void end () {
 		linearLift.setTargetPosition(linearLift.liftPosition());

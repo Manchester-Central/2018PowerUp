@@ -8,6 +8,7 @@ public class ScaleDrive extends ChaosCommand {
 
 	DriveBase drive;
 	public static final String NAME = "ScaleDrive";
+	GameData data;
 	
 	public ScaleDrive(int argsLength, DriveBase drive) {
 		super(argsLength, NAME);
@@ -17,14 +18,7 @@ public class ScaleDrive extends ChaosCommand {
 	@Override
 	protected void initialize () {
 		super.initialize();
-		GameData data = new GameData ();
-		if (data.scaleIsLeft()) {
-			drive.setTalonsToPosition(Double.valueOf(args[0]));
-		} else {
-		
-			drive.setTalonsToPosition(Double.valueOf(args[1]));
-			
-		}
+		data = new GameData ();
 		
 	}
 
@@ -36,7 +30,15 @@ public class ScaleDrive extends ChaosCommand {
 
 	@Override 
 	protected void execute() {
-		//driveBase.encoderData();
+		
+		if (data.scaleIsLeft()) {
+			drive.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
+		} else {
+		
+			drive.tankCorrectedDrive(Double.parseDouble(args[1]), Double.parseDouble(args[1]));
+			
+		}
+		
 		drive.velocityData();
 	}
 	

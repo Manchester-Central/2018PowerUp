@@ -220,8 +220,8 @@ public class DriveBase {
 
 	public void tankCorrectedDrive (double leftTarget, double rightTarget)
 	{
-		double leftError  = leftTarget  - ticksToInches(getCorrectedRightTalonEncoderValue ());
-		double rightError = rightTarget - ticksToInches(getCorrectedLeftTalonEncoderValue ());
+		double leftError  = leftTarget  - ticksToInches(getCorrectedLeftTalonEncoderValue());
+		double rightError = rightTarget - ticksToInches(getCorrectedRightTalonEncoderValue());
 		
 		double leftScaled  = (leftTarget  != 0) ? (leftError  / leftTarget)  : 0;
 		double rightScaled = (rightTarget != 0) ? (rightError / rightTarget) : 0;
@@ -239,15 +239,17 @@ public class DriveBase {
 		
 		if (speedDenominator != 0) {
 			if (absLeftOutput < minSpeed || absRightOutput < minSpeed) {
-				rightOutput = rightOutput * (minSpeed / speedDenominator);
-				leftOutput  = leftOutput  * (minSpeed / speedDenominator);
-			}
-			else if (absRightOutput > maxSpeed || absLeftOutput > maxSpeed) {
-				rightOutput = rightOutput * (maxSpeed / speedDenominator);
-				leftOutput  = leftOutput  * (maxSpeed / speedDenominator);
+				rightOutput *= (minSpeed / speedDenominator);
+				leftOutput  *= (minSpeed / speedDenominator);
+		
+			
+			} else if (absRightOutput > maxSpeed || absLeftOutput > maxSpeed) {
+				rightOutput *= (maxSpeed / speedDenominator);
+				leftOutput  *= (maxSpeed / speedDenominator);
 			}
 		}
 		
+		updateTargetValues (leftTarget, rightTarget);
 		setSpeed (leftOutput, rightOutput);
 	}
 	
