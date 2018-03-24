@@ -7,8 +7,8 @@
 
 package org.usfirst.frc.team131.robot;
 
-import auto.builder.AutoBuilder;
-import commands.ClearPrefs;
+import autonomous.builder.AutoBuilder;
+import autonomous.commands.ClearPrefs;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.CommandGroup;
