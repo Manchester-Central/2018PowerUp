@@ -1,7 +1,6 @@
 package autonomous.builder;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import system.components.DriveBase;
 
 public abstract class ChaosCommand extends Command {
@@ -34,19 +33,21 @@ public abstract class ChaosCommand extends Command {
 	 * @return - returns whether one talon have stopped and are within the target
 	 */
 	protected boolean doneDriving (DriveBase drive) {
-		boolean shouldFinish = (Math.abs(Math.abs(drive.getCorrectedLeftTalonEncoderValue()) - Math.abs(drive.getLeftTarget())) < 100 
-				|| Math.abs(Math.abs(drive.getCorrectedRightTalonEncoderValue()) - Math.abs(drive.getRightTarget())) < 100);
-		//System.out.println("shouldFinish: " + shouldFinish);
+		double talonValueRightAbs = Math.abs(drive.getRightTalonInches());
+		double talonValueLeftAbs = Math.abs(drive.getLeftTalonInches());
+		
+		double rightTargetAbs = Math.abs(drive.getRightTarget());
+		double leftTargetAbs = Math.abs(drive.getLeftTarget());
+		
+		boolean shouldFinish = (Math.abs(leftTargetAbs - talonValueLeftAbs) < 2.0 
+				|| Math.abs(rightTargetAbs - talonValueRightAbs) < 2.0);
+		
+		System.out.println(rightTargetAbs + " " + rightTargetAbs + "\n " + shouldFinish);
+		
 		return shouldFinish;
 	}
 
-	//TODO test if this works for turning
-	protected boolean doneTurning (DriveBase drive) {
-		boolean shouldFinish = ( Math.abs(drive.getLeftTarget()) - Math.abs(drive.getCorrectedLeftTalonEncoderValue()) < 100 
-				&& Math.abs(drive.getRightTarget()) - Math.abs(drive.getCorrectedRightTalonEncoderValue())  < 100);
-		//System.out.println("shouldFinish: " + shouldFinish);
-		return shouldFinish;
-	}
+
 	
     /**
      *  Called just before this Command runs the first time

@@ -1,17 +1,25 @@
 package application;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import Events.CommandBoxChangeEvent;
 import Events.DeleteEvent;
+import Events.OnPreferenceSymbolDragged;
+import Events.OnPreferenceSymbolReleased;
 import Events.ParallelClickedEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
 /**
@@ -35,11 +43,33 @@ public class PreferenceLine {
 	
 	private int uniqueNumber;
 	
+	ImageView dragAndDropSymbol;
+	
 	// The list of movable elements in the scene (the lines and the fileName Textfield)
 	private ArrayList <Node> movableElements;
 	
 	public PreferenceLine (StackPane layout, List <PreferenceLine> stages, AutoInfo info,
-			ArrayList <Node> movableElements, TextField fileName) {
+			ArrayList <Node> movableElements, TextField fileName, double sceneHeight) {
+		
+		try {
+			String imageLocation = "C:\\Program Files\\AutoFolder\\reorder symbol.png";
+			FileInputStream x = new FileInputStream (imageLocation);
+			Image logo 	= new Image (x);
+			dragAndDropSymbol = new ImageView (logo);
+		} catch (Exception e) {
+			
+		}
+		
+		ColorAdjust adjust = new ColorAdjust ();
+		adjust.setBrightness(0.45);
+		
+		dragAndDropSymbol.setEffect(adjust);
+		dragAndDropSymbol.preserveRatioProperty();
+		dragAndDropSymbol.setFitHeight(40);
+		dragAndDropSymbol.setFitWidth(60);
+		
+		dragAndDropSymbol.setOnMouseDragged(new OnPreferenceSymbolDragged(this, sceneHeight));
+		dragAndDropSymbol.setOnMouseReleased(new OnPreferenceSymbolReleased((ArrayList<PreferenceLine>) stages, layout, info, movableElements, fileName, sceneHeight, this));
 		
 		isOff = false;
 		commands = new ComboBox <String> (info.getCommandList());
@@ -66,7 +96,7 @@ public class PreferenceLine {
 	
 	private void setXPositions () {
 		
-		commands.setTranslateX(-120);
+		commands.setTranslateX(-130);
 		
 		input.setTranslateX(-20);
 		
@@ -75,6 +105,8 @@ public class PreferenceLine {
 		isParallel.setTranslateX(70);
 		
 		delete.setTranslateX(110);
+		
+		dragAndDropSymbol.setTranslateX(170);
 	}
 	
 	public void setYPostions (double y) {
@@ -83,6 +115,7 @@ public class PreferenceLine {
 		isParallel.setTranslateY(y);
 		delete.setTranslateY(y);
 		stageNumber.setTranslateY(y);
+		dragAndDropSymbol.setTranslateY(y);
 	}
 	
 	public boolean getIsOff () {
@@ -113,6 +146,10 @@ public class PreferenceLine {
 		return stageNumber;
 	}
 	
+	public ImageView getMoveSymbol () {
+		return dragAndDropSymbol;
+	}
+	
 	public void setStageNumber (int number) {
 		stageNumber.setText(String.valueOf(number));
 	}
@@ -131,11 +168,13 @@ public class PreferenceLine {
 		layout.getChildren().add(isParallel);
 		layout.getChildren().add(delete);
 		layout.getChildren().add(stageNumber);
+		layout.getChildren().add(dragAndDropSymbol);
 		movableElements.add(commands);
 		movableElements.add(input);
 		movableElements.add(isParallel);
 		movableElements.add(delete);
 		movableElements.add(stageNumber);
+		movableElements.add(dragAndDropSymbol);
 		setXPositions ();
 	}
 	

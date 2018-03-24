@@ -6,14 +6,13 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class CubeManipulator {
 	
 	DoubleSolenoid extender;
-	//DoubleSolenoid pincher;
+	
 	DoubleSolenoid pincher1;
 	DoubleSolenoid pincher2;
 	
@@ -46,7 +45,7 @@ public class CubeManipulator {
 	
 		extender = new DoubleSolenoid(PortConstants.CUBE_PUSHER_A, PortConstants.CUBE_PUSHER_B);
 		
-		//pincher = new DoubleSolenoid(PortConstants.CUBE_PINCHER_A, PortConstants.CUBE_PINCHER_B);
+		
 		pincher1 = new DoubleSolenoid (PortConstants.CUBE_PINCHER_A, PortConstants.CUBE_PINCHER_B);
 		pincher2 = new DoubleSolenoid (PortConstants.CUBE_UNPINCHER_A, PortConstants.CUBE_UNPINCHER_B);
 	
@@ -93,13 +92,11 @@ public class CubeManipulator {
 	}
 	
 	public void pinch () {
-		//pincher.set(Value.kForward);
 		pincher1.set(Value.kForward);
 		pincher2.set(Value.kReverse);
 	}
 	
 	public void release () {
-		//pincher.set(Value.kReverse);
 		pincher1.set(Value.kReverse);
 		pincher2.set(Value.kForward);
 	}
@@ -124,7 +121,6 @@ public class CubeManipulator {
 	
 	public boolean isPinched() {
 		return pincher1.get() == Value.kForward && pincher2.get() == Value.kReverse;
-		//return pincher.get().equals(Value.kForward);
 		
 	}
 	

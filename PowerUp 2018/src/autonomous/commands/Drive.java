@@ -30,8 +30,8 @@ public class Drive extends ChaosCommand {
 		
 		driveBase.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
 		
-		driveBase.velocityData();
-		driveBase.talonSpeedToVictors();
+	
+	
 	}
 	
 	@Override

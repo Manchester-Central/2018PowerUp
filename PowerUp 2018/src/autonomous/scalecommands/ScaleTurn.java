@@ -42,8 +42,6 @@ public class ScaleTurn extends ChaosCommand {
 			drive.turnToAngleRight(Double.valueOf(args[1]));
 			
 		}
-
-		drive.velocityData();
 	}
 	
 	@Override

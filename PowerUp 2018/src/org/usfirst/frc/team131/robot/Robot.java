@@ -54,7 +54,6 @@ public class Robot extends IterativeRobot {
 		
 		lastRightYInput = cm.operator.getRightY();
 		
-		// TODO Check CAN ID to use
 		cubeManipulator = new CubeManipulator(lift, pdp);
 	}
 
@@ -189,7 +188,7 @@ public class Robot extends IterativeRobot {
 			
 			cubeManipulator.pinch();
 			
-		} else if (cm.operator.buttonPressed(cm.operator.LEFT_TRIGGER)) {
+		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
 			
 			cubeManipulator.release();
 			

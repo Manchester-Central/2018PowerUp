@@ -22,11 +22,13 @@ public class LoadEvent implements EventHandler<ActionEvent>{
 	private StackPane layout;
 	private AutoInfo info;
 	private ArrayList <Node> movableElements;
+	private double sceneHeight;
 	
 	private Stage primaryStage;
 	
 	public LoadEvent(TextField fileName, List<PreferenceLine> stages,
-			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList<Node> movableElements) {
+			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList<Node> movableElements,
+			double sceneHeight) {
 		fileChooser = new FileChooser ();
 		this.movableElements = movableElements;
 		this.fileName = fileName;
@@ -34,6 +36,7 @@ public class LoadEvent implements EventHandler<ActionEvent>{
 		this.stages = stages;
 		this.layout = layout;
 		this.primaryStage = primaryStage;
+		this.sceneHeight = sceneHeight;
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class LoadEvent implements EventHandler<ActionEvent>{
 		
 		File file = fileChooser.showOpenDialog(primaryStage);
 		
-		EventManager.load(file, primaryStage, fileName, stages, layout, info, movableElements);
+		EventManager.load(file, primaryStage, fileName, stages, layout, info, movableElements, sceneHeight);
 		
 	}
 

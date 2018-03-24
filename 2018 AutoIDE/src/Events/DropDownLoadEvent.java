@@ -22,12 +22,14 @@ public class DropDownLoadEvent implements ChangeListener <String> {
 	private StackPane layout;
 	private AutoInfo info;
 	private ArrayList <Node> movableElements;
+	private double sceneHeight;
 	
 	private Stage primaryStage;
 	
 	public DropDownLoadEvent(TextField fileName, List<PreferenceLine> stages,
-			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList <Node> movableElements) {
-		
+			Stage primaryStage, StackPane layout, AutoInfo info, ArrayList <Node> movableElements,
+			double sceneHeight) {
+		this.sceneHeight = sceneHeight;
 		this.movableElements  = movableElements;
 		fileChooser = new FileChooser ();
 		this.fileName = fileName;
@@ -50,7 +52,7 @@ public class DropDownLoadEvent implements ChangeListener <String> {
 		
 		if (oldValue == null || !newValue.equals(oldValue)) {
 			File file = new File (info.getFilePath(info.filePath(), newValue));
-			EventManager.load(file, primaryStage, fileName, stages, layout, info, movableElements);
+			EventManager.load(file, primaryStage, fileName, stages, layout, info, movableElements, sceneHeight);
 		}
 		
 	}

@@ -43,7 +43,6 @@ public class SwitchDrive extends ChaosCommand {
 			
 		}
 		
-		drive.velocityData();
 	}
 	
 	@Override

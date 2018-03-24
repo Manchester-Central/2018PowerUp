@@ -45,9 +45,13 @@ public class Main extends Application {
 	Button up;
 	Button down;
 	
+	double sceneHeight;
+	double sceneWidth;
+	
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		
+		sceneHeight                         = 800;
+		sceneWidth                          = 800;
 		movableElements 					= new ArrayList<Node> ();
 		description 						= new TextField ();
 		add 								= new Button();
@@ -69,7 +73,7 @@ public class Main extends Application {
 		
 		
 		instructions.setMaxWidth(175);
-		instructions.setTranslateX(250);
+		instructions.setTranslateX(300);
 		instructions.setTranslateY(0);
 		instructions.setText(getInstructions());
 		
@@ -88,16 +92,18 @@ public class Main extends Application {
 		layout.getChildren().add(fileName);
 		
 		
-		add.setOnAction(new AddEvent(stages, layout, info, movableElements, fileName));
+		add.setOnAction(new AddEvent(stages, layout, info, movableElements, fileName, sceneHeight));
 		add.setTranslateX(-240);
 		add.setTranslateY(-140);
 		add.setText("add");
 		layout.getChildren().add(add);
 		
 		
+		
+		
 		dropDownLoad.setOnMouseClicked(new OnDropDownClickEvent(info, dropDownLoad));
 		dropDownLoad.valueProperty().addListener(new DropDownLoadEvent(fileName, 
-				stages, primaryStage, layout, info, movableElements));
+				stages, primaryStage, layout, info, movableElements, sceneHeight));
 		dropDownLoad.setTranslateX(-300);
 		dropDownLoad.setTranslateY(-100);
 		dropDownLoad.setPromptText("Drop-Down load");
@@ -105,7 +111,7 @@ public class Main extends Application {
 		
 		
 		openInfo.setOnAction(new OpenInfoEvent ());
-		openInfo.setTranslateX(240);
+		openInfo.setTranslateX(300);
 		openInfo.setTranslateY(200);
 		openInfo.setText("open info");
 		layout.getChildren().add(openInfo);
@@ -118,7 +124,7 @@ public class Main extends Application {
 		layout.getChildren().add(make);
 		
 		
-		load.setOnAction(new LoadEvent (fileName, stages, primaryStage, layout, info, movableElements));
+		load.setOnAction(new LoadEvent (fileName, stages, primaryStage, layout, info, movableElements, sceneHeight));
 		load.setTranslateX(-240);
 		load.setTranslateY(-200);
 		load.setText("load");
@@ -142,7 +148,7 @@ public class Main extends Application {
 		layout.getChildren().add(imageView);
 		layout.getChildren().add(instructions);
 		
-		Scene scene = new Scene(layout,800,800);
+		Scene scene = new Scene(layout, sceneWidth, sceneHeight);
 		
 		primaryStage.setScene(scene);
 		primaryStage.show();

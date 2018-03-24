@@ -16,14 +16,16 @@ public final class AddEvent implements EventHandler<ActionEvent> {
 	private final AutoInfo info;
 	private ArrayList <Node> movableElements;
 	private TextField fileName;
+	private double sceneHeight;
 
 	public AddEvent(ArrayList<PreferenceLine> stages, StackPane layout, AutoInfo info,
-			ArrayList <Node> movableElements, TextField fileName) {
+			ArrayList <Node> movableElements, TextField fileName, double sceneHeight) {
 		this.movableElements = movableElements;
 		this.fileName = fileName;
 		this.stages = stages;
 		this.layout = layout;
 		this.info = info;
+		this.sceneHeight = sceneHeight;
 	}
 
 	
@@ -32,7 +34,7 @@ public final class AddEvent implements EventHandler<ActionEvent> {
 	 */
 	@Override
 	public void handle(ActionEvent arg0) {
-		PreferenceLine line = new PreferenceLine (layout, stages, info, movableElements, fileName);
+		PreferenceLine line = new PreferenceLine (layout, stages, info, movableElements, fileName, sceneHeight);
 		stages.add(line);
 		EventManager.reorganizeEntries(stages, layout, movableElements, fileName);
 		

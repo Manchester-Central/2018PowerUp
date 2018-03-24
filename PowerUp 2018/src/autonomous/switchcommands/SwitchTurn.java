@@ -44,7 +44,6 @@ public class SwitchTurn extends ChaosCommand {
 			
 		}
 		
-		drive.velocityData();
 	}
 	
 	@Override

@@ -42,13 +42,10 @@ public class LinearLift {
 	
 	private static final double HOLD_SPEED = 0.2;
 	
-	private final double OFFSET = 0;
-	private final double RANGE = 105.375;
-	
 	private final double chaosRange = 105.375;
 	private final double potRange = (0.28 / 1.2) / 0.821917;
 	private final double potOffset = 0.0048;
-	//private final double maxAcceleration;
+
 	
 	Victor lift1;
 	Victor lift2;
@@ -170,6 +167,15 @@ public class LinearLift {
 		
 	}
 	
+	/**
+	 * Sets the speed of the lift to go to position
+	 * Limits acceleration so that it has to ramp up before getting to maximum speed
+	 * Begins to decelerate once it reaches set proportional distance, with no limit on deceleration rate
+	 * 
+	 * @param targetPosition - height to go to
+	 * @param currentPosition - where the lift is at the start
+	 * @return - speed to get to position
+	 */
 	public double getProportionalSet (double targetPosition, double currentPosition) {
 		
 
@@ -250,7 +256,8 @@ public class LinearLift {
 			
 			return proportionalSet;
 		
-		
+	 
+			
 	}
 	
 	public double getChaosPot () {

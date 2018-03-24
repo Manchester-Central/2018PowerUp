@@ -31,24 +31,24 @@ public class Main {
 //			System.out.printf(", pos=%.3f\n", position);
 //			
 //		}
-		
-		double lastRightYInput = 0;
-		
-		while (true) {
-			
-			Scanner scan = new Scanner(System.in);
-			
-			double rawAxis = scan.nextDouble();
-			
-			if (lastRightYInput == rawAxis && Math.abs(rawAxis) < 0.01) {
-				System.out.println("Move to Position");
-			} else {
-				System.out.println("Manual Set");
-			}
-			
-			lastRightYInput = rawAxis;
-			
-		}
+		System.out.println(Math.PI);
+//		double lastRightYInput = 0;
+//		
+//		while (true) {
+//			
+//			Scanner scan = new Scanner(System.in);
+//			
+//			double rawAxis = scan.nextDouble();
+//			
+//			if (lastRightYInput == rawAxis && Math.abs(rawAxis) < 0.01) {
+//				System.out.println("Move to Position");
+//			} else {
+//				System.out.println("Manual Set");
+//			}
+//			
+//			lastRightYInput = rawAxis;
+//			
+//		}
 		
 		
 	}

@@ -4,13 +4,11 @@ import org.usfirst.frc.team131.robot.PortConstants;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-import edu.wpi.first.wpilibj.Victor;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class DriveBase {
@@ -44,8 +42,8 @@ public class DriveBase {
 	
 	public DriveBase () {
 		
-		leftTalonTarget = 0D;
-		rightTalonTarget = 0D;
+		leftTalonTarget = 0.0;
+		rightTalonTarget = 0.0;
 		
 		leftBackVictor = new WPI_VictorSPX(PortConstants.LEFT_BACK_VICTOR);
 		leftMidVictor = new WPI_VictorSPX(PortConstants.LEFT_MID_VICTOR);
@@ -142,10 +140,13 @@ public class DriveBase {
 		
 	}
 	
+	/**
+	 * Forward is low gear
+	 * Reverse is high gear
+	 * @param lowGear - whether we want to shift to low gear
+	 */
 	public void shiftLow(boolean lowGear) {
-		
-		// Forward is low Gear
-		// Reverse is high Gear
+
 		if (lowGear) {
 		gearShifter.set(Value.kForward);
 		} else {
@@ -153,15 +154,27 @@ public class DriveBase {
 		}
 	}
 	
-	public double getCorrectedRightTalonEncoderValue () {
+	public double getCorrectedRightTalonTicks () {
 		
 		return -rightTalonSRX.getSelectedSensorPosition(0);
 		
 	}
 	
-	public double getCorrectedLeftTalonEncoderValue () {
+	public double getCorrectedLeftTalonTicks () {
 		
 		return leftTalonSRX.getSelectedSensorPosition(0);
+		
+	}
+	
+	public double getLeftTalonInches () {
+		
+		return ticksToInches(leftTalonSRX.getSelectedSensorPosition(0));
+		
+	}
+	
+	public double getRightTalonInches () {
+		
+		return ticksToInches(rightTalonSRX.getSelectedSensorPosition(0));
 		
 	}
 	
@@ -180,24 +193,7 @@ public class DriveBase {
 		leftTalonSRX.setSelectedSensorPosition(0, 0, 0);
 	}
 	
-	/**
-	 * Uses in-build PID controls to drive straight to a target
-	 * @param target = distance to drive
-	 */
-	public void setTalonsToPosition(double target) {
-
-		resetEncoders();
-		rightTalonSRX.set(ControlMode.Position, inchesToTicks(target));
-		
-		leftTalonSRX.set(ControlMode.Position, inchesToTicks(target));
-		updateTargetValues (target, target);
-		
-		System.out.println ("ticks: " + inchesToTicks(target));
-		
-		talonSpeedToVictors();
-		
-		
-	}
+	
 	/**
 	 * 
 	 * @param angle - Angle in Degrees to turn. Positive angle = counterclockwise
@@ -220,8 +216,8 @@ public class DriveBase {
 
 	public void tankCorrectedDrive (double leftTarget, double rightTarget)
 	{
-		double leftError  = leftTarget  - ticksToInches(getCorrectedLeftTalonEncoderValue());
-		double rightError = rightTarget - ticksToInches(getCorrectedRightTalonEncoderValue());
+		double leftError  = leftTarget  - getLeftTalonInches();
+		double rightError = rightTarget - getRightTalonInches();
 		
 		double leftScaled  = (leftTarget  != 0) ? (leftError  / leftTarget)  : 0;
 		double rightScaled = (rightTarget != 0) ? (rightError / rightTarget) : 0;
@@ -258,22 +254,7 @@ public class DriveBase {
 		rightTalonTarget = inchesToTicks(right);
 	}
 	
-	/**
-	 * Makes the drive Victors follow the speed of the Talons++
-	 */
-	public void talonSpeedToVictors() {
-		double leftTalonSpeed = leftTalonSRX.get();
-		double rightTalonSpeed = rightTalonSRX.get();
-		
-		
-		leftBackVictor.set(leftTalonSpeed);
-		leftMidVictor.set(leftTalonSpeed);
-		leftFrontVictor.set(leftTalonSpeed);
-		
-		rightBackVictor.set(rightTalonSpeed);
-		rightMidVictor.set(rightTalonSpeed);
-		rightFrontVictor.set(rightTalonSpeed);
-	}
+
 	
 	public void setGains(double forwardGain, double turnGain) {
 		this.forwardGain = forwardGain;
@@ -282,27 +263,17 @@ public class DriveBase {
 	
 	public void encoderData() {
 		
-//		System.out.println("Left Encoder: " + ticksToInches(getCorrectedLeftTalonEncoderValue())
-//		+ " right Encoder: " +ticksToInches(getCorrctedRightTalonEncoderValue()) + "-- "
-//		+ ticksToInches(rightTalonSRX.getClosedLoopError(0)));
+		System.out.println("Left Encoder: " + getLeftTalonInches()
+		+ " right Encoder: " + getRightTalonInches() );
 	}
 	
-	public void velocityData () {
-		//System.out.println("left velocity: " + getLeftEncoderVelocity() + " right velocity: " +getRightEncoderVelocity());
-		//System.out.println("left encoder: " + getCorrectedLeftTalonEncoderValue() + " right encoder: " +getCorrctedRightTalonEncoderValue());
-	}
 	
 	/**
 	 * Stops the drive and resets the encoders for the next drive command
 	 */
 	public void end () {
-//		rightTalonSRX.stopMotor();
-//		leftTalonSRX.stopMotor();
-		rightTalonSRX.set(ControlMode.Disabled, 0);
-		leftTalonSRX.set(ControlMode.Disabled, 0);
 		rightTalonSRX.set(0.0);
 		leftTalonSRX.set(0.0);
-		//talonSpeedToVictors();
 		resetEncoders();
 	}
 	
@@ -310,10 +281,6 @@ public class DriveBase {
 		return rightTalonTarget;
 	}
 	
-	public boolean isEnable () {
-		return rightTalonSRX.getControlMode() == ControlMode.Disabled || 
-				leftTalonSRX.getControlMode() == ControlMode.Disabled;
-	}
 	
 	public double getLeftTarget () {
 		return leftTalonTarget;
@@ -323,8 +290,8 @@ public class DriveBase {
 		
 		SmartDashboard.putNumber("Right Talon Speed: ", getRightEncoderVelocity());
 		SmartDashboard.putNumber("Left Talon Speed: ", getLeftEncoderVelocity());
-		SmartDashboard.putNumber("Right Talon Encoder: ", ticksToInches(getCorrectedRightTalonEncoderValue()));
-		SmartDashboard.putNumber("Left Talon Encoder: ", ticksToInches(getCorrectedRightTalonEncoderValue()));
+		SmartDashboard.putNumber("Right Talon Encoder: ", getRightTalonInches());
+		SmartDashboard.putNumber("Left Talon Encoder: ", getLeftTalonInches());
 		
 		boolean inLowShift = gearShifter.get().equals(Value.kForward);
 		

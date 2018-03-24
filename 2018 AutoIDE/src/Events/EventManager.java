@@ -31,7 +31,7 @@ public class EventManager {
 		
 		List <PreferenceLine> removedEntries = new ArrayList <PreferenceLine> ();
 		
-		// 
+		
 		for (PreferenceLine x : stages) {
 			if (!x.getIsOff()) {
 				
@@ -51,11 +51,13 @@ public class EventManager {
 				movableElements.remove(x.getIsParallel());
 				movableElements.remove(x.getDelete());
 				movableElements.remove(x.getStageNumber());
+				movableElements.remove(x.getMoveSymbol());
 				layout.getChildren().remove(x.getCommands());
 				layout.getChildren().remove(x.getInput());
 				layout.getChildren().remove(x.getIsParallel());
 				layout.getChildren().remove(x.getDelete());
 				layout.getChildren().remove(x.getStageNumber());
+				layout.getChildren().remove(x.getMoveSymbol());
 				removedEntries.add(x);
 				
 			}
@@ -79,7 +81,7 @@ public class EventManager {
 	 */
 	public static void load (File file, Stage primaryStage, TextField fileName,
 			List <PreferenceLine> stages, StackPane layout, AutoInfo info, 
-			ArrayList <Node> movableElements) {
+			ArrayList <Node> movableElements, double sceneHeight) {
 		
 		ArrayList <String> lines = new ArrayList<String> ();
 		
@@ -110,7 +112,7 @@ public class EventManager {
 		for (String line : lines) {
 			if (!line.equals("string \"/Preferences/.type\"=\"RobotPreferences\"") && !line.equals("[NetworkTables Storage 3.0]")) {
 				
-				PreferenceLine newLine = new PreferenceLine (layout, stages, info, movableElements, fileName);
+				PreferenceLine newLine = new PreferenceLine (layout, stages, info, movableElements, fileName, sceneHeight);
 				
 				String comma = ",";
 				

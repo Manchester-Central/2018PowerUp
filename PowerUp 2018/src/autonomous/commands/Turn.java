@@ -31,7 +31,6 @@ public class Turn extends ChaosCommand {
 
 		drive.turnToAngleRight(Double.parseDouble(args[0]));
 		
-		drive.velocityData();
 	}
 	
 	@Override
