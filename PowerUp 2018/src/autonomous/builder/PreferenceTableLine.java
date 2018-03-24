@@ -18,6 +18,11 @@ import autonomous.commands.TestChaosCommand;
 import autonomous.commands.Turn;
 import autonomous.commands.Wait;
 import autonomous.scalecommands.ScaleDrive;
+import autonomous.scalecommands.ScaleExtend;
+import autonomous.scalecommands.ScaleLift;
+import autonomous.scalecommands.ScaleOutput;
+import autonomous.scalecommands.ScaleRelax;
+import autonomous.scalecommands.ScaleRelease;
 import autonomous.scalecommands.ScaleTurn;
 import autonomous.switchcommands.SwitchDrive;
 import autonomous.switchcommands.SwitchExtend;
@@ -40,7 +45,8 @@ public class PreferenceTableLine {
 	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME 
 			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME, Retract.NAME, Output.NAME,
 			Lift.NAME, Intake.NAME, Extend.NAME, Wait.NAME, Release.NAME, Pinch.NAME, Relax.NAME,
-			SwitchRelease.NAME, SwitchLift.NAME, SwitchExtend.NAME, SwitchOutput.NAME, SwitchRelax.NAME};
+			SwitchRelease.NAME, SwitchLift.NAME, SwitchExtend.NAME, SwitchOutput.NAME, SwitchRelax.NAME,
+			ScaleExtend.NAME, ScaleLift.NAME, ScaleOutput.NAME, ScaleRelax.NAME, ScaleRelease.NAME};
 	
 	private String[] commandGroups = {IntakeCube.NAME, OutputSwitch.NAME, OutputScale.NAME};
 	
@@ -167,6 +173,21 @@ public class PreferenceTableLine {
 				break;
 			case SwitchExtend.NAME:
 				command = new SwitchExtend(2, cubeManipulator);
+			case ScaleExtend.NAME:
+				command = new ScaleExtend (2, cubeManipulator);
+				break;
+			case ScaleLift.NAME:
+				command = new ScaleLift (2, lift);
+				break;
+			case ScaleOutput.NAME:
+				command = new ScaleOutput (2, cubeManipulator);
+				break;
+			case ScaleRelease.NAME:
+				command = new ScaleRelease (2, cubeManipulator);
+				break;
+			case ScaleRelax.NAME:
+				command = new ScaleRelax (2, cubeManipulator);
+				break;
 			default:
 				command = null;	
 				break;

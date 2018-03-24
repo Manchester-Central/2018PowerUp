@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.Pattern;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,8 +43,17 @@ public class AutoInfo {
 			while ((line = reader.readLine()) != null) {
 				
 				// command:placeholder
+				
+				if (!match(line)) {
+					continue;
+				}
+				
 				String command = line.split(":")[0];
+				//System.out.print (command + ": ");
 				String value = line.split("\\|")[1].trim();
+				//System.out.print(value + ": ");
+				//System.out.println(match(line));
+				
 				
 				commandList.add(command);
 				
@@ -222,6 +232,15 @@ public class AutoInfo {
 	
 	public HashMap <String, String> getCommandPlaceholders () {
 		return commandPlaceholders;
+	}
+	
+	/**
+	 * 
+	 * @param check - the line to check
+	 * @return - whether the line matches the syntax
+	 */
+	private boolean match(String check) {
+		return Pattern.matches("[^:]+:[^:]*[|]*", check);
 	}
 	
 

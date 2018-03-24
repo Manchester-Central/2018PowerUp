@@ -53,7 +53,6 @@ public class OnPreferenceSymbolReleased implements EventHandler <MouseEvent>{
 		EventManager.reorganizeEntries(stages, layout, movableElements, fileName);
 		
 		
-		
 	}
 
 }
