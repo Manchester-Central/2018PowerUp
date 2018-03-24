@@ -1,5 +1,6 @@
 package autonomous.commands;
 
+import autonomous.builder.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
 public class Output extends TimeRestrictedCommand {

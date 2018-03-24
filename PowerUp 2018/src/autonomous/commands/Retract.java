@@ -1,6 +1,7 @@
 package autonomous.commands;
 
 import autonomous.builder.ChaosCommand;
+import autonomous.builder.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
 public class Retract extends TimeRestrictedCommand {

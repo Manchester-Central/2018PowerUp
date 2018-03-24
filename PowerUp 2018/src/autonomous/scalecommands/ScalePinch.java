@@ -1,15 +1,15 @@
-package autonomous.switchcommands;
+package autonomous.scalecommands;
 
 import autonomous.builder.GameData;
 import autonomous.builder.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
-public class SwitchExtend extends TimeRestrictedCommand {
+public class ScalePinch extends TimeRestrictedCommand {
 	
-	public static final String NAME = "SwitchExtend";
+	public static final String NAME = "ScalePinch";
 	private CubeManipulator cubeManipulator;
 
-	public SwitchExtend(int argsLength, CubeManipulator cubeManipulator) {
+	public ScalePinch(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 	}
@@ -17,18 +17,18 @@ public class SwitchExtend extends TimeRestrictedCommand {
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isExtended() || super.isFinished();
+		return cubeManipulator.isPinched() || super.isFinished();
 	}
 	
 	@Override
 	protected void initialize () {
 		super.initialize();
 		GameData data = new GameData ();
-		if (data.closeSwitchIsLeft()) {
+		if (data.scaleIsLeft()) {
 			
 			if (args[0].equals("1")) {
 				
-				cubeManipulator.extend();
+				cubeManipulator.pinch();
 				
 			}
 			
@@ -37,12 +37,11 @@ public class SwitchExtend extends TimeRestrictedCommand {
 			
 			if (args[1].equals("1")) {
 				
-				cubeManipulator.extend();
+				cubeManipulator.pinch();
 				
 			}
 			
 		}
 		
 	}
-
 }

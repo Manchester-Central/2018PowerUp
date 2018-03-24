@@ -4,12 +4,12 @@ import autonomous.builder.GameData;
 import autonomous.builder.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
-public class SwitchExtend extends TimeRestrictedCommand {
+public class SwitchPinch extends TimeRestrictedCommand {
 	
-	public static final String NAME = "SwitchExtend";
+	public static final String NAME = "SwitchPinch";
 	private CubeManipulator cubeManipulator;
 
-	public SwitchExtend(int argsLength, CubeManipulator cubeManipulator) {
+	public SwitchPinch(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
 	}
@@ -17,7 +17,7 @@ public class SwitchExtend extends TimeRestrictedCommand {
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isExtended() || super.isFinished();
+		return cubeManipulator.isPinched() || super.isFinished();
 	}
 	
 	@Override
@@ -28,7 +28,7 @@ public class SwitchExtend extends TimeRestrictedCommand {
 			
 			if (args[0].equals("1")) {
 				
-				cubeManipulator.extend();
+				cubeManipulator.pinch();
 				
 			}
 			
@@ -37,12 +37,11 @@ public class SwitchExtend extends TimeRestrictedCommand {
 			
 			if (args[1].equals("1")) {
 				
-				cubeManipulator.extend();
+				cubeManipulator.pinch();
 				
 			}
 			
 		}
 		
 	}
-
 }

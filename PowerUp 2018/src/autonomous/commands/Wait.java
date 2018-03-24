@@ -1,5 +1,7 @@
 package autonomous.commands;
 
+import autonomous.builder.TimeRestrictedCommand;
+
 public class Wait extends TimeRestrictedCommand {
 	
 	public static final String NAME = "Wait";

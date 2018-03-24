@@ -19,18 +19,26 @@ import autonomous.commands.Turn;
 import autonomous.commands.Wait;
 import autonomous.scalecommands.ScaleDrive;
 import autonomous.scalecommands.ScaleExtend;
+import autonomous.scalecommands.ScaleIntake;
 import autonomous.scalecommands.ScaleLift;
 import autonomous.scalecommands.ScaleOutput;
+import autonomous.scalecommands.ScalePinch;
 import autonomous.scalecommands.ScaleRelax;
 import autonomous.scalecommands.ScaleRelease;
+import autonomous.scalecommands.ScaleRetract;
 import autonomous.scalecommands.ScaleTurn;
+import autonomous.scalecommands.ScaleWait;
 import autonomous.switchcommands.SwitchDrive;
 import autonomous.switchcommands.SwitchExtend;
+import autonomous.switchcommands.SwitchIntake;
 import autonomous.switchcommands.SwitchLift;
 import autonomous.switchcommands.SwitchOutput;
+import autonomous.switchcommands.SwitchPinch;
 import autonomous.switchcommands.SwitchRelax;
 import autonomous.switchcommands.SwitchRelease;
+import autonomous.switchcommands.SwitchRetract;
 import autonomous.switchcommands.SwitchTurn;
+import autonomous.switchcommands.SwitchWait;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import system.components.CubeManipulator;
 import system.components.DriveBase;
@@ -42,11 +50,47 @@ public class PreferenceTableLine {
 	private CommandGroup commandGroup;
 	private boolean isParallel;
 	
-	private String[] commands = {TestChaosCommand.NAME , SwitchDrive.NAME , ScaleDrive.NAME 
-			, Drive.NAME, SwitchTurn.NAME, ScaleTurn.NAME, Turn.NAME, Retract.NAME, Output.NAME,
-			Lift.NAME, Intake.NAME, Extend.NAME, Wait.NAME, Release.NAME, Pinch.NAME, Relax.NAME,
-			SwitchRelease.NAME, SwitchLift.NAME, SwitchExtend.NAME, SwitchOutput.NAME, SwitchRelax.NAME,
-			ScaleExtend.NAME, ScaleLift.NAME, ScaleOutput.NAME, ScaleRelax.NAME, ScaleRelease.NAME};
+	private String[] commands = {
+			
+			TestChaosCommand.NAME,
+			
+			Drive.NAME,
+			Turn.NAME,
+			Retract.NAME,
+			Output.NAME,
+			Lift.NAME,
+			Intake.NAME,
+			Extend.NAME,
+			Wait.NAME,
+			Release.NAME,
+			Pinch.NAME,
+			Relax.NAME,
+
+			SwitchDrive.NAME,
+			SwitchTurn.NAME,
+			SwitchRelease.NAME,
+			SwitchLift.NAME,
+			SwitchExtend.NAME,
+			SwitchOutput.NAME,
+			SwitchRelax.NAME,
+			SwitchPinch.NAME,
+			SwitchRetract.NAME,
+			SwitchWait.NAME,
+			SwitchIntake.NAME,
+
+			ScaleDrive.NAME,
+			ScaleTurn.NAME,
+			ScaleRelease.NAME,
+			ScaleLift.NAME,
+			ScaleExtend.NAME,
+			ScaleOutput.NAME,
+			ScaleRelax.NAME,
+			ScalePinch.NAME,
+			ScaleRetract.NAME,
+			ScaleWait.NAME,
+			ScaleIntake.NAME
+			
+			};
 	
 	private String[] commandGroups = {IntakeCube.NAME, OutputSwitch.NAME, OutputScale.NAME};
 	
@@ -187,6 +231,30 @@ public class PreferenceTableLine {
 				break;
 			case ScaleRelax.NAME:
 				command = new ScaleRelax (2, cubeManipulator);
+				break;
+			case SwitchPinch.NAME:
+				command = new SwitchPinch (2, cubeManipulator);
+				break;
+			case SwitchRetract.NAME:
+				command = new SwitchRetract (2, cubeManipulator);
+				break;
+			case SwitchWait.NAME:
+				command = new SwitchWait (2);
+				break;
+			case SwitchIntake.NAME:
+				command = new SwitchIntake (2, cubeManipulator);
+				break;
+			case ScalePinch.NAME:
+				command = new ScalePinch (2, cubeManipulator);
+				break;
+			case ScaleRetract.NAME:
+				command = new ScaleRetract (2, cubeManipulator);
+				break;
+			case ScaleWait.NAME:
+				command = new ScaleWait (2);
+				break;
+			case ScaleIntake.NAME:
+				command = new ScaleIntake (2, cubeManipulator);
 				break;
 			default:
 				command = null;	

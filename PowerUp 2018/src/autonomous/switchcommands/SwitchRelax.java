@@ -1,7 +1,7 @@
 package autonomous.switchcommands;
 
 import autonomous.builder.GameData;
-import autonomous.commands.TimeRestrictedCommand;
+import autonomous.builder.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
 public class SwitchRelax extends TimeRestrictedCommand {
@@ -17,7 +17,7 @@ public class SwitchRelax extends TimeRestrictedCommand {
 	@Override
 	protected boolean isFinished() {
 		
-		return !cubeManipulator.isRelaxed() || super.isFinished();
+		return cubeManipulator.isRelaxed() || super.isFinished();
 	}
 	
 	@Override

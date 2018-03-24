@@ -1,5 +1,6 @@
 package autonomous.commands;
 
+import autonomous.builder.TimeRestrictedCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import system.components.CubeManipulator;
 

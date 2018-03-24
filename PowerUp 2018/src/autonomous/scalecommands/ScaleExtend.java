@@ -1,7 +1,7 @@
 package autonomous.scalecommands;
 
 import autonomous.builder.GameData;
-import autonomous.commands.TimeRestrictedCommand;
+import autonomous.builder.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
 public class ScaleExtend extends TimeRestrictedCommand {

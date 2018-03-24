@@ -124,8 +124,16 @@ public class CubeManipulator {
 		
 	}
 	
+	public boolean isReleased () {
+		return pincher1.get() == Value.kReverse && pincher2.get() == Value.kForward;
+	}
+	
 	public boolean isExtended () {
 		return extender.get().equals(Value.kForward);
+	}
+	
+	public boolean isRetracted () {
+		return extender.get().equals(Value.kReverse);
 	}
 	
 	public void checkPower () {

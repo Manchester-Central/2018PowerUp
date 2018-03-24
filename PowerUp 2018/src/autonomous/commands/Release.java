@@ -1,5 +1,6 @@
 package autonomous.commands;
 
+import autonomous.builder.TimeRestrictedCommand;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import system.components.CubeManipulator;
 
@@ -18,7 +19,7 @@ public class Release extends TimeRestrictedCommand {
 	@Override
 	protected boolean isFinished() {
 		
-		return !cubeManipulator.isPinched() || super.isFinished();
+		return cubeManipulator.isReleased() || super.isFinished();
 	}
 	
 	@Override

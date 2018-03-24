@@ -40,7 +40,7 @@ public class LinearLift {
 	
 
 	
-	private static final double HOLD_SPEED = 0.2;
+	private static final double HOLD_SPEED = 0.0;
 	
 	private final double chaosRange = 105.375;
 	private final double potRange = (0.28 / 1.2) / 0.821917;
@@ -99,7 +99,6 @@ public class LinearLift {
 		case DOWN:
 			targetPosition = FLOOR_POSITION_INCHES;
 			setPosition = "floor position";
-			
 			break;
 		case RIGHT:
 			targetPosition = SWITCH_POSITION_INCHES;

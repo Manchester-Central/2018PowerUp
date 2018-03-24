@@ -1,6 +1,4 @@
-package autonomous.commands;
-
-import autonomous.builder.ChaosCommand;
+package autonomous.builder;
 
 public abstract class TimeRestrictedCommand extends ChaosCommand {
 

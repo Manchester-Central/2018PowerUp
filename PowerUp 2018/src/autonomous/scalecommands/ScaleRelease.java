@@ -1,7 +1,7 @@
 package autonomous.scalecommands;
 
 import autonomous.builder.GameData;
-import autonomous.commands.TimeRestrictedCommand;
+import autonomous.builder.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
 public class ScaleRelease extends TimeRestrictedCommand {
@@ -17,7 +17,7 @@ public class ScaleRelease extends TimeRestrictedCommand {
 	@Override
 	protected boolean isFinished() {
 		
-		return !cubeManipulator.isPinched() || super.isFinished();
+		return cubeManipulator.isReleased() || super.isFinished();
 	}
 	
 	@Override
