@@ -1,4 +1,4 @@
-package commands;
+package commands.scalecommands;
 
 import auto.builder.ChaosCommand;
 import auto.builder.GameData;

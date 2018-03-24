@@ -1,4 +1,4 @@
-package commands;
+package commands.switchcommands;
 
 import auto.builder.ChaosCommand;
 import auto.builder.GameData;

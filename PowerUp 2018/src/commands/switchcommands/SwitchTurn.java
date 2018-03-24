@@ -1,24 +1,25 @@
-package commands;
+package commands.switchcommands;
 
 import auto.builder.ChaosCommand;
 import auto.builder.GameData;
 import system.components.DriveBase;
 
-public class ScaleTurn extends ChaosCommand {
+public class SwitchTurn extends ChaosCommand {
 
-
+	// CounterClockwise is positive turn
 	
 	DriveBase drive;
 	GameData data;
-	public static final String NAME = "ScaleTurnRight";
+	public static final String NAME = "SwitchTurnRight";
 	
-	public ScaleTurn(int argsLength, DriveBase drive) {
+	public SwitchTurn(int argsLength, DriveBase drive) {
 		super(argsLength, NAME);
 		this.drive = drive;
 	}
 	
 	@Override
 	protected void initialize () {
+		
 		super.initialize();
 		drive.resetEncoders();
 		data = new GameData ();
@@ -33,16 +34,16 @@ public class ScaleTurn extends ChaosCommand {
 	@Override 
 	protected void execute() {
 
-		if (data.scaleIsLeft()) {
+		if (data.closeSwitchIsLeft()) {
 			
-			drive.turnToAngleRight(Double.valueOf(args[0]));
+			drive.turnToAngleRight(Double.parseDouble(args[0]));
 			
 		} else {
 		
-			drive.turnToAngleRight(Double.valueOf(args[1]));
+			drive.turnToAngleRight(Double.parseDouble(args[1]));
 			
 		}
-
+		
 		drive.velocityData();
 	}
 	

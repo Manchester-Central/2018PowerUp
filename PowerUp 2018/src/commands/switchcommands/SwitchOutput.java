@@ -1,6 +1,7 @@
-package commands;
+package commands.switchcommands;
 
 import auto.builder.GameData;
+import commands.TimeRestrictedCommand;
 import system.components.CubeManipulator;
 
 public class SwitchOutput extends TimeRestrictedCommand {
