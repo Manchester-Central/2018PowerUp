@@ -1,12 +1,12 @@
 package command.group;
 
-import Commands.Extend;
-import Commands.Lift;
-import Commands.Output;
-import Commands.Retract;
-import SystemComponents.CubeManipulator;
-import SystemComponents.LinearLift;
+import commands.Extend;
+import commands.Lift;
+import commands.Output;
+import commands.Retract;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import system.components.CubeManipulator;
+import system.components.LinearLift;
 
 public class OutputScale extends CommandGroup {
 	

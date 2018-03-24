@@ -1,14 +1,14 @@
 package command.group;
 
-import Commands.Extend;
-import Commands.Intake;
-import Commands.Lift;
-import Commands.Pinch;
-import Commands.Release;
-import Commands.Retract;
-import SystemComponents.CubeManipulator;
-import SystemComponents.LinearLift;
+import commands.Extend;
+import commands.Intake;
+import commands.Lift;
+import commands.Pinch;
+import commands.Release;
+import commands.Retract;
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import system.components.CubeManipulator;
+import system.components.LinearLift;
 
 public class IntakeCube extends CommandGroup {
 	

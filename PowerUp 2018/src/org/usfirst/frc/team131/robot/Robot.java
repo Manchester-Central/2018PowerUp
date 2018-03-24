@@ -7,16 +7,16 @@
 
 package org.usfirst.frc.team131.robot;
 
-import Commands.ClearPrefs;
-import NewAutoShell.AutoBuilder;
-import SystemComponents.CubeManipulator;
-import SystemComponents.DriveBase;
-import SystemComponents.LinearLift;
+import auto.builder.AutoBuilder;
+import commands.ClearPrefs;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import system.components.CubeManipulator;
+import system.components.DriveBase;
+import system.components.LinearLift;
 
 /**
  * The VM is configured to automatically run this class, and to call the
