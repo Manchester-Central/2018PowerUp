@@ -23,7 +23,6 @@ public class CubeManipulator {
 	DigitalInput cubeDetector;
 	
 	private static final double SPEED = 1.0;
-	private LinearLift lift;
 	
 	private long time;
 	private boolean cubeInByCurrent;
@@ -31,25 +30,22 @@ public class CubeManipulator {
 	
 	private PowerDistributionPanel pdp;
 	
-	public CubeManipulator(LinearLift lift, PowerDistributionPanel pdp) {
-		motor1 = new Victor(PortConstants.ROLLER_CLAW_LEFT);
-		motor2 = new Victor(PortConstants.ROLLER_CLAW_RIGHT);
-		
-		cubeInByCurrent = false;
+	public CubeManipulator(PowerDistributionPanel pdp) {
 		
 		this.pdp = pdp;
 		
-		time = System.currentTimeMillis();
+		motor1 = new Victor(PortConstants.ROLLER_CLAW_LEFT);
+		motor2 = new Victor(PortConstants.ROLLER_CLAW_RIGHT);
 		
-		this.lift = lift;
-	
 		extender = new DoubleSolenoid(PortConstants.CUBE_PUSHER_A, PortConstants.CUBE_PUSHER_B);
-		
 		
 		pincher1 = new DoubleSolenoid (PortConstants.CUBE_PINCHER_A, PortConstants.CUBE_PINCHER_B);
 		pincher2 = new DoubleSolenoid (PortConstants.CUBE_UNPINCHER_A, PortConstants.CUBE_UNPINCHER_B);
 	
 		cubeDetector = new DigitalInput(PortConstants.CUBE_DETECTOR_SENSOR);
+		
+		cubeInByCurrent = false;
+		time = System.currentTimeMillis();
 		
 		motor2.setInverted(true);
 	}
@@ -77,18 +73,14 @@ public class CubeManipulator {
 	 * extends claw only if it is above the intake position
 	 */
 	public void extend () {
-		//if (lift.liftPosition() >= LinearLift.EXTEND_POSITION_INCHES - LinearLift.DEADBAND_INCHES) {
-			extender.set(Value.kForward);
-		//}
+		extender.set(Value.kForward);
 	}
 	
 	/**
 	 * retracts claw only if it is above the intake position
 	 */
 	public void retract () {
-		//if (lift.liftPosition() >= LinearLift.EXTEND_POSITION_INCHES - LinearLift.DEADBAND_INCHES) {
-			extender.set(Value.kReverse);
-		//}
+		extender.set(Value.kReverse);
 	}
 	
 	public void pinch () {
@@ -157,8 +149,6 @@ public class CubeManipulator {
 	public void putInfo () {
 		
 		SmartDashboard.putBoolean("Claw is extended: ", isExtended());
-//		SmartDashboard.putBoolean("Intake is running: ", motor1.get() == SPEED);
-//		SmartDashboard.putBoolean("Output is running: ", motor1.get() == -SPEED);
 		SmartDashboard.putNumber("Flywheel Speed: ", motor1.get());
 		
 		SmartDashboard.putBoolean("Cube is in: ", cubeInSensor());

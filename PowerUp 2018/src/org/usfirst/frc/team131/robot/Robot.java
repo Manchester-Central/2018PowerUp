@@ -54,7 +54,7 @@ public class Robot extends IterativeRobot {
 		
 		lastRightYInput = cm.operator.getRightY();
 		
-		cubeManipulator = new CubeManipulator(lift, pdp);
+		cubeManipulator = new CubeManipulator(pdp);
 	}
 
 	/**
