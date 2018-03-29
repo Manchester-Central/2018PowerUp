@@ -161,7 +161,7 @@ public class CubeManipulator {
 //		SmartDashboard.putBoolean("Output is running: ", motor1.get() == -SPEED);
 		SmartDashboard.putNumber("Flywheel Speed: ", motor1.get());
 		
-		SmartDashboard.putBoolean("Cube is in: ", cubeInCurrent());
+		SmartDashboard.putBoolean("Cube is in: ", cubeInSensor());
 		
 		
 	}

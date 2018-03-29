@@ -58,11 +58,11 @@ public class Robot extends IterativeRobot {
 		
 		lastRightYInput = 0;
 		
-		try {
-			CameraServer.getInstance().startAutomaticCapture();
-		} catch (Exception e) {
-			
-		}
+//		try {
+//			CameraServer.getInstance().startAutomaticCapture();
+//		} catch (Exception e) {
+//			
+//		}
 	}
 
 	/**

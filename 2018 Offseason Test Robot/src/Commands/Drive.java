@@ -29,8 +29,8 @@ public class Drive extends ChaosCommand {
 	
 	@Override 
 	protected void execute() {
-		//driveBase.encoderData();
-		driveBase.velocityData();
+		driveBase.encoderData();
+		//driveBase.velocityData();
 		driveBase.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
 	}
 	

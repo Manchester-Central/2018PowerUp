@@ -57,8 +57,8 @@ public class DriveBase {
 	private static final double ROBOT_TURN_RADIUS_INCHES = 13.755;
 	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 
-	private double minSpeed = 0.1;
-	private double maxSpeed = 0.4;
+	private double minSpeed = 0.05;
+	private double maxSpeed = 0.2;
 	
 	private double forwardGain;
 	private double turnGain;
@@ -76,6 +76,10 @@ public class DriveBase {
 		rightBackVictor = new Victor(PortConstants.RIGHT_BACK_TALON);
 		rightMidVictor = new Victor(PortConstants.RIGHT_MID_TALON);
 		rightFrontVictor = new Victor(PortConstants.RIGHT_FRONT_TALON);
+		
+		rightBackVictor.setInverted(true);
+		rightMidVictor.setInverted(true);
+		rightFrontVictor.setInverted(true);
 		
 		rightTalonSRX = new WPI_TalonSRX(PortConstants.RIGHT_CAN_TALON);
 		leftTalonSRX = new WPI_TalonSRX(PortConstants.LEFT_CAN_TALON);
@@ -108,7 +112,7 @@ public class DriveBase {
 		leftTalonSRX.set(leftSpeed);
 		rightTalonSRX.set(rightSpeed);
 		
-		//talonSpeedToVictors();
+		talonSpeedToVictors();
 		
 		
 	}
@@ -332,8 +336,7 @@ public class DriveBase {
 	}
 
 	public void end() {
-		rightTalonSRX.set(0.0);
-		leftTalonSRX.set(0.0);
+		setSpeed(0.0, 0.0);
 		resetEncoders();
 	}
 	
@@ -396,17 +399,17 @@ public class DriveBase {
 	}
 	
 	private void talonSpeedToVictors( ) {
-		//double leftTalonSpeed = leftTalonSRX.get();
+		double leftTalonSpeed = leftTalonSRX.get();
 		double rightTalonSpeed = rightTalonSRX.get();
 		
 		
-		//leftBackVictor.set(leftTalonSpeed);
-		//leftMidVictor.set(leftTalonSpeed);
-		//leftFrontVictor.set(leftTalonSpeed);
+		leftBackVictor.set(leftTalonSpeed);
+		leftMidVictor.set(leftTalonSpeed);
+		leftFrontVictor.set(leftTalonSpeed);
 		
 		
-		//rightBackVictor.set(rightTalonSpeed);
-		//rightMidVictor.set(rightTalonSpeed);
+		rightBackVictor.set(rightTalonSpeed);
+		rightMidVictor.set(rightTalonSpeed);
 		rightFrontVictor.set(rightTalonSpeed);
 	}
 	

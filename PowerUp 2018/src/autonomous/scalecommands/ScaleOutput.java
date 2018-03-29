@@ -19,6 +19,7 @@ public class ScaleOutput extends TimeRestrictedCommand {
 
 	@Override
 	protected boolean isFinished() {
+		//TODO use with cube in sensor as well
 		return super.isFinished();
 	}
 	

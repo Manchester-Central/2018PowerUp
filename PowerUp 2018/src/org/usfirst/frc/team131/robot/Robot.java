@@ -146,6 +146,8 @@ public class Robot extends IterativeRobot {
 			
 			lift.setSpeed(-cm.operator.getRightY() * 0.8);
 			
+			System.out.println(-cm.operator.getRightY() * 0.8);
+			
 		}
 		
 		lastRightYInput = cm.operator.getRightY();
@@ -233,8 +235,9 @@ public class Robot extends IterativeRobot {
 			
 		cubeControls ();
 			
+		
 
-
+		
 		SmartDashboard.putNumber("Right Y speed: ", -cm.operator.getRightY());
 
 		
@@ -279,8 +282,7 @@ public class Robot extends IterativeRobot {
 		
 			
 		// if cube is in, move to retract position
-		// TODO to be changed to sensor if it gets working
-		if (cubeManipulator.cubeInCurrent()) {
+		if (cubeManipulator.cubeInSensor()) {
 			
 			cubeManipulator.pinch();
 			lift.setToIntakePosition();
