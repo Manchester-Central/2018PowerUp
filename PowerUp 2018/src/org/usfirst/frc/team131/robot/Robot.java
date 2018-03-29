@@ -240,6 +240,7 @@ public class Robot extends IterativeRobot {
 		
 		SmartDashboard.putNumber("Right Y speed: ", -cm.operator.getRightY());
 
+		cm.updateControllerState();
 		
 		
 	}
