@@ -8,16 +8,18 @@ public class SwitchExtend extends TimeRestrictedCommand {
 	
 	public static final String NAME = "SwitchExtend";
 	private CubeManipulator cubeManipulator;
+	private boolean setExtended;
 
 	public SwitchExtend(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setExtended = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isExtended() || super.isFinished();
+		return cubeManipulator.isExtended() || super.isFinished() || !setExtended;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class SwitchExtend extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.extend();
+				setExtended = true;
 				
 			}
 			
@@ -38,6 +41,7 @@ public class SwitchExtend extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.extend();
+				setExtended = true;
 				
 			}
 			

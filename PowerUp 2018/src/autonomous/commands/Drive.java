@@ -22,7 +22,8 @@ public class Drive extends ChaosCommand {
 	protected void initialize () {
 		super.initialize();
 		driveBase.resetEncoders();
-		System.out.println("started");
+		System.out.println("Target: " + Double.parseDouble(args[0]));
+		//driveBase.setGains(0.015, 0.1);
 	}
 	
 	@Override 
@@ -30,7 +31,7 @@ public class Drive extends ChaosCommand {
 		
 		driveBase.tankCorrectedDrive(Double.parseDouble(args[0]), Double.parseDouble(args[0]));
 		
-	
+		driveBase.encoderData();
 	
 	}
 	

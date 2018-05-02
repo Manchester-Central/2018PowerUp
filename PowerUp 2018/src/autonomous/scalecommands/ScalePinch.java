@@ -8,6 +8,7 @@ public class ScalePinch extends TimeRestrictedCommand {
 	
 	public static final String NAME = "ScalePinch";
 	private CubeManipulator cubeManipulator;
+	private boolean setOn;
 
 	public ScalePinch(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
@@ -17,7 +18,7 @@ public class ScalePinch extends TimeRestrictedCommand {
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isPinched() || super.isFinished();
+		return cubeManipulator.isPinched() || super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -29,6 +30,7 @@ public class ScalePinch extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.pinch();
+				setOn = true;
 				
 			}
 			
@@ -38,6 +40,7 @@ public class ScalePinch extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.pinch();
+				setOn = true;
 				
 			}
 			

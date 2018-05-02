@@ -8,16 +8,18 @@ public class ScaleRelease extends TimeRestrictedCommand {
 	
 	public static final String NAME = "ScaleRelease";
 	private CubeManipulator cubeManipulator;
+	private boolean setOn;
 
 	public ScaleRelease(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isReleased() || super.isFinished();
+		return cubeManipulator.isReleased() || super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class ScaleRelease extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.release();
+				setOn = true;
 				
 			}
 			
@@ -38,6 +41,7 @@ public class ScaleRelease extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.release();
+				setOn = true;
 				
 			}
 			

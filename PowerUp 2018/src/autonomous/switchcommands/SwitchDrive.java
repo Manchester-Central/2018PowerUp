@@ -20,7 +20,7 @@ public class SwitchDrive extends ChaosCommand {
 		super.initialize();
 		drive.resetEncoders();
 		data = new GameData ();
-		
+		//drive.setGains(0.015, 0.1);
 		
 	}
 

@@ -23,6 +23,7 @@ public class SwitchTurn extends ChaosCommand {
 		super.initialize();
 		drive.resetEncoders();
 		data = new GameData ();
+		//drive.setGains(0.0125, 0.1);
 		
 	}
 

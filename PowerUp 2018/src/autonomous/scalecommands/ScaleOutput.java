@@ -11,17 +11,22 @@ public class ScaleOutput extends TimeRestrictedCommand {
 	private GameData data;
 	
 	CubeManipulator cubeManipulator;
+
+	private boolean setOn;
 	
 	public ScaleOutput(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		//TODO use with cube in sensor as well
-		return super.isFinished();
+		return super.isFinished() || !setOn;
 	}
+	
+	
 	
 	@Override
 	protected void execute () {
@@ -31,6 +36,7 @@ public class ScaleOutput extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.output();
+				setOn = true;
 				
 			}
 			
@@ -40,6 +46,7 @@ public class ScaleOutput extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.output();
+				setOn = true;
 				
 			}
 		}
@@ -50,6 +57,7 @@ public class ScaleOutput extends TimeRestrictedCommand {
 	protected void initialize() {
 		super.initialize();
 		data = new GameData ();
+		maxTime = 700;
 	}
 	
 	@Override

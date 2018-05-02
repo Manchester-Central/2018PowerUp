@@ -217,8 +217,8 @@ public class Robot extends IterativeRobot {
 	private void dashboardInfo () {
 		
 		drive.putInfo();
-		lift.putInfo();
-		cubeManipulator.putInfo();
+//		lift.putInfo();
+//		cubeManipulator.putInfo();
 		SmartDashboard.updateValues();
 		
 	}
@@ -258,9 +258,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void robotPeriodic() {
 		dashboardInfo();
-		cubeManipulator.checkPower();
+		SmartDashboard.putBoolean("Cube In", cubeManipulator.cubeInSensor());
 		SmartDashboard.updateValues();
-		//drive.velocityData();
 	} 
 	
 	/**
@@ -281,21 +280,8 @@ public class Robot extends IterativeRobot {
 	private void autonomaticCubeIntake () {
 		
 			
-		// if cube is in, move to retract position
-		if (cubeManipulator.cubeInSensor()) {
-			
-			cubeManipulator.pinch();
-			lift.setToIntakePosition();
-			cubeManipulator.stopSpeed();
-			
-			// only retracts when lift is in position
-			if (lift.liftIsStopped()) {
-				cubeManipulator.retract();
-			} else {
-				lift.moveToPosition();
-			}
-			
-		} else {
+		// if cube is not in, intake
+		if (!cubeManipulator.cubeInSensor()) {
 			cubeManipulator.release();
 			// if the roller claw has successfully extended, set to floor
 			if (cubeManipulator.isExtended() ) {
@@ -319,6 +305,23 @@ public class Robot extends IterativeRobot {
 			} else {
 				lift.moveToPosition();
 			}
+			
+			
+			
+		} else {
+			
+			cubeManipulator.pinch();
+			lift.setToIntakePosition();
+			cubeManipulator.stopSpeed();
+			
+			// only retracts when lift is in position
+			if (lift.liftIsStopped()) {
+				cubeManipulator.retract();
+			} else {
+				lift.moveToPosition();
+			}
+			
+			
 		}
 			
 		

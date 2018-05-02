@@ -8,16 +8,18 @@ public class ScaleRelax extends TimeRestrictedCommand {
 
 	public static final String NAME = "ScaleRelax";
 	private CubeManipulator cubeManipulator;
+	private boolean willRun;
 
 	public ScaleRelax(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		willRun = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isRelaxed() || super.isFinished();
+		return cubeManipulator.isRelaxed() || super.isFinished() || !willRun;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class ScaleRelax extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.relax();
+				willRun = true;
 				
 			}
 			
@@ -38,6 +41,7 @@ public class ScaleRelax extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.relax();
+				willRun = true;
 				
 			}
 			

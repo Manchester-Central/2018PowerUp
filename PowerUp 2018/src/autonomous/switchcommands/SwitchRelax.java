@@ -8,16 +8,18 @@ public class SwitchRelax extends TimeRestrictedCommand {
 	
 	public static final String NAME = "SwitchRelax";
 	private CubeManipulator cubeManipulator;
+	private boolean setOn;
 
 	public SwitchRelax(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isRelaxed() || super.isFinished();
+		return cubeManipulator.isRelaxed() || super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class SwitchRelax extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.relax();
+				setOn = true;
 				
 			}
 			
@@ -38,6 +41,7 @@ public class SwitchRelax extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.relax();
+				setOn = true;
 				
 			}
 			

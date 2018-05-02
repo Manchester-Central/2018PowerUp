@@ -8,16 +8,18 @@ public class ScaleExtend extends TimeRestrictedCommand {
 	
 	public static final String NAME = "ScaleExtend";
 	private CubeManipulator cubeManipulator;
+	private boolean setOn;
 
 	public ScaleExtend(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isExtended() || super.isFinished();
+		return cubeManipulator.isExtended() || super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class ScaleExtend extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.extend();
+				setOn = true;
 				
 			}
 			
@@ -38,6 +41,7 @@ public class ScaleExtend extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.extend();
+				setOn = true;
 				
 			}
 			

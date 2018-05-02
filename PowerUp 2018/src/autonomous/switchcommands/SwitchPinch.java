@@ -8,16 +8,18 @@ public class SwitchPinch extends TimeRestrictedCommand {
 	
 	public static final String NAME = "SwitchPinch";
 	private CubeManipulator cubeManipulator;
+	private boolean setOn;
 
 	public SwitchPinch(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isPinched() || super.isFinished();
+		return cubeManipulator.isPinched() || super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class SwitchPinch extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.pinch();
+				setOn = true;
 				
 			}
 			
@@ -38,6 +41,7 @@ public class SwitchPinch extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.pinch();
+				setOn = true;
 				
 			}
 			

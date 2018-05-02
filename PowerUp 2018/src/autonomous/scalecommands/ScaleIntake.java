@@ -11,16 +11,18 @@ public class ScaleIntake extends TimeRestrictedCommand {
 	private GameData data;
 	
 	CubeManipulator cubeManipulator;
+	private boolean setOn;
 	
 	public ScaleIntake(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		//TODO use with cube in sensor as well
-		return super.isFinished();
+		return super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -31,6 +33,7 @@ public class ScaleIntake extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.intake();
+				setOn = true;
 				
 			}
 			
@@ -40,6 +43,7 @@ public class ScaleIntake extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.intake();
+				setOn = true;
 				
 			}
 		}

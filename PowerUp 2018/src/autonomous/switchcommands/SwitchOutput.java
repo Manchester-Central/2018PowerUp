@@ -12,14 +12,17 @@ public class SwitchOutput extends TimeRestrictedCommand {
 	
 	CubeManipulator cubeManipulator;
 	
+	private boolean setOn;
+	
 	public SwitchOutput(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return super.isFinished();
+		return super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -30,6 +33,7 @@ public class SwitchOutput extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.output();
+				setOn = true;
 				
 			}
 			
@@ -39,6 +43,7 @@ public class SwitchOutput extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.output();
+				setOn = true;
 				
 			}
 		}
@@ -49,6 +54,7 @@ public class SwitchOutput extends TimeRestrictedCommand {
 	protected void initialize() {
 		super.initialize();
 		data = new GameData ();
+		maxTime = 700;
 	}
 	
 	@Override

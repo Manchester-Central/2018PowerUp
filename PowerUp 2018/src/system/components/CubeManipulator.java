@@ -58,11 +58,18 @@ public class CubeManipulator {
 	public void intake() {
 		motor1.set(-SPEED);
 		motor2.set(-SPEED);
+//		if (cubeInSensor()) {
+//			pinch();
+//		}
 	}
 	
 	public void output() {
 		motor1.set(SPEED);
 		motor2.set(SPEED);
+		
+		relax();
+			
+		
 	}
 	public void stopSpeed () {
 		motor1.set(0.0);
@@ -99,9 +106,13 @@ public class CubeManipulator {
 	}
 	
 
+	/**
+	 * The raw get is flipped, so we return the inverse
+	 * @return - Whether a cube is in the claw
+	 */
 	public boolean cubeInSensor() {
 		
-		return cubeDetector.get();
+		return !cubeDetector.get();
 		
 	}
 	

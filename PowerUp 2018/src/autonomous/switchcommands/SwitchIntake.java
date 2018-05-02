@@ -12,14 +12,17 @@ public class SwitchIntake extends TimeRestrictedCommand {
 	
 	CubeManipulator cubeManipulator;
 	
+	private boolean setOn;
+	
 	public SwitchIntake(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return super.isFinished();
+		return super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -30,6 +33,7 @@ public class SwitchIntake extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.intake();
+				setOn = true;
 				
 			}
 			
@@ -39,6 +43,7 @@ public class SwitchIntake extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.intake();
+				setOn = true;
 				
 			}
 		}

@@ -23,6 +23,7 @@ public class Lift extends ChaosCommand {
 	@Override
 	protected void initialize () {
 		super.initialize();
+		System.out.println("Lift State Started");
 		linearLift.setTargetPosition(Double.parseDouble(args[0]));
 		
 	}

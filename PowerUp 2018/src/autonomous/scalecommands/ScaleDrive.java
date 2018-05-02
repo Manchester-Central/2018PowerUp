@@ -19,6 +19,7 @@ public class ScaleDrive extends ChaosCommand {
 	protected void initialize () {
 		super.initialize();
 		data = new GameData ();
+		//drive.setGains(0.015, 0.1);
 		
 	}
 

@@ -14,15 +14,15 @@ public class LinearLift {
 	private static final double MAX_UP_SPEED = 0.5;
 	private static final double MIN_UP_SPEED = 0.2;
 	
-	private static final double MAX_DOWN_SPEED = 0.5;
-	private static final double MIN_DOWN_SPEED = 0.2;
+	private static final double MAX_DOWN_SPEED = 0.2;
+	private static final double MIN_DOWN_SPEED = 0.01;
 
 	
 	
-	private static final double PROPORTIONAL_DISTANCE = 24;
+	private static final double PROPORTIONAL_DISTANCE = 12;
 	
-	private final long changeRate = 500;
-	private final double maxAcceleration = 0.05;
+	private final long changeRate = 10;
+	private final double maxAcceleration = 0.01;
 	
 
 	double currentSet;
@@ -31,7 +31,7 @@ public class LinearLift {
 	
 	public static final double DEADBAND_INCHES = 2.0; // the acceptable error 
 	
-	public static final double FLOOR_POSITION_INCHES = 3.0;
+	public static final double FLOOR_POSITION_INCHES = 1.0;
 	public static final double EXTEND_POSITION_INCHES = 8.0;
 	public static final double PORTAL_POSITION_INCHES = 20.0;
 	public static final double VAULT_POSITION_INCHES = 9.0;//10.0;
@@ -40,7 +40,7 @@ public class LinearLift {
 	
 
 	
-	private static final double HOLD_SPEED = 0.0;
+	private static final double HOLD_SPEED = 0.05;
 	
 	private final double chaosRange = 105.375;
 	private final double potRange = (0.28 / 1.2) / 0.821917;
@@ -249,7 +249,7 @@ public class LinearLift {
 				
 			}
 				
-			System.out.printf("p-set: %.3f,\tposition: %.3f\n", proportionalSet, getChaosPot());
+			//System.out.printf("p-set: %.3f,\tposition: %.3f\n", proportionalSet, getChaosPot());
 			
 			currentSet = proportionalSet;
 			

@@ -107,7 +107,7 @@ public class DriveBase {
 		rightTalonSRX.config_kD(0, 0, 0);
 		resetEncoders();
 		
-		setGains (0.0125, 0.2);
+		setGains (0.015, 0.13);
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -168,13 +168,13 @@ public class DriveBase {
 	
 	public double getLeftTalonInches () {
 		
-		return ticksToInches(leftTalonSRX.getSelectedSensorPosition(0));
+		return ticksToInches(getCorrectedLeftTalonTicks());
 		
 	}
 	
 	public double getRightTalonInches () {
 		
-		return ticksToInches(rightTalonSRX.getSelectedSensorPosition(0));
+		return ticksToInches(getCorrectedRightTalonTicks());
 		
 	}
 	
@@ -245,13 +245,17 @@ public class DriveBase {
 			}
 		}
 		
+		System.out.println("Left Error : " + leftError + "\t Right Error: " + rightError +
+							"\t Turn Error: " + turnError +
+							"\t Left Output: " + leftOutput + "\t Right Output: " + rightOutput);
+		
 		updateTargetValues (leftTarget, rightTarget);
 		setSpeed (leftOutput, rightOutput);
 	}
 	
 	private void updateTargetValues (double left, double right) {
-		leftTalonTarget = inchesToTicks(left);
-		rightTalonTarget = inchesToTicks(right);
+		leftTalonTarget = left;
+		rightTalonTarget = right;
 	}
 	
 
@@ -263,8 +267,8 @@ public class DriveBase {
 	
 	public void encoderData() {
 		
-		System.out.println("Left Encoder: " + getLeftTalonInches()
-		+ " right Encoder: " + getRightTalonInches() );
+//		System.out.println("Left Error: " + getLeftTalonInches()
+//		+ " right Encoder: " + getRightTalonInches() );
 	}
 	
 	
@@ -272,8 +276,7 @@ public class DriveBase {
 	 * Stops the drive and resets the encoders for the next drive command
 	 */
 	public void end () {
-		rightTalonSRX.set(0.0);
-		leftTalonSRX.set(0.0);
+		setSpeed(0.0,0.0);
 		resetEncoders();
 	}
 	

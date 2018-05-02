@@ -9,16 +9,18 @@ public class SwitchRelease extends TimeRestrictedCommand {
 	
 	public static final String NAME = "SwitchRelease";
 	private CubeManipulator cubeManipulator;
+	private boolean setOn;
 
 	public SwitchRelease(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isReleased() || super.isFinished();
+		return cubeManipulator.isReleased() || super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -30,6 +32,7 @@ public class SwitchRelease extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.release();
+				setOn = true;
 				
 			}
 			
@@ -39,6 +42,7 @@ public class SwitchRelease extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.release();
+				setOn = true;
 				
 			}
 			

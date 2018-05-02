@@ -8,16 +8,18 @@ public class SwitchRetract extends TimeRestrictedCommand {
 	
 	public static final String NAME = "SwitchRetract";
 	private CubeManipulator cubeManipulator;
+	private boolean setOn;
 
 	public SwitchRetract(int argsLength, CubeManipulator cubeManipulator) {
 		super(argsLength, NAME);
 		this.cubeManipulator = cubeManipulator;
+		setOn = false;
 	}
 
 	@Override
 	protected boolean isFinished() {
 		
-		return cubeManipulator.isRetracted() || super.isFinished();
+		return cubeManipulator.isRetracted() || super.isFinished() || !setOn;
 	}
 	
 	@Override
@@ -29,6 +31,7 @@ public class SwitchRetract extends TimeRestrictedCommand {
 			if (args[0].equals("1")) {
 				
 				cubeManipulator.retract();
+				setOn = true;
 				
 			}
 			
@@ -38,6 +41,7 @@ public class SwitchRetract extends TimeRestrictedCommand {
 			if (args[1].equals("1")) {
 				
 				cubeManipulator.retract();
+				setOn = true;
 				
 			}
 			

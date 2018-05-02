@@ -16,7 +16,7 @@ public class Output extends TimeRestrictedCommand {
 
 	@Override
 	protected boolean isFinished() {
-		return !cubeManipulator.cubeInSensor() || super.isFinished();
+		return super.isFinished();
 	}
 	
 	@Override
@@ -24,6 +24,20 @@ public class Output extends TimeRestrictedCommand {
 		
 		cubeManipulator.output();
 		
+	}
+	
+	@Override
+	protected void initialize () {
+		super.initialize();
+	}
+	
+	@Override
+	protected void end() {
+		
+		cubeManipulator.stopSpeed();
+		
+	
+	
 	}
 
 }
