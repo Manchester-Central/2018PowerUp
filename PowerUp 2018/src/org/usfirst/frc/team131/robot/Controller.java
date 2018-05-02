@@ -83,18 +83,22 @@ public class Controller {
 		return stick.getPOV();
 	}
 	
+	@Deprecated
 	public boolean getButtonTapped (int buttonCode) {
 		
 		return !buttonsPreviouslyPressed[buttonCode - 1] && buttonPressed(buttonCode);
 		
 	}
 	
+	@Deprecated
 	public boolean getButtonReleased (int buttonCode) {
 		
 		return buttonsPreviouslyPressed[buttonCode - 1] && !buttonPressed(buttonCode);
 		
+		
 	}
 	
+	@Deprecated
 	public void updateButtonsPressed () {
 		
 		for (int x = 0; x < buttonsPreviouslyPressed.length; x++) {
