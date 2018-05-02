@@ -12,4 +12,11 @@ public class ControllerManager {
 		
 	}
 	
+	public void updateControllerState () {
+		
+		driver.updateButtonsPressed();
+		operator.updateButtonsPressed();
+		
+	}
+	
 }

@@ -22,11 +22,18 @@ public class Controller {
 		LEFT, RIGHT, UP, DOWN, UP_RIGHT, DOWN_RIGHT, UP_LEFT, DOWN_LEFT, NONE
 	}
 
-	public Joystick stick;
-
+	private Joystick stick;
+	private boolean[] buttonsPreviouslyPressed;
 	
 	public Controller(int port) {
+		
 		stick = new Joystick(port);
+		
+
+		boolean[] initialState = {false, false, false, false, false, false, false, false, false, false};
+		buttonsPreviouslyPressed = initialState;
+		
+		
 	}
 
 	
@@ -50,7 +57,7 @@ public class Controller {
 	}
 
 	
-	public Boolean buttonPressed(int buttonNum) {
+	public boolean buttonPressed(int buttonNum) {
 		return stick.getRawButton(buttonNum);
 	}
 
@@ -70,6 +77,32 @@ public class Controller {
 			return DPadDirection.NONE;
 
 		}
+	}
+	
+	public int getRawDPadInput () {
+		return stick.getPOV();
+	}
+	
+	public boolean getButtonTapped (int buttonCode) {
+		
+		return !buttonsPreviouslyPressed[buttonCode - 1] && buttonPressed(buttonCode);
+		
+	}
+	
+	public boolean getButtonReleased (int buttonCode) {
+		
+		return buttonsPreviouslyPressed[buttonCode - 1] && !buttonPressed(buttonCode);
+		
+	}
+	
+	public void updateButtonsPressed () {
+		
+		for (int x = 0; x < buttonsPreviouslyPressed.length; x++) {
+			
+			buttonsPreviouslyPressed[x] = getButtonTapped(x);
+			
+		}
+		
 	}
 
 }
