@@ -22,7 +22,7 @@ public class Output extends TimeRestrictedCommand {
 	@Override
 	protected void execute () {
 		
-		cubeManipulator.output();
+		cubeManipulator.slowOutput();
 		
 	}
 	

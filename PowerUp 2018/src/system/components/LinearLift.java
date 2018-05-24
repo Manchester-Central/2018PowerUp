@@ -11,10 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class LinearLift {
 	
-	private static final double MAX_UP_SPEED = 0.5;
+	private static final double MAX_UP_SPEED = 1.0;
 	private static final double MIN_UP_SPEED = 0.2;
 	
-	private static final double MAX_DOWN_SPEED = 0.2;
+	private static final double MAX_DOWN_SPEED = 0.47;
 	private static final double MIN_DOWN_SPEED = 0.01;
 
 	
@@ -22,7 +22,7 @@ public class LinearLift {
 	private static final double PROPORTIONAL_DISTANCE = 12;
 	
 	private final long changeRate = 10;
-	private final double maxAcceleration = 0.01;
+	private final double maxAcceleration = 0.03;
 	
 
 	double currentSet;
@@ -31,10 +31,10 @@ public class LinearLift {
 	
 	public static final double DEADBAND_INCHES = 2.0; // the acceptable error 
 	
-	public static final double FLOOR_POSITION_INCHES = 1.0;
+	public static final double FLOOR_POSITION_INCHES = 1.5;
 	public static final double EXTEND_POSITION_INCHES = 8.0;
 	public static final double PORTAL_POSITION_INCHES = 20.0;
-	public static final double VAULT_POSITION_INCHES = 9.0;//10.0;
+	public static final double VAULT_POSITION_INCHES = 15.0;//10.0;
 	public static final double SWITCH_POSITION_INCHES = 36.0;
 	public static final double HIGH_POSITION_INCHES = 96.0; // position for scale and climb
 	

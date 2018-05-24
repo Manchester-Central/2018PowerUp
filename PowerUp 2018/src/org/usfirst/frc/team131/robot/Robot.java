@@ -90,7 +90,14 @@ public class Robot extends IterativeRobot {
 	 */
 	private void driveControls () {
 		
-		drive.setSpeed(-cm.driver.getLeftY() * 0.9, -cm.driver.getRightY() * 0.9);
+		if (cm.driver.getDPad() == Controller.DPadDirection.UP) {
+			drive.setSpeed(0.65, 0.65);
+		} else if (cm.driver.getDPad() == Controller.DPadDirection.DOWN) {
+			drive.setSpeed(-0.65, -0.65);
+		} else {
+			drive.setSpeed(-cm.driver.getLeftY() * 0.9, -cm.driver.getRightY() * 0.9);
+		}
+		
 		
 		boolean doGearShift = cm.driver.buttonPressed(Controller.LEFT_BUMPER) 
 				|| cm.driver.buttonPressed(Controller.RIGHT_BUMPER);
@@ -130,10 +137,6 @@ public class Robot extends IterativeRobot {
 				
 				lift.setTargetPosition(LinearLift.VAULT_POSITION_INCHES);
 				
-			} else if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
-				
-				lift.setTargetPosition(LinearLift.PORTAL_POSITION_INCHES);
-				
 			} else {
 				
 				lift.setTargetPosition(lift.getChaosPot());
@@ -144,9 +147,9 @@ public class Robot extends IterativeRobot {
 			
 		} else {
 			
-			lift.setSpeed(-cm.operator.getRightY() * 0.8);
+			lift.setSpeed(-cm.operator.getRightY() * 0.4);
 			
-			System.out.println(-cm.operator.getRightY() * 0.8);
+			
 			
 		}
 		
@@ -162,6 +165,7 @@ public class Robot extends IterativeRobot {
 	 * 
 	 * right trigger intakes flywheels (full speed)
 	 * right bumper outputs flywheels (full speed)
+	 * left bumper outputs flywheels (30% power)
 	 * 
 	 * Dpad right pinches
 	 * Dpad left relaxes
@@ -182,31 +186,57 @@ public class Robot extends IterativeRobot {
 			
 		}
 		
-		if (cm.operator.getDPad() == Controller.DPadDirection.LEFT) {
+		
+		// if you are outputting, the grabber relaxes
+		if (Math.abs(cubeManipulator.getFlywheelSpeed()) > 0.26) {
 			
 			cubeManipulator.relax();
 			
-		} else if (cm.operator.getDPad() == Controller.DPadDirection.RIGHT) {
+		// if you are intaking, and the push sensor goes green, the grabber pinches
+		} else if (cubeManipulator.cubeInSensor()){
 			
 			cubeManipulator.pinch();
 			
-		} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
+		// else, use manual controls
+		} else {
 			
-			cubeManipulator.release();
-			
+			if (cm.operator.getDPad() == Controller.DPadDirection.LEFT) {
+				
+				cubeManipulator.relax();
+				
+			} else if (cm.operator.getDPad() == Controller.DPadDirection.RIGHT ) {
+				
+				cubeManipulator.pinch();
+				
+			} else if (cm.operator.buttonPressed(Controller.LEFT_TRIGGER)) {
+				
+				cubeManipulator.release();
+				
+			} 
 		}
 		
-		if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) {
+		SmartDashboard.putBoolean("isPinched: ", cubeManipulator.isPinched());	
+				
+		if (cm.operator.buttonPressed(Controller.LEFT_BUMPER)) {
 			
-			cubeManipulator.output();
+			cubeManipulator.slowOutput();
 			
 		} else if (cm.operator.buttonPressed(Controller.RIGHT_TRIGGER)) {
 			
 			cubeManipulator.intake();
 			
+		} else if (cm.operator.buttonPressed(Controller.RIGHT_BUMPER)) { 
+			
+			cubeManipulator.fastOutput();
+	
 		} else {
 			
-			cubeManipulator.setFlywheels(-cm.operator.getLeftY());
+			if (Math.abs(cm.operator.getLeftY()) > cubeManipulator.MIN_INTAKE_SPEED) {
+				cubeManipulator.setFlywheels(-cm.operator.getLeftY());
+			} else {
+				cubeManipulator.setFlywheels(-cubeManipulator.MIN_INTAKE_SPEED);
+			}
+			
 			
 		}
 		
@@ -217,7 +247,7 @@ public class Robot extends IterativeRobot {
 	private void dashboardInfo () {
 		
 		drive.putInfo();
-//		lift.putInfo();
+		lift.putInfo();
 //		cubeManipulator.putInfo();
 		SmartDashboard.updateValues();
 		

@@ -35,12 +35,22 @@ public class DriveBase {
 	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 	
 	private double minSpeed = 0.3;
-	private double maxSpeed = 0.5;
+	private double maxSpeed = 0.7;
+	private double maxSpeedChange = 0.2;
 	
 	private double forwardGain;
 	private double turnGain;
 	
+	long lastTimeUpdate;
+	
+	double leftPreviousSet;
+	double rightPreviousSet;
+	
 	public DriveBase () {
+		
+		lastTimeUpdate = 0;
+		leftPreviousSet = 0.0;
+		rightPreviousSet = 0.0;
 		
 		leftTalonTarget = 0.0;
 		rightTalonTarget = 0.0;
@@ -115,7 +125,8 @@ public class DriveBase {
 		leftTalonSRX.set(leftSpeed);
 		rightTalonSRX.set(rightSpeed);
 		
-		
+		leftPreviousSet = leftSpeed;
+		rightPreviousSet = rightSpeed;
 		
 		//talonSpeedToVictors();
 		leftBackVictor.set(leftSpeed);
@@ -213,6 +224,18 @@ public class DriveBase {
 		//talonSpeedToVictors();
 		
 	}
+	
+	public void arcDrive (double turnPointDistanceX, double angle) {
+		
+		double signModifier = angle / Math.abs(angle);
+		
+		double leftSideDistance = (angle / 360.0) * ((turnPointDistanceX + (signModifier * ROBOT_TURN_RADIUS_INCHES)) * Math.PI * 2.0);
+		
+		double rightSideDistance = (angle / 360.0) * ((turnPointDistanceX - (signModifier * ROBOT_TURN_RADIUS_INCHES)) * Math.PI * 2.0);
+		
+		tankCorrectedDrive (leftSideDistance, rightSideDistance);
+		
+	}
 
 	public void tankCorrectedDrive (double leftTarget, double rightTarget)
 	{
@@ -245,12 +268,57 @@ public class DriveBase {
 			}
 		}
 		
+		//double biggerValue = (leftTarget > rightTarget) ? leftTarget : rightTarget;
+		
+//		rightOutput = throttleAcceleration (rightPreviousSet, rightOutput, maxSpeedChange * (rightTarget / biggerValue), 10);
+//		 leftOutput = throttleAcceleration ( leftPreviousSet,  leftOutput, maxSpeedChange * ( leftTarget / biggerValue), 10);
+		
 		System.out.println("Left Error : " + leftError + "\t Right Error: " + rightError +
 							"\t Turn Error: " + turnError +
 							"\t Left Output: " + leftOutput + "\t Right Output: " + rightOutput);
 		
 		updateTargetValues (leftTarget, rightTarget);
 		setSpeed (leftOutput, rightOutput);
+		
+	}
+	
+	private double throttleAcceleration (double currentSet, double proportionalSet, double maxAcceleration, long changeRate) {
+		
+		boolean proportionalSetIsPositive = proportionalSet > 0.0;
+		
+		double velocityChange = (proportionalSetIsPositive) ? proportionalSet - currentSet : Math.abs(currentSet - proportionalSet);
+		
+		if (currentSet == 0.0) {
+			velocityChange = Math.abs(currentSet - proportionalSet); 
+		} else if (proportionalSet == 0.0) {
+			velocityChange = -Math.abs(currentSet - proportionalSet); 
+		}
+		
+		// if ΔV > max acceleration
+		if (velocityChange > maxAcceleration) {
+			
+			if ((proportionalSet > 0 && currentSet < 0) || (proportionalSet < 0 && currentSet > 0)) {
+				
+				proportionalSet = 0.0;
+				
+			} else if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+				
+				double addAcceleration = (proportionalSetIsPositive) ? maxAcceleration : -maxAcceleration;
+				
+				proportionalSet = currentSet + addAcceleration;
+				
+				lastTimeUpdate = System.currentTimeMillis();
+			
+			} else {
+				
+				proportionalSet = currentSet;
+				
+			}
+			
+		}
+		
+		return proportionalSet;
+		
 	}
 	
 	private void updateTargetValues (double left, double right) {

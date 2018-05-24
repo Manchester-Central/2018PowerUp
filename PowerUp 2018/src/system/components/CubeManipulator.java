@@ -22,7 +22,10 @@ public class CubeManipulator {
 	// broken beam sensor
 	DigitalInput cubeDetector;
 	
-	private static final double SPEED = 1.0;
+	private static final double FAST_SPEED = 1.0;
+	private static final double SLOW_SPEED = 0.3;
+	
+	public static final double MIN_INTAKE_SPEED = 0.25;
 	
 	private long time;
 	private boolean cubeInByCurrent;
@@ -56,21 +59,35 @@ public class CubeManipulator {
 	}
 	
 	public void intake() {
-		motor1.set(-SPEED);
-		motor2.set(-SPEED);
+		motor1.set(-FAST_SPEED);
+		motor2.set(-FAST_SPEED);
 //		if (cubeInSensor()) {
 //			pinch();
 //		}
 	}
 	
-	public void output() {
-		motor1.set(SPEED);
-		motor2.set(SPEED);
+	public void slowOutput() {
+		motor1.set(SLOW_SPEED);
+		motor2.set(SLOW_SPEED);
 		
 		relax();
 			
+	}
+	
+	public void fastOutput() {
+		motor1.set(FAST_SPEED);
+		motor2.set(FAST_SPEED);
+		
+		relax();
+			
+	}
+	
+	public double getFlywheelSpeed () {
+		
+		return motor1.get();
 		
 	}
+	
 	public void stopSpeed () {
 		motor1.set(0.0);
 		motor2.set(0.0);

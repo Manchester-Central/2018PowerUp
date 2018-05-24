@@ -35,7 +35,7 @@ public class ScaleOutput extends TimeRestrictedCommand {
 					
 			if (args[0].equals("1")) {
 				
-				cubeManipulator.output();
+				cubeManipulator.slowOutput();
 				setOn = true;
 				
 			}
@@ -45,7 +45,7 @@ public class ScaleOutput extends TimeRestrictedCommand {
 				
 			if (args[1].equals("1")) {
 				
-				cubeManipulator.output();
+				cubeManipulator.slowOutput();
 				setOn = true;
 				
 			}

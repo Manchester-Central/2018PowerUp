@@ -40,9 +40,9 @@ public abstract class ChaosCommand extends Command {
 		double leftTargetAbs = Math.abs(drive.getLeftTarget());
 		
 		boolean shouldFinish = (Math.abs(leftTargetAbs - talonValueLeftAbs) < 2.0 
-				|| Math.abs(rightTargetAbs - talonValueRightAbs) < 2.0);
+				&& Math.abs(rightTargetAbs - talonValueRightAbs) < 2.0); 
 		
-		//System.out.println(rightTargetAbs + " " + rightTargetAbs + "\n " + shouldFinish);
+		System.out.println(rightTargetAbs + " " + rightTargetAbs + " " + leftTargetAbs + " " + talonValueLeftAbs+ " " + shouldFinish);
 		
 		return shouldFinish;
 	}

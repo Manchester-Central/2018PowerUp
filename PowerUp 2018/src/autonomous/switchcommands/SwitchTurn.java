@@ -25,6 +25,15 @@ public class SwitchTurn extends ChaosCommand {
 		data = new GameData ();
 		//drive.setGains(0.0125, 0.1);
 		
+		if (data.closeSwitchIsLeft()) {
+			
+			System.out.println("Target: " + Double.parseDouble(args[0]));
+			
+		} else {
+		
+			System.out.println("Target: " +Double.parseDouble(args[1]));
+			
+		}
 	}
 
 	@Override
