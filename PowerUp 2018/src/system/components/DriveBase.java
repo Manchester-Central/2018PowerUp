@@ -34,21 +34,22 @@ public class DriveBase {
 	private static final double ROBOT_TURN_RADIUS_INCHES = 12.25;
 	private static final double ROBOT_CIRCUMFERENCE = ROBOT_TURN_RADIUS_INCHES * 2 * Math.PI;
 	
-	private double minSpeed = 0.3;
-	private double maxSpeed = 0.7;
-	private double maxSpeedChange = 0.2;
+	private double minSpeed = 0.25;
+	private double maxSpeed = 1.0;
+	private double maxSpeedChange = 0.015;
 	
 	private double forwardGain;
 	private double turnGain;
 	
-	long lastTimeUpdate;
+	long rightLastTimeUpdate;
+	long leftLastTimeUpdate;
 	
 	double leftPreviousSet;
 	double rightPreviousSet;
 	
 	public DriveBase () {
 		
-		lastTimeUpdate = 0;
+		rightLastTimeUpdate = 0;
 		leftPreviousSet = 0.0;
 		rightPreviousSet = 0.0;
 		
@@ -117,7 +118,7 @@ public class DriveBase {
 		rightTalonSRX.config_kD(0, 0, 0);
 		resetEncoders();
 		
-		setGains (0.015, 0.13);
+		setGains (0.09, 0.3 /*@ 0.12*/);
 	}
 	
 	public void setSpeed(double leftSpeed, double rightSpeed) {
@@ -244,6 +245,8 @@ public class DriveBase {
 		
 		double leftScaled  = (leftTarget  != 0) ? (leftError  / leftTarget)  : 0;
 		double rightScaled = (rightTarget != 0) ? (rightError / rightTarget) : 0;
+		
+		
 		double turnError  = (leftScaled - rightScaled) *
 				            (leftTarget + rightTarget) /
 				             2.0;
@@ -268,21 +271,27 @@ public class DriveBase {
 			}
 		}
 		
-		//double biggerValue = (leftTarget > rightTarget) ? leftTarget : rightTarget;
+		double absLeftTarget = Math.abs(leftTarget);
+		double absRightTarget = Math.abs(rightTarget);
 		
-//		rightOutput = throttleAcceleration (rightPreviousSet, rightOutput, maxSpeedChange * (rightTarget / biggerValue), 10);
-//		 leftOutput = throttleAcceleration ( leftPreviousSet,  leftOutput, maxSpeedChange * ( leftTarget / biggerValue), 10);
+		double biggerValue = (absLeftTarget > absRightTarget) ? absLeftTarget : absRightTarget;
 		
-		System.out.println("Left Error : " + leftError + "\t Right Error: " + rightError +
-							"\t Turn Error: " + turnError +
-							"\t Left Output: " + leftOutput + "\t Right Output: " + rightOutput);
+//	test	rightOutput = throttleAcceleration (rightPreviousSet, rightOutput, maxSpeedChange * (absRightTarget / biggerValue) - (turnError * turnGain), 1, "right");
+//		leftOutput = throttleAcceleration ( leftPreviousSet,  leftOutput, maxSpeedChange * ( absLeftTarget / biggerValue) + (turnError * turnGain), 1, "left");
+		
+		rightOutput = throttleAcceleration (rightPreviousSet, rightOutput, maxSpeedChange * (absRightTarget / biggerValue), 1, "right");
+		leftOutput = throttleAcceleration ( leftPreviousSet,  leftOutput, maxSpeedChange * ( absLeftTarget / biggerValue), 1, "left");
+		
+		System.out.println("L E : " + leftError + "\t R E: " + rightError +
+							"\t T E: " + turnError +
+							"\t L O: " + leftOutput + "\t R O: " + rightOutput);
 		
 		updateTargetValues (leftTarget, rightTarget);
 		setSpeed (leftOutput, rightOutput);
 		
 	}
 	
-	private double throttleAcceleration (double currentSet, double proportionalSet, double maxAcceleration, long changeRate) {
+	private double throttleAcceleration (double currentSet, double proportionalSet, double maxAcceleration, long changeRate, String direction) {
 		
 		boolean proportionalSetIsPositive = proportionalSet > 0.0;
 		
@@ -301,13 +310,21 @@ public class DriveBase {
 				
 				proportionalSet = 0.0;
 				
-			} else if (lastTimeUpdate + changeRate < System.currentTimeMillis()) {
+			} else if (rightLastTimeUpdate + changeRate < System.currentTimeMillis() && direction.equals("right")) {
 				
 				double addAcceleration = (proportionalSetIsPositive) ? maxAcceleration : -maxAcceleration;
 				
 				proportionalSet = currentSet + addAcceleration;
 				
-				lastTimeUpdate = System.currentTimeMillis();
+				rightLastTimeUpdate = System.currentTimeMillis();
+			
+			}  else if (leftLastTimeUpdate + changeRate < System.currentTimeMillis() && direction.equals("left")) {
+				
+				double addAcceleration = (proportionalSetIsPositive) ? maxAcceleration : -maxAcceleration;
+				
+				proportionalSet = currentSet + addAcceleration;
+				
+				leftLastTimeUpdate = System.currentTimeMillis();
 			
 			} else {
 				

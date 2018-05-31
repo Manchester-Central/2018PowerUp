@@ -95,7 +95,13 @@ public class Robot extends IterativeRobot {
 		} else if (cm.driver.getDPad() == Controller.DPadDirection.DOWN) {
 			drive.setSpeed(-0.65, -0.65);
 		} else {
-			drive.setSpeed(-cm.driver.getLeftY() * 0.9, -cm.driver.getRightY() * 0.9);
+			
+			
+			if (!cm.driver.buttonPressed(Controller.RIGHT_TRIGGER))
+				drive.setSpeed ( ((lift.HIGH_POSITION_INCHES - Math.abs(lift.liftPosition()) * .7) / (lift.HIGH_POSITION_INCHES)) * -cm.driver.getLeftY() * 0.9,
+						((lift.HIGH_POSITION_INCHES - Math.abs(lift.liftPosition()) * .7) / (lift.HIGH_POSITION_INCHES)) * -cm.driver.getRightY() * 0.9);
+			else
+				drive.setSpeed(-cm.driver.getLeftY() * 0.9, -cm.driver.getRightY() * 0.9);
 		}
 		
 		

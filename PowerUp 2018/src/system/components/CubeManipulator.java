@@ -59,8 +59,8 @@ public class CubeManipulator {
 	}
 	
 	public void intake() {
-		motor1.set(-FAST_SPEED);
-		motor2.set(-FAST_SPEED);
+		motor1.set(-FAST_SPEED * 0.8);
+		motor2.set(-FAST_SPEED * 0.8);
 //		if (cubeInSensor()) {
 //			pinch();
 //		}
