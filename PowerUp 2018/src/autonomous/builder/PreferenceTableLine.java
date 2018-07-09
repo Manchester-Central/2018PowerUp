@@ -217,6 +217,7 @@ public class PreferenceTableLine {
 				break;
 			case SwitchExtend.NAME:
 				command = new SwitchExtend(2, cubeManipulator);
+				break;
 			case ScaleExtend.NAME:
 				command = new ScaleExtend (2, cubeManipulator);
 				break;

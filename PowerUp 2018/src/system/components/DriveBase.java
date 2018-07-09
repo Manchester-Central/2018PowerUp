@@ -276,8 +276,13 @@ public class DriveBase {
 		
 		double biggerValue = (absLeftTarget > absRightTarget) ? absLeftTarget : absRightTarget;
 		
-//	test	rightOutput = throttleAcceleration (rightPreviousSet, rightOutput, maxSpeedChange * (absRightTarget / biggerValue) - (turnError * turnGain), 1, "right");
-//		leftOutput = throttleAcceleration ( leftPreviousSet,  leftOutput, maxSpeedChange * ( absLeftTarget / biggerValue) + (turnError * turnGain), 1, "left");
+//		double absLeftOutput = Math.abs(leftOutput);
+//		double absRightOutput = Math.abs(rightOutput);
+//		
+//		double biggerValue = (absLeftOutput > absRightOutput) ? absLeftOutput : absRightOutput;
+		
+//	test	rightOutput = throttleAcceleration (rightPreviousSet, rightOutput, maxSpeedChange * (absRightOutput / biggerValue), 1, "right");
+//		leftOutput = throttleAcceleration ( leftPreviousSet,  leftOutput, maxSpeedChange * ( absLeftOutput / biggerValue), 1, "left");
 		
 		rightOutput = throttleAcceleration (rightPreviousSet, rightOutput, maxSpeedChange * (absRightTarget / biggerValue), 1, "right");
 		leftOutput = throttleAcceleration ( leftPreviousSet,  leftOutput, maxSpeedChange * ( absLeftTarget / biggerValue), 1, "left");
