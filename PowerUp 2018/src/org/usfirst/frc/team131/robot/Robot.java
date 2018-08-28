@@ -97,10 +97,17 @@ public class Robot extends IterativeRobot {
 		} else {
 			
 			
-			if (!cm.driver.buttonPressed(Controller.RIGHT_TRIGGER))
-				drive.setSpeed ( ((lift.HIGH_POSITION_INCHES - Math.abs(lift.liftPosition()) * .7) / (lift.HIGH_POSITION_INCHES)) * -cm.driver.getLeftY() * 0.9,
-						((lift.HIGH_POSITION_INCHES - Math.abs(lift.liftPosition()) * .7) / (lift.HIGH_POSITION_INCHES)) * -cm.driver.getRightY() * 0.9);
-			else
+			if (!cm.driver.buttonPressed(Controller.RIGHT_TRIGGER)) {
+				
+				double proportionalDriveRestriction = (LinearLift.HIGH_POSITION_INCHES - Math.abs(lift.liftPosition()) * .7)
+						/ LinearLift.HIGH_POSITION_INCHES;
+				
+				if (proportionalDriveRestriction < 0)
+					proportionalDriveRestriction = 0.0;
+				
+				drive.setSpeed (proportionalDriveRestriction  * -cm.driver.getLeftY() * 0.9,
+						proportionalDriveRestriction * -cm.driver.getRightY() * 0.9);
+			} else
 				drive.setSpeed(-cm.driver.getLeftY() * 0.9, -cm.driver.getRightY() * 0.9);
 		}
 		
