@@ -52,6 +52,78 @@ public class CubeManipulator {
 		
 		motor2.setInverted(true);
 	}
+	/*
+	public void h() {
+		motor1.get();
+		motor1.set(speed);
+	}
+	
+	public void fullSpeed() {
+		motor1.set(1.0);
+		motor2.set(1.0);
+	}
+		
+	public void fullBack() {
+		motor1.set(-1.0);
+		motor2.set(-1.0);
+	}
+	
+	public void variableSpeed(double speed) {
+		
+//		if (speed > 1.0 || speed < -1.0) {
+//			System.out.println("The wack");
+//		} else {
+//			motor1.set(speed);
+//			motor2.set(speed);
+//		}
+		
+		if ( speed > 1.0 ) {
+			speed = 1.0;
+			
+		} else if (speed < -1.0) {
+			speed = -1.0;
+			
+		}
+			motor1.set(speed);		
+			motor2.set(speed);
+	
+	}
+		
+	
+	public void printSpeed () {
+		
+		System.out.println("Motor 1 speed: " + motor1.get());
+		
+		System.out.println("Motor 2 speed: " + motor2.get());
+	
+	}
+	
+	
+	public void incrementSpeed () {
+
+		double speed1 = motor1.get();
+		double speed2 = motor2.get();
+		
+		for (int i = 0; i >= 10; i++) {
+			speed1 = (speed1 + 0.1);
+			speed2 = (speed2 + 0.1);
+		}
+	}
+	*/
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	public void setFlywheels (double value) {
 		motor1.set(value);

@@ -38,6 +38,7 @@ public class Robot extends IterativeRobot {
 	
 	double lastRightYInput;
 	
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -66,7 +67,7 @@ public class Robot extends IterativeRobot {
 		CommandGroup autoSequence = new CommandGroup();
 		autoBuilder = new AutoBuilder (drive, lift, cubeManipulator);
 		autoBuilder.createCommandGroup(autoSequence);
-
+		drive.shiftLow(true);
 		Scheduler.getInstance().add(autoSequence);
 
 	}
@@ -78,6 +79,36 @@ public class Robot extends IterativeRobot {
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
 		lift.moveToPosition();
+	}
+
+	/**
+	 * This function is called periodically during driver/operator control.
+	 */
+	@Override
+	public void teleopPeriodic() {
+	
+		driveControls();
+		
+		liftControls ();
+			
+		cubeControls ();
+			
+		
+	
+		
+		SmartDashboard.putNumber("Right Y speed: ", -cm.operator.getRightY());
+	
+		//cm.updateControllerState(); Might be implemented after review
+		
+		
+	}
+
+	/**
+	 * This function is called periodically during test mode.
+	 */
+	@Override
+	public void testPeriodic() {
+		
 	}
 
 	/**
@@ -95,7 +126,7 @@ public class Robot extends IterativeRobot {
 		} else if (cm.driver.getDPad() == Controller.DPadDirection.DOWN) {
 			drive.setSpeed(-0.65, -0.65);
 		} else {
-			
+			//drive.setSpeed(-cm.driver.getLeftY(), -cm.driver.getRightY());
 			
 			if (!cm.driver.buttonPressed(Controller.RIGHT_TRIGGER)) {
 				
@@ -263,36 +294,6 @@ public class Robot extends IterativeRobot {
 		lift.putInfo();
 //		cubeManipulator.putInfo();
 		SmartDashboard.updateValues();
-		
-	}
-	
-	/**
-	 * This function is called periodically during driver/operator control.
-	 */
-	@Override
-	public void teleopPeriodic() {
-
-		driveControls();
-		
-		liftControls ();
-			
-		cubeControls ();
-			
-		
-
-		
-		SmartDashboard.putNumber("Right Y speed: ", -cm.operator.getRightY());
-
-		//cm.updateControllerState(); Might be implemented after review
-		
-		
-	}
-
-	/**
-	 * This function is called periodically during test mode.
-	 */
-	@Override
-	public void testPeriodic() {
 		
 	}
 	
